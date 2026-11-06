@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Noumi Consultant</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Noumi Consultant: diseño web, medición y publicidad conectados en un solo sistema. Convertimos tráfico en negocio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400..700&display=swap">
+<style>
+/* Layout: bandas a ancho completo (tinta / claro) que alternan; contenido en columna de 1180px.
+   Concepto: creatividad + datos. Los eventos de tracking y los KPI son parte del lenguaje visual. */
+:root{
+  --bg:#F5F4FA; --surface:#FFFFFF; --fg:#15182E; --muted:#5B5F7A; --line:#DDDBEB;
+  --accent:#5546C8; --on-accent:#FFFFFF; --accent-soft:#E9E6FB;
+  --ink:#14172E; --ink-raise:#1C2041; --ink-line:#2D3154; --on-ink:#EEEDF8; --on-ink-muted:#A4A7C6; --ink-accent:#A99FFF;
+  --ok:#2E9C6A;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --wrap:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D0F1F; --surface:#151830; --fg:#ECEBF6; --muted:#A2A5C2; --line:#272B48;
+    --accent:#9C92FF; --on-accent:#0D0F1F; --accent-soft:#231F48;
+    --ink:#161935; --ink-raise:#1F2347; --ink-line:#2F3460; --on-ink:#EEEDF8; --on-ink-muted:#A4A7C6; --ink-accent:#A99FFF;
+    --ok:#4CC28C;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D0F1F; --surface:#151830; --fg:#ECEBF6; --muted:#A2A5C2; --line:#272B48;
+  --accent:#9C92FF; --on-accent:#0D0F1F; --accent-soft:#231F48;
+  --ink:#161935; --ink-raise:#1F2347; --ink-line:#2F3460; --on-ink:#EEEDF8; --on-ink-muted:#A4A7C6; --ink-accent:#A99FFF;
+  --ok:#4CC28C;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.band-ink :focus-visible,.site-head :focus-visible{outline-color:var(--ink-accent)}
+
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.sec{padding-block:104px}
+.band-ink{background:var(--ink);color:var(--on-ink)}
+section{scroll-margin-top:72px}
+
+.eyebrow{font-family:var(--f-mono);font-size:12.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0}
+.band-ink .eyebrow{color:var(--ink-accent)}
+h1,h2,h3{text-wrap:balance}
+h2{font-family:var(--f-display);font-stretch:112%;font-weight:760;font-size:clamp(32px,4.4vw,54px);line-height:1.02;letter-spacing:-.03em;margin:0}
+.sec-head{display:grid;gap:16px;max-width:780px;margin-bottom:56px}
+.sec-head p{color:var(--muted);font-size:18px;margin:0;max-width:62ch}
+.band-ink .sec-head p{color:var(--on-ink-muted)}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 15.5px/1 var(--f-body);padding:15px 22px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,background-color .15s ease,border-color .15s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn-ink{background:var(--ink-accent);color:var(--ink)}
+.btn-ink:hover{background:var(--on-ink)}
+.btn-line{border-color:var(--ink-line);color:var(--on-ink);background:transparent}
+.btn-line:hover{border-color:var(--on-ink-muted)}
+.btn-accent{background:var(--accent);color:var(--on-accent)}
+.btn-outline{border-color:var(--line);color:var(--fg);background:transparent}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.arrow{font-family:var(--f-mono);font-weight:400}
+
+/* Cabecera */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--ink);border-bottom:1px solid var(--ink-line);color:var(--on-ink)}
+.head-in{display:flex;align-items:center;gap:20px;min-height:68px;position:relative}
+.logo{display:flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--on-ink)}
+.logo b{font-family:var(--f-display);font-stretch:125%;font-weight:850;font-size:23px;letter-spacing:-.03em}
+.logo b i{font-style:normal;color:var(--ink-accent)}
+.logo small{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--on-ink-muted)}
+.nav{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav a{color:var(--on-ink-muted);text-decoration:none;font-size:15px;padding:8px 12px;border-radius:8px}
+.nav a:hover{color:var(--on-ink);background:var(--ink-raise)}
+.nav .nav-cta{display:none}
+.head-cta{padding:12px 18px;font-size:14.5px}
+.menu-btn{display:none;background:transparent;border:1px solid var(--ink-line);color:var(--on-ink);border-radius:10px;padding:9px 12px;font:500 13px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;
+  background-image:linear-gradient(var(--ink-line) 1px,transparent 1px),linear-gradient(90deg,var(--ink-line) 1px,transparent 1px);
+  background-size:72px 72px;background-position:-1px -1px}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 20% 30%,transparent 0%,var(--ink) 70%);pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:56px;align-items:center;padding-block:88px 100px}
+h1{font-family:var(--f-display);font-stretch:118%;font-weight:820;font-size:clamp(44px,6.6vw,90px);line-height:.95;letter-spacing:-.04em;margin:20px 0 26px}
+h1 em{font-style:normal;color:var(--ink-accent)}
+.lead{font-size:19px;line-height:1.5;color:var(--on-ink-muted);max-width:54ch;margin:0}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero-note{font-family:var(--f-mono);font-size:12.5px;color:var(--on-ink-muted);margin:18px 0 0}
+
+/* Traza de eventos */
+.trace{background:var(--ink-raise);border:1px solid var(--ink-line);border-radius:18px;padding:20px;font-family:var(--f-mono);font-size:13px;box-shadow:0 30px 80px -30px rgba(0,0,0,.55);min-width:0}
+.trace-head{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--on-ink-muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding-bottom:14px;border-bottom:1px dashed var(--ink-line)}
+.live{display:inline-flex;align-items:center;gap:7px;color:var(--on-ink)}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 25%,transparent)}
+.trace-utm{color:var(--ink-accent);font-size:12px;margin:14px 2px 8px;overflow-wrap:anywhere}
+.trace ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.trace li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 10px;border-radius:8px;color:var(--on-ink-muted);transition:background-color .35s ease}
+.trace .ev{color:var(--on-ink);overflow-wrap:anywhere}
+.trace .meta{font-size:11.5px;text-align:right}
+.trace li.on{background:color-mix(in srgb,var(--ink-accent) 16%,transparent)}
+.trace li.goal .ev{color:var(--ink-accent);font-weight:500}
+.trace li.goal .meta{color:var(--ok)}
+.trace-foot{font-family:var(--f-body);font-size:14px;line-height:1.5;color:var(--on-ink-muted);margin:14px 0 0;padding-top:14px;border-top:1px dashed var(--ink-line)}
+
+/* Problema */
+.problem{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start}
+.problem .sec-head{margin-bottom:0}
+.symptoms{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.symptoms li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:20px;padding:26px 0;border-bottom:1px solid var(--line)}
+.symptoms .tag{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding-top:7px}
+.symptoms p{font-family:var(--f-display);font-stretch:104%;font-weight:600;font-size:clamp(20px,2.1vw,26px);line-height:1.25;letter-spacing:-.012em;margin:0}
+.problem-close{font-size:18px;color:var(--muted);margin:28px 0 0;max-width:58ch}
+.problem-close strong{color:var(--fg);font-weight:600}
+
+/* Sistema */
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;position:relative}
+.pillars::before{content:"";position:absolute;left:12%;right:12%;top:19px;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 8px,transparent 8px 15px);opacity:.6}
+.pillar{position:relative;display:flex;flex-direction:column;gap:14px;min-width:0}
+.node{align-self:flex-start;position:relative;z-index:1;font-family:var(--f-mono);font-size:13px;font-weight:500;color:var(--accent);background:var(--bg);border:1.5px solid var(--accent);border-radius:999px;padding:9px 16px;line-height:1}
+.pillar-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:12px;flex:1}
+.pillar h3{font-family:var(--f-display);font-stretch:110%;font-weight:740;font-size:24px;line-height:1.1;letter-spacing:-.02em;margin:0}
+.pillar-lead{color:var(--muted);margin:0}
+.pillar ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px;font-size:15.5px}
+.pillar li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:10px}
+.pillar li::before{content:"";width:6px;height:6px;margin-top:9px;border-radius:2px;background:var(--accent)}
+.loop{margin-top:26px;display:grid;justify-items:center;gap:10px;text-align:center}
+.loop svg{width:76%;height:44px;overflow:visible}
+.loop path{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:8 7;opacity:.6}
+.loop .head{fill:var(--accent);stroke:none;opacity:.8}
+.loop p{margin:0;max-width:64ch;color:var(--muted);font-size:16.5px}
+.loop p strong{color:var(--fg);font-weight:600}
+
+/* Objetivo */
+.goals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.goal-card{display:flex;flex-direction:column;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:36px;text-decoration:none;color:var(--fg);transition:border-color .2s ease,transform .2s ease;min-width:0}
+.goal-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.goal-card h3{font-family:var(--f-display);font-stretch:118%;font-weight:800;font-size:clamp(30px,3.4vw,42px);line-height:1;letter-spacing:-.035em;margin:0}
+.goal-card h3 span{color:var(--accent)}
+.goal-card p{margin:0;color:var(--muted);max-width:46ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:4px 0 0;padding:0}
+.chips li{font-family:var(--f-mono);font-size:12.5px;padding:6px 11px;border-radius:999px;background:var(--accent-soft);color:var(--fg)}
+.goal-link{margin-top:auto;padding-top:10px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:8px}
+
+/* Método */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--ink-line)}
+.steps li{position:relative;padding:30px 22px 0 0;min-width:0}
+.steps li::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--ink-accent)}
+.steps .n{font-family:var(--f-mono);font-size:12px;color:var(--on-ink-muted)}
+.steps h3{font-family:var(--f-display);font-stretch:116%;font-weight:760;font-size:27px;letter-spacing:-.025em;margin:8px 0 10px;color:var(--on-ink)}
+.steps p{color:var(--on-ink-muted);font-size:15.5px;margin:0}
+.steps li:last-child h3{color:var(--ink-accent)}
+.method-note{margin:48px 0 0;padding:18px 22px;border:1px dashed var(--ink-line);border-radius:14px;color:var(--on-ink-muted);max-width:720px;font-size:16px}
+.method-note strong{color:var(--on-ink);font-weight:600}
+
+/* Medición */
+.measure{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:64px;align-items:center}
+.measure .sec-head{margin-bottom:28px}
+.kpi-lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.kpi-lists h3{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 12px;font-weight:500}
+.kpi-lists ul{list-style:none;margin:0;padding:0;display:grid;gap:0;font-size:15.5px}
+.kpi-lists li{padding:8px 0;border-bottom:1px solid var(--line)}
+.crm-note{margin:24px 0 0;color:var(--muted);font-size:15.5px}
+
+.dash{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 30px 70px -40px color-mix(in srgb,var(--accent) 45%,transparent);min-width:0}
+.dash-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.dash-head span:first-child{font-weight:600}
+.pill{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1px dashed var(--muted);color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:24px}
+.kpis div{display:grid;gap:4px;padding:12px;border-radius:12px;background:var(--bg);min-width:0}
+.kpis .k{font-size:12.5px;color:var(--muted);line-height:1.3}
+.kpis .v{font-family:var(--f-display);font-stretch:108%;font-weight:720;font-size:24px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpis div:last-child{background:var(--accent-soft)}
+.plot{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px}
+.yaxis{display:flex;flex-direction:column;justify-content:space-between;height:150px;font-family:var(--f-mono);font-size:11px;color:var(--muted);text-align:right;margin-top:-6px;padding-bottom:0}
+.bars{position:relative;height:150px;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;align-items:end;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% 50%;background-position:0 0;border-bottom:1px solid var(--line)}
+.bar{position:relative;height:calc(var(--v) / 8 * 100%);background:color-mix(in srgb,var(--accent) 35%,transparent);border-radius:6px 6px 0 0}
+.bar.last{background:var(--accent)}
+.bar span{position:absolute;bottom:100%;left:0;right:0;text-align:center;font-family:var(--f-mono);font-size:11px;color:var(--muted);padding-bottom:3px}
+.xaxis{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;margin-left:30px;margin-top:8px;font-family:var(--f-mono);font-size:11px;color:var(--muted);text-align:center}
+.dash figcaption{margin-top:14px;font-size:13.5px;color:var(--muted)}
+
+/* Planes */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.plan{display:flex;flex-direction:column;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:32px;min-width:0}
+.plan-tag{align-self:flex-start;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:var(--accent-soft);color:var(--fg)}
+.plan h3{font-family:var(--f-display);font-stretch:118%;font-weight:800;font-size:32px;letter-spacing:-.03em;margin:0;line-height:1}
+.plan-desc{margin:0;color:var(--muted);font-size:15.5px;min-height:3em}
+.price{display:grid;gap:2px;padding:18px 0;border-block:1px solid var(--line)}
+.price .from{font-size:13px;color:var(--muted)}
+.price .amount{font-family:var(--f-display);font-stretch:110%;font-weight:780;font-size:40px;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.price .amount small{font-family:var(--f-body);font-stretch:normal;font-size:16px;font-weight:500;letter-spacing:0;color:var(--muted)}
+.price .extra{font-size:13.5px;color:var(--muted)}
+.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15.5px}
+.plan li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px}
+.plan li::before{content:"✓";color:var(--accent);font-weight:700}
+.plan li.no{color:var(--muted)}
+.plan li.no::before{content:"–";color:var(--muted)}
+.plan .btn{margin-top:auto}
+.plans-note{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px;margin-top:28px;color:var(--muted);font-size:15px}
+.plans-note a{color:var(--accent);font-weight:600}
+
+/* Know me */
+.knowme{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.word{font-family:var(--f-display);font-stretch:125%;font-weight:880;font-size:clamp(72px,10.5vw,150px);line-height:.85;letter-spacing:-.06em;margin:0;overflow-wrap:normal}
+.word i{font-style:normal;color:var(--accent)}
+.phon{font-family:var(--f-mono);font-size:14px;color:var(--muted);margin:22px 0 0}
+.phon b{color:var(--fg);font-weight:500}
+.manifesto{display:grid;gap:22px;margin:0;padding:0;list-style:none}
+.manifesto li{font-family:var(--f-display);font-stretch:106%;font-weight:640;font-size:clamp(22px,2.4vw,30px);line-height:1.2;letter-spacing:-.015em}
+.manifesto li span{display:block;font-family:var(--f-body);font-stretch:normal;font-weight:400;font-size:16.5px;letter-spacing:0;color:var(--muted);margin-top:6px}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:64px;align-items:start}
+.faq .sec-head{margin-bottom:0}
+.faq-list{border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-weight:600;font-size:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-mono);font-size:22px;font-weight:400;color:var(--accent);transition:transform .2s ease}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 0 22px;color:var(--muted);max-width:62ch}
+
+/* Contacto */
+.contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:64px;align-items:start}
+.contact .sec-head{margin-bottom:32px}
+.call-steps{list-style:none;margin:0;padding:0;display:grid;gap:16px;counter-reset:s}
+.call-steps li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;color:var(--on-ink-muted);counter-increment:s}
+.call-steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--f-mono);font-size:12.5px;color:var(--ink-accent);padding-top:3px}
+.call-steps strong{color:var(--on-ink);font-weight:600;display:block}
+
+.form{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:22px;padding:32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.field{display:grid;gap:7px;min-width:0;margin:0;padding:0;border:0}
+.field.full{grid-column:1 / -1}
+.field label,.field legend{font-size:14px;font-weight:600;padding:0}
+.field legend{margin-bottom:7px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:16px;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.field textarea{resize:vertical;min-height:84px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+.radios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.radio{position:relative}
+.radio input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.radio span{display:grid;gap:2px;height:100%;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font-size:15px;font-weight:600;cursor:pointer}
+.radio span em{font-style:normal;font-family:var(--f-mono);font-size:11.5px;font-weight:400;color:var(--muted)}
+.radio input:checked + span{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--accent-soft)}
+.radio input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+.form-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-top:4px}
+.form-foot small{color:var(--muted);font-size:13px;max-width:36ch}
+.form-ok{grid-column:1 / -1;margin:0;padding:14px 16px;border-radius:12px;background:var(--accent-soft);font-size:15px}
+
+/* Footer */
+.site-foot{padding-block:64px 40px;border-top:1px solid var(--line)}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:40px}
+.foot-brand b{font-family:var(--f-display);font-stretch:125%;font-weight:850;font-size:28px;letter-spacing:-.03em}
+.foot-brand b i{font-style:normal;color:var(--accent)}
+.foot-brand p{color:var(--muted);margin:8px 0 0;font-family:var(--f-mono);font-size:13px}
+.foot-col h4{font-family:var(--f-mono);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.foot-col ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px}
+.foot-col a{text-decoration:none}
+.foot-col a:hover{color:var(--accent)}
+.foot-legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+.foot-legal nav{display:flex;flex-wrap:wrap;gap:18px}
+.foot-legal a{text-decoration:none}
+
+/* Responsive */
+@media (max-width:1020px){
+  .nav{display:none;position:absolute;top:100%;left:calc(-1 * max(20px,env(safe-area-inset-left,0px)));right:calc(-1 * max(20px,env(safe-area-inset-right,0px)));flex-direction:column;align-items:stretch;gap:2px;background:var(--ink);padding:10px max(20px,env(safe-area-inset-right,0px)) 20px max(20px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--ink-line)}
+  .nav.open{display:flex}
+  .nav a{padding:12px 10px;font-size:16px}
+  .nav .nav-cta{display:flex;margin-top:10px;color:var(--ink)}
+  .nav .nav-cta:hover{color:var(--ink);background:var(--on-ink)}
+  .menu-btn{display:inline-flex;margin-left:auto}
+  .head-cta{display:none}
+  .hero .wrap,.problem,.measure,.knowme,.faq,.contact{grid-template-columns:minmax(0,1fr);gap:48px}
+  .steps{grid-template-columns:minmax(0,1fr);border-top:0;border-left:1px solid var(--ink-line);gap:30px;padding-left:26px}
+  .steps li{padding:0}
+  .steps li::before{top:6px;left:-31px}
+  .plans{grid-template-columns:minmax(0,1fr);max-width:560px}
+  .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .foot-brand{grid-column:1 / -1}
+}
+@media (max-width:820px){
+  .pillars,.goals{grid-template-columns:minmax(0,1fr)}
+  .pillars::before{left:31px;right:auto;top:20px;bottom:20px;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--accent) 0 8px,transparent 8px 15px)}
+  .loop svg{display:none}
+  .loop{justify-items:start;text-align:left}
+}
+@media (max-width:620px){
+  body{font-size:16px}
+  .sec{padding-block:72px}
+  .hero .wrap{padding-block:56px 64px}
+  .symptoms li{grid-template-columns:minmax(0,1fr);gap:6px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi-lists{grid-template-columns:minmax(0,1fr)}
+  .goal-card,.plan,.form{padding:24px}
+  .form{grid-template-columns:minmax(0,1fr)}
+  .radios{grid-template-columns:minmax(0,1fr)}
+  .trace li{grid-template-columns:40px minmax(0,1fr)}
+  .trace .meta{grid-column:2;text-align:left;margin-top:-6px}
+  .plan-desc{min-height:0}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="logo" href="#inicio" aria-label="Noumi Consultant, inicio"><b>nou<i>mi</i></b><small>Consultant</small></a>
+    <nav class="nav" id="nav" aria-label="Principal">
+      <a href="#sistema">Servicios</a>
+      <a href="#objetivo">Soluciones</a>
+      <a href="#metodo">Método</a>
+      <a href="#planes">Planes</a>
+      <a href="#knowme">Sobre Noumi</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-ink nav-cta" href="#reservar">Reservar llamada</a>
+    </nav>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menú</button>
+    <a class="btn btn-ink head-cta" href="#reservar">Reservar llamada</a>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. HERO -->
+<section class="hero band-ink" id="inicio">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Web · Tracking · Paid Media</p>
+      <h1>Convertimos tráfico en <em>negocio.</em></h1>
+      <p class="lead">Diseñamos tu web, medimos cada paso y gestionamos tus anuncios como un único sistema. Para tiendas online que quieren vender con margen y negocios de servicios que necesitan clientes cualificados.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-ink" href="#reservar">Reserva tu Discovery Call <span class="arrow">→</span></a>
+        <a class="btn btn-line" href="#metodo">Ver cómo trabajamos</a>
+      </div>
+      <p class="hero-note">Llamada de 20–30 min · Sin compromiso · Sales con un diagnóstico</p>
+    </div>
+
+    <div class="trace" aria-label="Ejemplo de recorrido de un usuario medido evento a evento">
+      <div class="trace-head"><span>Recorrido medido · ejemplo</span><span class="live">GA4 · Meta · Ads</span></div>
+      <p class="trace-utm">utm_source=meta&amp;utm_campaign=leads_otono</p>
+      <ol id="trace">
+        <li><span>00:00</span><span class="ev">page_view</span><span class="meta">/soluciones/leads</span></li>
+        <li><span>00:09</span><span class="ev">scroll_75</span><span class="meta">planes</span></li>
+        <li><span>00:31</span><span class="ev">cta_click</span><span class="meta">hero</span></li>
+        <li><span>00:48</span><span class="ev">form_start</span><span class="meta">discovery</span></li>
+        <li><span>01:52</span><span class="ev">generate_lead</span><span class="meta">objetivo=leads</span></li>
+        <li class="goal"><span>02:10</span><span class="ev">call_booked</span><span class="meta">✓ conversión</span></li>
+      </ol>
+      <p class="trace-foot">Cada paso llega a analítica y a las plataformas de anuncios. Así sabemos qué campaña trae clientes de verdad y dónde invertir el siguiente euro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. PROBLEMA -->
+<section class="sec" id="problema">
+  <div class="wrap problem">
+    <div class="sec-head">
+      <p class="eyebrow">El problema</p>
+      <h2>Muchas empresas invierten en piezas sueltas.</h2>
+    </div>
+    <div>
+      <ul class="symptoms">
+        <li><span class="tag">Anuncios</span><p>Inviertes en publicidad y no sabes qué campaña te trae ventas.</p></li>
+        <li><span class="tag">Web</span><p>Tu web es bonita, pero las visitas se van sin comprar ni escribir.</p></li>
+        <li><span class="tag">Proveedores</span><p>El diseñador, la agencia de anuncios y quien instaló el píxel no hablan entre ellos.</p></li>
+      </ul>
+      <p class="problem-close">Cuando cada pieza va por su lado, nadie responde del resultado. <strong>En Noumi unimos las tres y medimos el conjunto.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. SISTEMA / SERVICIOS -->
+<section class="sec" id="sistema" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Servicios</p>
+      <h2>Un sistema con tres piezas conectadas.</h2>
+      <p>Puedes contratar cada servicio por separado, pero rinden de verdad cuando trabajan juntos.</p>
+    </div>
+
+    <div class="pillars">
+      <article class="pillar">
+        <span class="node">/web</span>
+        <div class="pillar-card">
+          <h3>Web Design &amp; Development</h3>
+          <p class="pillar-lead">La web donde ocurre la conversión.</p>
+          <ul>
+            <li>Landing pages de conversión</li>
+            <li>Webs corporativas y e-commerce</li>
+            <li>UX/UI y desarrollo responsive</li>
+            <li>Optimización de conversión (CRO)</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pillar">
+        <span class="node">/data</span>
+        <div class="pillar-card">
+          <h3>Tracking &amp; Analytics</h3>
+          <p class="pillar-lead">Saber qué funciona y qué sobra.</p>
+          <ul>
+            <li>GA4 y Google Tag Manager</li>
+            <li>Meta Pixel y Conversions API</li>
+            <li>Conversiones de Google Ads y Pinterest Tag</li>
+            <li>Eventos y dashboards</li>
+          </ul>
+        </div>
+      </article>
+      <article class="pillar">
+        <span class="node">/ads</span>
+        <div class="pillar-card">
+          <h3>Paid Media &amp; Performance</h3>
+          <p class="pillar-lead">Tráfico de calidad y escalado con cabeza.</p>
+          <ul>
+            <li>Meta Ads, Google Ads y Pinterest Ads</li>
+            <li>Testing y remarketing</li>
+            <li>Creatividades publicitarias</li>
+            <li>Escalado gradual de la inversión</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <div class="loop">
+      <svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M92 0 V30 Q92 40 82 40 H18 Q8 40 8 30 V8" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <p><strong>Los datos cierran el círculo.</strong> Lo que aprendemos en las campañas mejora la web, y una web que convierte mejor abarata cada clic.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. OBJETIVO / SOLUCIONES -->
+<section class="sec" id="objetivo" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Soluciones</p>
+      <h2>¿Qué necesita tu negocio?</h2>
+      <p>Trabajamos con cualquier sector. Lo que cambia es el objetivo, y con él lo que medimos.</p>
+    </div>
+    <div class="goals">
+      <a class="goal-card" href="#reservar">
+        <p class="eyebrow">Si vendes productos online</p>
+        <h3>Noumi <span>Commerce</span></h3>
+        <p>Más ventas y más rentables. Trabajamos la tienda, la medición y las campañas pensando en el margen, que es lo que de verdad paga las facturas.</p>
+        <ul class="chips" aria-label="Métricas que optimizamos">
+          <li>ROAS</li><li>CPA</li><li>Tasa de conversión</li><li>Ticket medio</li><li>Margen</li>
+        </ul>
+        <span class="goal-link">Ver Noumi Commerce <span class="arrow">→</span></span>
+      </a>
+      <a class="goal-card" href="#reservar">
+        <p class="eyebrow">Si vendes servicios</p>
+        <h3>Noumi <span>Leads</span></h3>
+        <p>Más clientes cualificados y menos formularios que no llevan a nada. Conectamos las campañas con tu CRM para medir ventas reales.</p>
+        <ul class="chips" aria-label="Métricas que optimizamos">
+          <li>CPL</li><li>Leads cualificados</li><li>Reservas</li><li>Tasa de cierre</li><li>CAC</li>
+        </ul>
+        <span class="goal-link">Ver Noumi Leads <span class="arrow">→</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 5. MÉTODO -->
+<section class="sec band-ink" id="metodo">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Método</p>
+      <h2>The Noumi Growth System</h2>
+      <p>Cinco fases, siempre en el mismo orden. Así sabes en qué punto está tu proyecto y qué viene después.</p>
+    </div>
+    <ol class="steps">
+      <li><span class="n">01</span><h3>Discover</h3><p>Analizamos tu negocio, cliente ideal, propuesta de valor, márgenes, presupuesto y activos digitales.</p></li>
+      <li><span class="n">02</span><h3>Build</h3><p>Diseñamos o mejoramos la web y las landings, y configuramos tracking, eventos y cuentas publicitarias.</p></li>
+      <li><span class="n">03</span><h3>Launch</h3><p>Activamos campañas y validamos conversiones, mensajes, audiencias y primeras creatividades.</p></li>
+      <li><span class="n">04</span><h3>Optimize</h3><p>Analizamos datos, hacemos pruebas, mejoramos campañas y quitamos fricciones de conversión.</p></li>
+      <li><span class="n">05</span><h3>Scale</h3><p>Aumentamos la inversión poco a poco, cuando los resultados y la economía del negocio lo permiten.</p></li>
+    </ol>
+    <p class="method-note"><strong>Solo escalamos cuando los números lo justifican.</strong> Si un canal no es rentable para tu margen, te lo decimos antes de subir el presupuesto.</p>
+  </div>
+</section>
+
+<!-- 6. MEDICIÓN / PRUEBA -->
+<section class="sec" id="medicion">
+  <div class="wrap measure">
+    <div>
+      <div class="sec-head">
+        <p class="eyebrow">Medición</p>
+        <h2>Lo que medimos, lo ves cada semana.</h2>
+        <p>Un informe claro con las cifras que afectan a tu cuenta de resultados.</p>
+      </div>
+      <div class="kpi-lists">
+        <div>
+          <h3>E-commerce</h3>
+          <ul><li>Ingresos atribuidos y compras</li><li>CPA y ROAS</li><li>Tasa de conversión</li><li>Valor medio del pedido</li><li>Margen y rentabilidad</li></ul>
+        </div>
+        <div>
+          <h3>Lead generation</h3>
+          <ul><li>Leads y CPL</li><li>Leads cualificados</li><li>Coste por lead cualificado</li><li>Reservas y tasa de cierre</li><li>Coste de adquisición de cliente</li></ul>
+        </div>
+      </div>
+      <p class="crm-note">Cuando es posible, conectamos las campañas con tu CRM para medir oportunidades y ventas reales.</p>
+    </div>
+
+    <figure class="dash" aria-label="Ejemplo ilustrativo de informe semanal">
+      <div class="dash-head"><span>Informe semanal · Noumi Leads</span><span class="pill">Ejemplo ilustrativo</span></div>
+      <div class="kpis">
+        <div><span class="k">Inversión</span><span class="v">2.400 €</span></div>
+        <div><span class="k">Leads</span><span class="v">96</span></div>
+        <div><span class="k">Leads cualificados</span><span class="v">41</span></div>
+        <div><span class="k">Coste por lead cualificado</span><span class="v">58,5 €</span></div>
+      </div>
+      <div class="plot">
+        <div class="yaxis" aria-hidden="true"><span>8</span><span>4</span><span>0</span></div>
+        <div class="bars">
+          <div class="bar" style="--v:3"><span>3</span></div>
+          <div class="bar" style="--v:4"><span>4</span></div>
+          <div class="bar" style="--v:4"><span>4</span></div>
+          <div class="bar" style="--v:5"><span>5</span></div>
+          <div class="bar" style="--v:6"><span>6</span></div>
+          <div class="bar" style="--v:5"><span>5</span></div>
+          <div class="bar" style="--v:7"><span>7</span></div>
+          <div class="bar last" style="--v:7"><span>7</span></div>
+        </div>
+      </div>
+      <div class="xaxis" aria-hidden="true"><span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span><span>S6</span><span>S7</span><span>S8</span></div>
+      <figcaption>Leads cualificados por semana, últimas 8 semanas.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 7. PLANES -->
+<section class="sec" id="planes" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Planes</p>
+      <h2>Empieza con un proyecto o crece con nosotros cada mes.</h2>
+    </div>
+    <div class="plans">
+      <article class="plan">
+        <span class="plan-tag">Pago único</span>
+        <h3>Launch</h3>
+        <p class="plan-desc">Para salir al mercado o validar una oferta con una base bien medida.</p>
+        <div class="price"><span class="from">Desde</span><span class="amount">1.200 €</span><span class="extra">Proyecto cerrado</span></div>
+        <ul>
+          <li>Auditoría inicial</li>
+          <li>Landing de conversión</li>
+          <li>Tracking básico</li>
+          <li>Integración de formulario o eventos</li>
+          <li>Puesta en producción</li>
+          <li class="no">Creatividades no incluidas</li>
+        </ul>
+        <a class="btn btn-outline" href="#reservar">Empezar con Launch</a>
+      </article>
+      <article class="plan">
+        <span class="plan-tag">Servicio mensual</span>
+        <h3>Growth</h3>
+        <p class="plan-desc">Para crecer en un canal con método y datos.</p>
+        <div class="price"><span class="from">Desde</span><span class="amount">750 € <small>/mes</small></span><span class="extra">+ setup desde 450 €</span></div>
+        <ul>
+          <li>Estrategia</li>
+          <li>Gestión de 1 plataforma</li>
+          <li>Optimización continua</li>
+          <li>Medición y reporting</li>
+          <li>3 creatividades iniciales</li>
+        </ul>
+        <a class="btn btn-accent" href="#reservar">Hablar de Growth</a>
+      </article>
+      <article class="plan">
+        <span class="plan-tag">Servicio mensual</span>
+        <h3>Scale</h3>
+        <p class="plan-desc">Para crecer en varios canales a la vez y experimentar.</p>
+        <div class="price"><span class="from">Desde</span><span class="amount">1.500 € <small>/mes</small></span><span class="extra">+ implementación inicial aparte</span></div>
+        <ul>
+          <li>Estrategia integral</li>
+          <li>Hasta 2 plataformas</li>
+          <li>Tracking avanzado y dashboard</li>
+          <li>CRO y experimentación</li>
+          <li>Reporting</li>
+          <li>3 creatividades iniciales</li>
+        </ul>
+        <a class="btn btn-outline" href="#reservar">Hablar de Scale</a>
+      </article>
+    </div>
+    <div class="plans-note">
+      <span>Precios orientativos. La inversión publicitaria no está incluida.</span>
+      <span>¿No sabes cuál elegir? <a href="#reservar">En la llamada te lo decimos</a>.</span>
+    </div>
+  </div>
+</section>
+
+<!-- 8. KNOW ME -->
+<section class="sec" id="knowme" style="padding-top:0">
+  <div class="wrap knowme">
+    <div>
+      <p class="word" aria-label="noumi">nou<i>mi</i></p>
+      <p class="phon"><b>/ˈnou·mi/</b> · del inglés <b>know me</b>, «conóceme»</p>
+    </div>
+    <ul class="manifesto">
+      <li>Primero te conocemos.<span>Tu negocio, tus márgenes y tu cliente, antes de tocar una sola campaña.</span></li>
+      <li>Luego hacemos que te conozcan.<span>Con una web, una creatividad y unos anuncios que se parecen a ti.</span></li>
+      <li>Y medimos cada paso.<span>Para saber qué funciona y dónde poner el siguiente euro.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 9. FAQ -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="wrap faq">
+    <div class="sec-head">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Lo que nos suelen preguntar.</h2>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>¿La inversión en publicidad está incluida?</summary>
+        <p>No. Los planes cubren estrategia, gestión, medición y optimización. Lo que inviertes en Meta, Google o Pinterest va aparte, y la cantidad la decides tú.</p>
+      </details>
+      <details>
+        <summary>¿Trabajáis siempre con Meta, Google y Pinterest?</summary>
+        <p>No. Elegimos los canales según tu producto, la demanda, tu público y tu presupuesto. Muchas veces conviene empezar por uno solo.</p>
+      </details>
+      <details>
+        <summary>¿Hacéis las creatividades de los anuncios?</summary>
+        <p>Growth y Scale incluyen un pack inicial de 3 creatividades. Las adicionales, las adaptaciones a otros formatos y las producciones con foto o vídeo se presupuestan aparte.</p>
+      </details>
+      <details>
+        <summary>Ya tengo web. ¿Tengo que hacer una nueva?</summary>
+        <p>No necesariamente. En la fase Build decidimos si basta con mejorar tu web y crear landings, o si compensa una nueva. Las webs nuevas se presupuestan aparte.</p>
+      </details>
+      <details>
+        <summary>¿Qué pasa en la Discovery Call?</summary>
+        <p>Revisamos tu objetivo, ticket medio, márgenes, inversión, volumen de ventas o leads y tu proceso comercial. Sales con un diagnóstico y sabiendo si te conviene un proyecto puntual o un servicio mensual.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 10. CONTACTO -->
+<section class="sec band-ink" id="reservar">
+  <div class="wrap contact">
+    <div>
+      <div class="sec-head">
+        <p class="eyebrow">Discovery Call</p>
+        <h2>Cuéntanos tu negocio en 20 minutos.</h2>
+        <p>Rellena esto y elige hora. Así llegamos a la llamada con tus datos ya revisados.</p>
+      </div>
+      <ol class="call-steps">
+        <li><span><strong>Revisamos tus números</strong>Objetivo, ticket medio, márgenes e inversión actual.</span></li>
+        <li><span><strong>Te damos un diagnóstico</strong>Qué está frenando tus ventas o tus leads.</span></li>
+        <li><span><strong>Te proponemos un camino</strong>Un proyecto puntual o un servicio mensual, con precio cerrado.</span></li>
+      </ol>
+    </div>
+
+    <form class="form" id="discovery">
+      <div class="field">
+        <label for="f-name">Nombre</label>
+        <input id="f-name" name="name" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="f-email">Email</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field full">
+        <label for="f-web">Web actual</label>
+        <input id="f-web" name="web" autocomplete="url" placeholder="tuweb.com">
+      </div>
+      <fieldset class="field full">
+        <legend>¿Cuál es tu objetivo?</legend>
+        <div class="radios">
+          <label class="radio"><input type="radio" id="f-goal-commerce" name="goal" value="commerce" required><span>Vender productos online<em>Noumi Commerce</em></span></label>
+          <label class="radio"><input type="radio" id="f-goal-leads" name="goal" value="leads"><span>Conseguir clientes para un servicio<em>Noumi Leads</em></span></label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="f-budget">Inversión mensual en publicidad</label>
+        <select id="f-budget" name="budget" required>
+          <option value="">Elige una opción</option>
+          <option>Aún no invierto</option>
+          <option>Menos de 1.000 €</option>
+          <option>1.000 – 3.000 €</option>
+          <option>3.000 – 10.000 €</option>
+          <option>Más de 10.000 €</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-ticket">Ticket medio o valor de un cliente</label>
+        <select id="f-ticket" name="ticket" required>
+          <option value="">Elige una opción</option>
+          <option>Menos de 50 €</option>
+          <option>50 – 200 €</option>
+          <option>200 – 1.000 €</option>
+          <option>Más de 1.000 €</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="f-msg">¿Qué te preocupa ahora mismo? <span style="font-weight:400;color:var(--muted)">(opcional)</span></label>
+        <textarea id="f-msg" name="message" rows="3"></textarea>
+      </div>
+      <div class="form-foot">
+        <small>Usamos tus datos solo para preparar la llamada. Consulta la política de privacidad.</small>
+        <button class="btn btn-accent" type="submit">Continuar y elegir hora <span class="arrow">→</span></button>
+      </div>
+      <p class="form-ok" id="form-ok" role="status" hidden>Prototipo: en la web final, aquí se abre el calendario para elegir la hora de la llamada.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>nou<i>mi</i></b>
+        <p>We turn traffic into business.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Soluciones</h4>
+        <ul><li><a href="#objetivo">Noumi Commerce</a></li><li><a href="#objetivo">Noumi Leads</a></li></ul>
+      </div>
+      <div class="foot-col">
+        <h4>Servicios</h4>
+        <ul><li><a href="#sistema">Diseño web</a></li><li><a href="#sistema">Tracking &amp; Analytics</a></li><li><a href="#sistema">Paid Media</a></li></ul>
+      </div>
+      <div class="foot-col">
+        <h4>Noumi</h4>
+        <ul><li><a href="#metodo">Método</a></li><li><a href="#planes">Planes</a></li><li><a href="#knowme">Sobre Noumi</a></li><li><a href="#reservar">Reservar llamada</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-legal">
+      <span>© 2026 Noumi Consultant</span>
+      <nav aria-label="Legal"><a href="#inicio">Aviso legal</a><a href="#inicio">Privacidad</a><a href="#inicio">Cookies</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav'), btn=document.getElementById('menu-btn');
+  btn.addEventListener('click',function(){
+    var open=nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded',open?'true':'false');
+    btn.textContent=open?'Cerrar':'Menú';
+  });
+  nav.addEventListener('click',function(e){
+    if(e.target.closest('a')){nav.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.textContent='Menú';}
+  });
+
+  var rows=[].slice.call(document.querySelectorAll('#trace li'));
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){rows[rows.length-1].classList.add('on');}
+  else{
+    var i=0;
+    rows[0].classList.add('on');
+    setInterval(function(){
+      rows[i].classList.remove('on');
+      i=(i+1)%rows.length;
+      rows[i].classList.add('on');
+    },1100);
+  }
+
+  var form=document.getElementById('discovery'), ok=document.getElementById('form-ok');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    ok.hidden=false;
+  });
+})();
+</script>
+</body>
+</html>
