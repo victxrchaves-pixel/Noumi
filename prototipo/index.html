@@ -57,8 +57,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 ::selection{background:var(--lime);color:var(--on-lime)}
 a{color:inherit;text-underline-offset:.22em}
 :focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:8px}
-h1,h2,h3,.big,.num,.logo b,.foot-brand b,.price .amount{font-family:var(--f-display)}
-h1,h2,h3{text-wrap:balance;margin:0}
+h1,h2,h3,.big,.num,.logo b,.foot-brand b,h1,h2,h3{text-wrap:balance;margin:0}
 p{margin:0}
 svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .wrap{max-width:var(--wrap);margin-inline:auto;padding-left:var(--gut);padding-right:var(--gut-r)}
@@ -308,11 +307,6 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .plan h3{font-weight:550;font-size:30px;letter-spacing:-.035em}
 .plan-tag{font-size:12.5px;padding:6px 11px;border-radius:999px;background:var(--raised);color:var(--muted)}
 .plan-desc{color:var(--muted);font-size:15.5px;min-height:3.1em}
-.price{display:grid;gap:2px;padding:20px;border-radius:12px;background:var(--raised)}
-.price .from{font-size:12.5px;color:var(--muted)}
-.price .amount{font-weight:500;font-size:44px;letter-spacing:-.04em;line-height:1.05;font-variant-numeric:tabular-nums}
-.price .amount small{font-size:16px;font-weight:450;letter-spacing:-.01em;color:var(--muted)}
-.price .extra{font-size:13px;color:var(--muted)}
 .plan ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px}
 .plan li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;align-items:start}
 .plan li svg{width:18px;height:18px;margin-top:2px;padding:3px;border-radius:50%;background:var(--violet-soft);color:var(--violet);stroke-width:2.4}
@@ -321,8 +315,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .plan .btn{margin-top:auto;width:100%;justify-content:space-between}
 .plan-dark{background:var(--inv);color:var(--on-inv)}
 .plan-dark .plan-tag{background:var(--lime);color:var(--on-lime)}
-.plan-dark .plan-desc,.plan-dark .price .from,.plan-dark .price .extra,.plan-dark .price .amount small{color:var(--on-inv-muted)}
-.plan-dark .price{background:var(--inv-2)}
+.plan-dark .plan-desc{color:var(--on-inv-muted)}
 .plan-dark li svg{background:rgba(215,246,90,.16);color:var(--lime)}
 .plans-note{text-align:center;margin-top:24px;color:var(--muted);font-size:15px}
 .cta-bar{margin:64px auto 0;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:820px;background:var(--inv);color:var(--on-inv);border-radius:20px;padding:14px 14px 14px 26px}
@@ -726,9 +719,8 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
     </div>
     <div class="plans">
       <article class="plan">
-        <div class="plan-top"><h3>Launch</h3><span class="plan-tag">Pago único</span></div>
+        <div class="plan-top"><h3>Launch</h3><span class="plan-tag">Proyecto puntual</span></div>
         <p class="plan-desc">Para salir al mercado o validar una oferta con una base bien medida.</p>
-        <div class="price"><span class="from">Desde</span><span class="amount">1.200 €</span><span class="extra">Proyecto cerrado</span></div>
         <ul>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Auditoría inicial</li>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Landing de conversión</li>
@@ -740,9 +732,8 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
         <a class="btn btn-primary" href="#reservar">Empezar con Launch <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
       </article>
       <article class="plan plan-dark">
-        <div class="plan-top"><h3>Growth</h3><span class="plan-tag">Mensual</span></div>
+        <div class="plan-top"><h3>Growth</h3><span class="plan-tag">Servicio mensual</span></div>
         <p class="plan-desc">Para crecer en un canal con método y datos.</p>
-        <div class="price"><span class="from">Desde</span><span class="amount">750 € <small>/mes</small></span><span class="extra">Más setup desde 450 €</span></div>
         <ul>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Estrategia</li>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Gestión de 1 plataforma</li>
@@ -753,9 +744,8 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
         <a class="btn btn-lime" href="#reservar">Hablar de Growth <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
       </article>
       <article class="plan">
-        <div class="plan-top"><h3>Scale</h3><span class="plan-tag">Mensual</span></div>
+        <div class="plan-top"><h3>Scale</h3><span class="plan-tag">Servicio mensual</span></div>
         <p class="plan-desc">Para crecer en varios canales a la vez y experimentar.</p>
-        <div class="price"><span class="from">Desde</span><span class="amount">1.500 € <small>/mes</small></span><span class="extra">Más implementación inicial</span></div>
         <ul>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Estrategia integral</li>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Hasta 2 plataformas</li>
@@ -767,7 +757,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
         <a class="btn btn-primary" href="#reservar">Hablar de Scale <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
       </article>
     </div>
-    <p class="plans-note">Precios orientativos. La inversión publicitaria no está incluida.</p>
+    <p class="plans-note">Cada propuesta se ajusta a tu negocio después de la primera llamada. La inversión publicitaria va aparte.</p>
 
     <div class="cta-bar">
       <p>¿No sabes cuál elegir? <span>En 20 minutos te lo decimos.</span></p>

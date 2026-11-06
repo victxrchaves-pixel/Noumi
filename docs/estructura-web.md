@@ -72,7 +72,7 @@ Logo + promesa · enlaces a Soluciones, Servicios, Planes · email y LinkedIn/In
 | 4 | **¿Cuál es tu objetivo?** | Segmentación | Dos tarjetas grandes lado a lado: **Noumi Commerce** (vendo productos online: ROAS, CPA, ticket medio) y **Noumi Leads** (vendo servicios: CPL, leads cualificados, reservas). Cada una lleva a su página. |
 | 5 | **The Noumi Growth System** | Método | 5 pasos en línea horizontal (vertical en móvil): Discover · Build · Launch · Optimize · Scale, con una frase cada uno. Destacar el matiz de *Scale*: "solo escalamos cuando los números lo permiten", que transmite confianza. |
 | 6 | **Prueba** | Credibilidad | Al principio, sin casos: mostrar **qué medimos** (KPI por objetivo) y un ejemplo de dashboard de reporting. Cuando haya 3–5 clientes: casos con cifra + logo + cita. No inventar testimonios. |
-| 7 | **Planes** | Precio y encaje | 3 tarjetas: **Launch** (proyecto puntual), **Growth** (recurrente, 1 plataforma), **Scale** (recurrente, hasta 2 plataformas + CRO), con "Desde X €". Debajo: *"La inversión publicitaria no está incluida"*. Enlace a /planes. |
+| 7 | **Planes** | Encaje | 3 tarjetas sin precios: **Launch** (proyecto puntual), **Growth** (servicio mensual, 1 plataforma), **Scale** (servicio mensual, hasta 2 plataformas + CRO). Debajo: *"Cada propuesta se ajusta a tu negocio después de la primera llamada. La inversión publicitaria va aparte"*. Enlace a /planes. |
 | 8 | **Know me** | Marca / personas | Manifiesto corto + foto o retrato del equipo. Humaniza una oferta muy técnica. |
 | 9 | **FAQ** | Quitar objeciones | 5–7 preguntas: ¿la inversión en anuncios va aparte? ¿usáis las 3 plataformas siempre? ¿incluís creatividades? ¿hay permanencia? ¿de quién son las cuentas publicitarias? ¿en cuánto tiempo veré resultados? ¿trabajáis con mi sector? |
 | 10 | **CTA final** | Conversión | *"Cuéntanos tu negocio en 20 minutos."* Botón a /reservar o formulario corto incrustado. |
@@ -105,7 +105,7 @@ Para SEO y para quien ya sabe lo que busca. Estructura: qué es → qué incluye
 
 ### 4.3 Planes
 
-- Tabla comparativa Launch / Growth / Scale: precio "desde", pago único o mensual, setup, plataformas, tracking, dashboard, CRO, creatividades incluidas, reporting.
+- Tabla comparativa Launch / Growth / Scale, sin precios: proyecto puntual o servicio mensual, plataformas, tracking, dashboard, CRO, creatividades incluidas, reporting.
 - Bloque **"Qué no incluye"**: inversión publicitaria, webs nuevas fuera de alcance, producción compleja (vídeo, foto, rodajes), creatividades adicionales.
 - Bloque **"¿No sabes cuál elegir?"**, que lleva a la Discovery Call ("el diagnóstico decide si te conviene un proyecto o un servicio recurrente").
 
@@ -185,7 +185,7 @@ Como Noumi vende tracking, esto forma parte del producto:
 
 ## 9. Decisiones pendientes
 
-1. **¿Mostrar precios?** Recomendación: sí, con "desde", porque filtra a quien no encaja. Pero el documento estratégico dice que aún son hipótesis: **validar horas y márgenes antes de publicarlos.**
+1. **Precios: decidido, no se muestran en la web.** El precio se da en la propuesta, después de la Discovery Call.
 2. **¿Creatividad como servicio propio o como capa transversal?** (ver 4.2).
 3. **¿Auditoría gratuita como gancho?** Atrae más leads, pero consume horas. Se puede limitar a una "auditoría express" automatizada o a cupos.
 4. **Tecnología:** Framer o Webflow si queréis editar sin código. Astro o Next.js si se construye a medida en este repositorio (más control sobre rendimiento y tracking).
