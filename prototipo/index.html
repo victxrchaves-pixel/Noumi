@@ -23,7 +23,7 @@
   --inv:#111111; --inv-2:#242424; --on-inv:#FAFAFA; --on-inv-muted:#A3A3A3; --inv-line:rgba(250,250,250,.09);
   --violet:#6B5CF0; --violet-soft:#ECE9FF; --lime:#D7F65A; --on-lime:#111111; --ok:#23A566;
   --elev:0 24px 48px -24px rgba(17,17,17,.26),0 1px 2px rgba(17,17,17,.06); --shadow:rgba(17,17,17,.2);
-  --halo-a:#FFF0C2; --halo-b:#FDF6EE;
+  --live-bg:#FDFDFD; --live-row:#F0F0F0; --live-hit-bg:#000000; --live-hit-fg:#FFFFFF;
   --f-display:"Funnel Display","Helvetica Neue",Arial,sans-serif;
   --f-sans:"Funnel Sans","Helvetica Neue",Arial,sans-serif;
   --f-mono:"Fragment Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -38,7 +38,7 @@
     --surface:#191919; --surface-2:#222222; --raised:#161616;
     --inv:#1D1D1D; --inv-2:#292929; --on-inv:#FAFAFA; --on-inv-muted:#A3A3A3; --inv-line:rgba(250,250,250,.08);
     --violet:#958AFF; --violet-soft:#1D1A3B; --ok:#3CCB86;
-    --elev:0 0 0 1px #2A2A2A; --shadow:rgba(0,0,0,.6); --halo-a:rgba(255,224,140,.13); --halo-b:rgba(255,224,140,.02);
+    --elev:0 0 0 1px #2A2A2A; --shadow:rgba(0,0,0,.6); --live-bg:#292929; --live-row:#303030; --live-hit-bg:#FFFFFF; --live-hit-fg:#000000;
   }
 }
 :root[data-theme="dark"]{
@@ -47,7 +47,7 @@
   --surface:#191919; --surface-2:#222222; --raised:#161616;
   --inv:#1D1D1D; --inv-2:#292929; --on-inv:#FAFAFA; --on-inv-muted:#A3A3A3; --inv-line:rgba(250,250,250,.08);
   --violet:#958AFF; --violet-soft:#1D1A3B; --ok:#3CCB86;
-  --elev:0 0 0 1px #2A2A2A; --shadow:rgba(0,0,0,.6); --halo-a:rgba(255,224,140,.13); --halo-b:rgba(255,224,140,.02);
+  --elev:0 0 0 1px #2A2A2A; --shadow:rgba(0,0,0,.6); --live-bg:#292929; --live-row:#303030; --live-hit-bg:#FFFFFF; --live-hit-fg:#000000;
 }
 
 *{box-sizing:border-box}
@@ -116,62 +116,28 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .hero-ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:4px}
 .hero-cap{text-align:center;font-size:13px;color:var(--muted);margin-top:18px;padding-inline:16px}
 
-/* Escenario: un móvil con una tienda de ejemplo y tarjetas alrededor. Medidas en em para escalar todo junto. */
-.stage{position:relative;max-width:1000px;height:29em;margin:56px auto 0;font-size:16px;clip-path:inset(-80px -80px 0 -80px)}
-.ring{position:absolute;left:50%;bottom:0;translate:-50% 50%;border-radius:50%;border:1px solid var(--line)}
-.ring.r1{width:46em;height:46em}
-.ring.r2{width:62em;height:62em}
-.halo{position:absolute;left:50%;bottom:0;width:34em;height:17em;translate:-50% 0;border-radius:17em 17em 0 0;background:linear-gradient(180deg,var(--halo-a),var(--halo-b))}
-.phone{position:absolute;z-index:1;left:50%;bottom:-3.5em;translate:-50% 0;width:15.5em;height:31em;padding:.6em;border-radius:2.6em;background:#111111;box-shadow:0 2em 4em -2em rgba(17,17,17,.45),0 0 0 1px rgba(250,250,250,.1)}
-.screen{position:relative;height:100%;border-radius:2.1em;overflow:hidden;background:#FAFAFA;color:#111111;text-align:left}
-.sb{display:flex;justify-content:space-between;align-items:center;padding:.9em 1.5em .4em;font-size:.68em;font-weight:600}
-.sb .notch{width:6em;height:1.6em;border-radius:1em;background:#111111}
-.sb .bat{width:2.2em;height:1em;border-radius:.3em;border:1.5px solid #111111}
-.url{margin:.3em .9em .7em;padding:.5em .8em;border-radius:1em;background:#EDEDED;font-size:.7em;color:#5E5E5E;text-align:center}
-.prod{position:relative;margin:0 .7em;height:14em;border-radius:1.2em;background:linear-gradient(160deg,#DCEAFF,#BCD4FF);overflow:hidden}
-.bottle{position:absolute;left:50%;bottom:2em;translate:-50% 0;width:4.6em;height:8.4em;border-radius:1.4em 1.4em 1em 1em;background:linear-gradient(90deg,#F2B84E,#FFE3A3 45%,#F2B84E);box-shadow:0 1em 1.6em -.8em rgba(0,0,0,.35)}
-.bottle::before{content:"";position:absolute;left:50%;top:-2.1em;translate:-50% 0;width:2em;height:2.3em;border-radius:.4em .4em .2em .2em;background:#111111}
-.bottle::after{content:"";position:absolute;left:.7em;right:.7em;top:2.6em;height:2.6em;border-radius:.4em;background:rgba(250,250,250,.85)}
-.prod .badge{position:absolute;top:.8em;right:.8em;font-size:.65em;font-weight:600;background:#FAFAFA;padding:.4em .8em;border-radius:1em}
-.pinfo{padding:.9em 1.1em;display:grid;gap:.2em}
-.pinfo b{font-size:.95em;font-weight:600}
-.pinfo span{font-size:.7em;color:#5E5E5E}
-.prow{display:flex;justify-content:space-between;align-items:center;margin-top:.5em}
-.prow strong{font-size:1.05em;font-weight:650}
-.prow .add{font-size:.68em;font-weight:600;background:#111111;color:#FAFAFA;padding:.6em .9em;border-radius:1em}
-.toast{position:absolute;left:.8em;right:.8em;bottom:17.5em;box-shadow:0 .8em 1.6em -.8em rgba(17,17,17,.5);display:flex;align-items:center;gap:.6em;padding:.7em .9em;border-radius:1em;background:#111111;color:#FAFAFA;font-family:var(--f-mono);font-size:.68em}
-.toast b{margin-left:auto;font-weight:400}
+/* Escenario: imagen del móvil con Meta Ads y tarjetas (una versión por tema).
+   Encima, la tarjeta "Tu visita, en directo" en código, para que muestre la visita real.
+   Sus medidas son porcentajes de la imagen (2000 x 1260) y unidades cqw del contenedor. */
+.stage{position:relative;max-width:1000px;margin:48px auto 0;container-type:inline-size}
+.hero-img{display:block;width:100%;height:auto}
+.hero-img-dark{display:none}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .hero-img-light{display:none}
+  :root:not([data-theme="light"]) .hero-img-dark{display:block}
+}
+:root[data-theme="dark"] .hero-img-light{display:none}
+:root[data-theme="dark"] .hero-img-dark{display:block}
+.live-ov{position:absolute;left:0;top:34.29%;width:26.85%;height:37.78%;border-radius:2.4cqw;background:var(--live-bg);color:var(--fg);padding:2.5cqw 2cqw 0;text-align:left;font-size:1cqw;line-height:1.2}
+.live-ov .wl{display:flex;align-items:center;gap:.55em;font-size:1.8em;font-weight:500;letter-spacing:-.01em}
+.live-ov .wl .dot{width:.45em;height:.45em;background:#22C55E}
+.ev{display:grid;gap:.54em;margin-top:1em;font-family:var(--f-mono);font-size:1.4em}
+.ev div{display:flex;justify-content:space-between;align-items:center;gap:.5em;height:1.96em;padding:0 .5em;border-radius:.3em;background:var(--live-row);color:var(--fg)}
+.ev div svg{width:.85em;height:.85em;color:var(--muted)}
+.ev .hit{background:var(--live-hit-bg);color:var(--live-hit-fg)}
+.ev .hit .dot{width:.4em;height:.4em;background:currentColor}
+.live-ov .meta{position:absolute;left:1.82em;bottom:2.4em;font-size:1.1em;color:var(--muted);font-variant-numeric:tabular-nums}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--lime);flex:none}
-
-.fc{position:absolute;z-index:2;border-radius:1.1em;text-align:left;color:#111111;box-shadow:0 1.2em 2.4em -1.4em rgba(17,17,17,.4);animation:float 8s cubic-bezier(.45,0,.55,1) infinite;animation-delay:var(--d,0s)}
-@keyframes float{0%,100%{translate:0 0}50%{translate:0 -7px}}
-.fc-ad{left:9%;top:0;width:8.6em;height:9.4em;background:linear-gradient(160deg,#D6E6FF,#B4CCF8);overflow:hidden}
-.fc-ad .bottle{font-size:.6em;bottom:1.6em;rotate:-14deg}
-.fc-ad .len{position:absolute;top:.7em;left:.7em;font-size:.7em;font-weight:600;background:#FAFAFA;padding:.25em .65em;border-radius:1em}
-.fc-pill{left:15.5%;top:12.4em;display:flex;align-items:center;gap:.5em;padding:.55em 1em;border-radius:2em;background:#F8D2EE;font-size:.85em;font-weight:600}
-.fc-pill svg{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2.2}
-.fc-leads{left:3%;top:15.6em;display:flex;align-items:center;gap:1em;padding:1em 1.3em;background:#FFE27A}
-.fc-leads .lbars{display:flex;align-items:end;gap:.25em;height:2.8em}
-.fc-leads .lbars i{width:.8em;border-radius:.15em;background:#111111}
-.fc-leads small{display:block;font-size:.75em;color:#5A4A12;margin-bottom:.15em}
-.fc-leads strong{font-family:var(--f-display);font-size:2.1em;font-weight:500;letter-spacing:-.03em;line-height:1}
-.fc-leads .up{display:inline-grid;place-items:center;width:1.4em;height:1.4em;border-radius:50%;background:#111111;color:#FFE27A;margin-left:.4em;vertical-align:.5em}
-.fc-leads .up svg{width:.8em;height:.8em;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-.fc-orders{right:7%;top:1em;width:12.6em;height:8.4em;padding:1.1em 1.2em;background:#C6F0B0;overflow:hidden}
-.fc-orders strong{font-family:var(--f-display);font-size:2.6em;font-weight:500;line-height:1;letter-spacing:-.03em}
-.fc-orders strong span{font-size:.4em;letter-spacing:0;margin-left:.15em}
-.fc-orders small{display:block;font-size:.75em;color:#2F4A22;margin-top:.3em}
-.fc-orders .chip{display:inline-block;margin-top:.8em;font-size:.75em;font-weight:600;background:#FAFAFA;padding:.35em .75em;border-radius:1em}
-.fc-orders .bottle{font-size:.5em;left:auto;right:2.4em;bottom:1.4em;translate:0 0;rotate:10deg}
-.fc-live{right:2%;top:13.4em;width:14.8em;padding:1em;background:var(--raised);color:var(--fg);box-shadow:var(--elev)}
-.fc-live .wl{display:flex;align-items:center;gap:.5em;font-size:.75em;color:var(--muted)}
-.fc-live .wl .dot{background:#F0443A}
-.ev{display:grid;gap:.3em;margin-top:.7em;font-family:var(--f-mono);font-size:.72em}
-.ev div{display:flex;justify-content:space-between;align-items:center;gap:.6em;padding:.55em .7em;border-radius:.7em;background:var(--surface);color:var(--fg-2)}
-.ev div svg{width:1.1em;height:1.1em;color:var(--muted)}
-.ev .hit{background:var(--lime);color:#111111}
-.ev .hit .dot{background:#111111}
-.fc-live .meta{margin-top:.7em;font-family:var(--f-mono);font-size:.68em;color:var(--muted);font-variant-numeric:tabular-nums}
 
 /* Plataformas */
 .tools{padding-block:40px 0;text-align:center}
@@ -425,21 +391,15 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .foot-brand{grid-column:1 / -1}
 }
 @media (max-width:900px){
-  .stage{font-size:13px}
-  .fc-pill{display:none}
   .goals{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:680px){
   body{font-size:16px}
   .sec{padding-block:88px}
   .hero{padding-top:40px}
+  .stage{margin-top:36px}
   .hero-ctas{width:100%}
   .hero-ctas .btn{flex:1 1 100%}
-  .stage{font-size:10.5px;margin-top:40px;height:31em}
-  .fc-leads{display:none}
-  .fc-ad{left:0}
-  .fc-orders{right:0}
-  .fc-live{right:0;top:17em}
   .bento{grid-template-columns:minmax(0,1fr)}
   .b-web,.b-data,.b-ads,.b-one,.b-call{grid-column:auto}
   .nolist li{grid-template-columns:minmax(0,1fr);padding:22px 0}
@@ -463,7 +423,6 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .fc{animation:none}
   *{transition:none!important}
 }
 </style>
@@ -502,36 +461,10 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
       </div>
     </div>
 
-    <div class="stage" aria-hidden="true">
-      <i class="ring r2"></i><i class="ring r1"></i><i class="halo"></i>
-
-      <div class="phone">
-        <div class="screen">
-          <div class="sb"><span>9:41</span><i class="notch"></i><i class="bat"></i></div>
-          <div class="url">tutienda.com</div>
-          <div class="prod"><i class="bottle"></i><span class="badge">Nuevo</span></div>
-          <div class="pinfo">
-            <b>Sérum de vitamina C</b>
-            <span>30 ml, envío en 24 horas</span>
-            <div class="prow"><strong>64,90 €</strong><span class="add">Añadir al carrito</span></div>
-          </div>
-          <div class="toast"><i class="dot"></i><span>purchase</span><b>64,90 €</b></div>
-        </div>
-      </div>
-
-      <div class="fc fc-ad" style="--d:-1s"><span class="len">0:15</span><i class="bottle"></i></div>
-      <div class="fc fc-pill" style="--d:-3s"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Remarketing activo</div>
-      <div class="fc fc-leads" style="--d:-5s">
-        <span class="lbars"><i style="height:45%"></i><i style="height:100%"></i><i style="height:70%"></i></span>
-        <span><small>Leads cualificados</small><strong>41</strong><span class="up"><svg viewBox="0 0 16 16"><path d="M8 12V4M4.5 7.5L8 4l3.5 3.5"/></svg></span></span>
-      </div>
-      <div class="fc fc-orders" style="--d:-2s">
-        <strong>8<span>pedidos</span></strong>
-        <small>esta semana</small>
-        <span class="chip">64,90 €</span>
-        <i class="bottle"></i>
-      </div>
-      <div class="fc fc-live" style="--d:-4s">
+    <div class="stage">
+      <img class="hero-img hero-img-light" src="img/hero-light.webp" width="2000" height="1260" alt="Móvil con el panel de campañas de captación de leads en Meta Ads, rodeado de tarjetas: leads cualificados, nuevo lead, remarketing activo y pedidos de la semana.">
+      <img class="hero-img hero-img-dark" src="img/hero-dark.webp" width="2000" height="1260" alt="Móvil con el panel de campañas de captación de leads en Meta Ads, rodeado de tarjetas: leads cualificados, nuevo lead, remarketing activo y pedidos de la semana.">
+      <div class="live-ov" aria-label="Tu visita a esta página, en directo">
         <span class="wl"><i class="dot"></i>Tu visita, en directo</span>
         <div class="ev" id="hero-ev">
           <div class="hit"><span>page_view</span><i class="dot"></i></div>
@@ -540,7 +473,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
       </div>
     </div>
   </section>
-  <p class="hero-cap">Tienda de ejemplo. La tarjeta «Tu visita» muestra tu visita real a esta página.</p>
+  <p class="hero-cap">Datos de ejemplo. La tarjeta «Tu visita» muestra tu visita real a esta página.</p>
 </div>
 
 <!-- PLATAFORMAS -->
