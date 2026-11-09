@@ -241,7 +241,16 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 /* Medición */
 .measure{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:stretch}
 .m-text{background:var(--surface);border-radius:var(--r-panel);padding:44px;display:flex;flex-direction:column;gap:24px;min-width:0}
-.m-text .h2{font-size:clamp(30px,3.4vw,44px)}
+.m-text .h2{font-size:clamp(28px,3vw,40px)}
+.m-lead{color:var(--muted);font-size:16.5px;max-width:52ch}
+.chain{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.chain li{display:grid;align-content:start;gap:4px;padding:16px;border-radius:14px;background:var(--raised);min-width:0}
+.chain b{font-family:var(--f-display);font-size:26px;font-weight:600;letter-spacing:-.03em;line-height:1.1}
+.chain span{font-size:13.5px;line-height:1.4;color:var(--muted)}
+.chain li:first-child{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+.chain li:first-child b{color:var(--ghost)}
+.chain li:last-child{background:var(--lime);color:var(--on-lime)}
+.chain li:last-child span{color:rgba(17,17,17,.75)}
 .kpi-lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
 .kpi-lists h3{font-size:15px;font-weight:600;color:var(--violet);margin-bottom:10px;letter-spacing:-.01em}
 .kpi-lists ul{list-style:none;margin:0;padding:0;font-size:15px}
@@ -409,7 +418,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .f2{right:44px}
   .m-text,.plan{padding:26px}
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .kpi-lists{grid-template-columns:minmax(0,1fr)}
+  .kpi-lists,.chain{grid-template-columns:minmax(0,1fr)}
   .dash{padding:16px}
   .form{grid-template-columns:minmax(0,1fr);padding:22px}
   .radios{grid-template-columns:minmax(0,1fr)}
@@ -497,7 +506,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
       <ul class="nolist">
         <li><s>Webs de plantilla</s><p>Cada web parte de tu negocio, tu cliente y tus márgenes. <b>Se diseña para vender</b>, y eso se nota en cada pantalla.</p></li>
         <li><s>Campañas a ciegas</s><p>Antes de gastar un euro en anuncios, <b>dejamos la medición funcionando</b>.</p></li>
-        <li><s>Métricas de vanidad</s><p>Te hablamos de <b>ventas, leads y coste por cliente</b>, que es lo que paga las facturas.</p></li>
+        <li><s>Métricas de vanidad</s><p>Te hablamos de <b>cuánto te cuesta cada cliente y cuánto vale</b>, que es lo que paga las facturas.</p></li>
         <li><s>Escalar por escalar</s><p>Subimos la inversión <b>solo cuando los números lo permiten</b>.</p></li>
         <li><s>Cinco proveedores que no se hablan</s><p><b>Un solo equipo</b> responsable de la web, los datos y los anuncios.</p></li>
       </ul>
@@ -565,7 +574,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   <div class="wrap">
     <div class="head-c">
       <h2 class="h2">¿Qué necesita <span class="g">tu negocio?</span></h2>
-      <p class="sub">Trabajamos con cualquier sector. Lo que cambia es el objetivo, y con él lo que medimos.</p>
+      <p class="sub">Trabajamos cada caso de forma específica. Tu objetivo decide qué hacemos y qué medimos.</p>
     </div>
     <div class="goals">
       <a class="goal goal-c" href="#reservar">
@@ -583,7 +592,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
         <h3>Noumi Leads</h3>
         <p class="for">Para negocios de servicios</p>
         <p class="d">Más clientes cualificados y menos formularios que no llevan a nada. Conectamos campañas y CRM para medir ventas reales.</p>
-        <ul class="chips"><li>CPL</li><li>Leads cualificados</li><li>Reservas</li><li>Tasa de cierre</li><li>CAC</li></ul>
+        <ul class="chips"><li>CPL</li><li>Leads cualificados</li><li>Reservas</li><li>Tasa de cierre</li><li>CAC</li><li>LTV</li></ul>
         <span class="more"><i><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></i>Ver Noumi Leads</span>
       </a>
     </div>
@@ -612,12 +621,18 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 <section class="sec" id="medicion">
   <div class="wrap measure">
     <div class="m-text">
-      <h2 class="h2">Lo que medimos, <span class="g">lo ves cada semana.</span></h2>
+      <h2 class="h2">El CPL te dice cuánto cuesta un lead. <span class="g">Nosotros medimos cuánto te cuesta un cliente.</span></h2>
+      <p class="m-lead">Muchas agencias entregan leads y ahí terminan. Nosotros participamos en todo el proceso, desde que una persona conoce tu empresa hasta que se convierte en cliente, para que sepas lo que te cuesta y lo que te aporta cada uno.</p>
+      <ol class="chain">
+        <li><b>CPL</b><span>Cuánto cuesta un lead. Aquí se quedan muchas agencias.</span></li>
+        <li><b>CAC</b><span>Cuánto te cuesta conseguir un cliente.</span></li>
+        <li><b>LTV</b><span>Cuánto vale ese cliente con el tiempo.</span></li>
+      </ol>
       <div class="kpi-lists">
-        <div><h3>E-commerce</h3><ul><li>Ingresos y compras</li><li>CPA y ROAS</li><li>Tasa de conversión</li><li>Valor medio del pedido</li><li>Margen</li></ul></div>
-        <div><h3>Captación de leads</h3><ul><li>Leads y CPL</li><li>Leads cualificados</li><li>Coste por lead cualificado</li><li>Reservas y cierre</li><li>Coste por cliente</li></ul></div>
+        <div><h3>E-commerce</h3><ul><li>Ingresos y compras</li><li>CPA y ROAS</li><li>Tasa de conversión</li><li>Valor medio del pedido</li><li>Recurrencia y LTV</li></ul></div>
+        <div><h3>Captación de leads</h3><ul><li>Leads y CPL</li><li>Leads cualificados</li><li>Reservas y tasa de cierre</li><li>Coste de adquisición (CAC)</li><li>Valor del cliente (LTV)</li></ul></div>
       </div>
-      <p class="crm">Cuando es posible, conectamos las campañas con tu CRM para medir ventas reales, más allá del formulario.</p>
+      <p class="crm">Conectamos las campañas con tu CRM y tus ventas para medir clientes reales, más allá del formulario.</p>
     </div>
     <figure class="dash" aria-label="Ejemplo de informe semanal">
       <div class="dash-card">
@@ -625,8 +640,8 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
         <div class="kpis">
           <div><span class="k">Inversión</span><span class="v">2.400 €</span></div>
           <div><span class="k">Leads</span><span class="v">96</span></div>
-          <div><span class="k">Cualificados</span><span class="v">41</span></div>
-          <div><span class="k">Coste por cualificado</span><span class="v">58,5 €</span></div>
+          <div><span class="k">Clientes</span><span class="v">7</span></div>
+          <div><span class="k">Coste por cliente (CAC)</span><span class="v">343 €</span></div>
         </div>
         <div class="plot">
           <div class="yaxis" aria-hidden="true"><span>8</span><span>4</span><span>0</span></div>
@@ -672,7 +687,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Gestión de 1 plataforma</li>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Optimización continua</li>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Medición y reporting</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>3 creatividades en 3 formatos</li>
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Creatividades para tus campañas</li>
         </ul>
         <a class="btn btn-lime" href="#reservar">Hablar de Growth <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
       </article>
@@ -685,7 +700,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Tracking avanzado y dashboard</li>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>CRO y experimentación</li>
           <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Reporting</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>3 creatividades en 3 formatos</li>
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Creatividades para tus campañas</li>
         </ul>
         <a class="btn btn-primary" href="#reservar">Hablar de Scale <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
       </article>
@@ -715,9 +730,9 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
       <h2 class="h2">Lo que nos <span class="g">suelen preguntar.</span></h2>
     </div>
     <div class="faq-list">
-      <details><summary>¿La inversión en publicidad está incluida?<span class="pm" aria-hidden="true"></span></summary><p>No. Los planes cubren estrategia, gestión, medición y optimización. Lo que inviertes en Meta, Google o Pinterest va aparte, y la cantidad la decides tú.</p></details>
+      <details><summary>¿La inversión en publicidad está incluida?<span class="pm" aria-hidden="true"></span></summary><p>No. Los planes cubren estrategia, gestión, medición y optimización. Lo que inviertes en Meta, Google o Pinterest va aparte. Te asesoramos sobre cuánto invertir y dónde, pero la cantidad final la decides tú.</p></details>
       <details><summary>¿Trabajáis siempre con Meta, Google y Pinterest?<span class="pm" aria-hidden="true"></span></summary><p>No. Elegimos los canales según tu producto, la demanda, tu público y tu presupuesto. Muchas veces conviene empezar por uno solo.</p></details>
-      <details><summary>¿Hacéis las creatividades de los anuncios?<span class="pm" aria-hidden="true"></span></summary><p>Sí. Growth y Scale incluyen 3 creatividades, cada una en 3 formatos. Las creatividades adicionales, otros formatos y las producciones con foto o vídeo se presupuestan aparte.</p></details>
+      <details><summary>¿Hacéis las creatividades de los anuncios?<span class="pm" aria-hidden="true"></span></summary><p>Sí. Preparamos las creatividades de tus campañas. Cuántas y en qué formatos lo definimos contigo según lo que necesites. Las producciones con foto o vídeo se presupuestan aparte.</p></details>
       <details><summary>Ya tengo web. ¿Tengo que hacer una nueva?<span class="pm" aria-hidden="true"></span></summary><p>No necesariamente. En la fase Build decidimos si basta con mejorar tu web y crear landings, o si compensa una nueva. Las webs nuevas se presupuestan aparte.</p></details>
       <details><summary>¿Qué pasa en la llamada?<span class="pm" aria-hidden="true"></span></summary><p>Revisamos tu objetivo, ticket medio, márgenes, inversión, volumen de ventas o leads y tu proceso comercial. Sales con un diagnóstico y sabiendo si te conviene un proyecto puntual o un servicio mensual.</p></details>
     </div>

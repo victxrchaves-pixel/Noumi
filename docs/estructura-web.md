@@ -101,7 +101,7 @@ Son **las páginas más importantes después de la home** (el checklist de lanza
 
 Para SEO y para quien ya sabe lo que busca. Estructura: qué es → qué incluye (lista del documento estratégico) → herramientas/plataformas (logos) → cómo encaja con los otros dos pilares → planes en los que entra → CTA.
 
-> **Creatividad.** En la estrategia las creatividades son un complemento (Growth y Scale incluyen 3 creatividades en 3 formatos; el resto se cobra por unidad), no un pilar. Recomendación: **no crear un cuarto servicio**. La creatividad se demuestra con la estética de la web y en /proyectos, y se explica dentro de *Paid Media* como "Creatividades publicitarias". Si queréis venderla como servicio propio, primero hay que darle precio y alcance en la oferta comercial.
+> **Creatividad.** En la estrategia las creatividades son un complemento (Growth y Scale incluyen creatividades; cuántas y en qué formatos se define con cada cliente), no un pilar. Recomendación: **no crear un cuarto servicio**. La creatividad se demuestra con la estética de la web y en /proyectos, y se explica dentro de *Paid Media* como "Creatividades publicitarias". Si queréis venderla como servicio propio, primero hay que darle precio y alcance en la oferta comercial.
 
 ### 4.3 Planes
 
