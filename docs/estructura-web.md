@@ -4,6 +4,29 @@ Documento base para diseñar y construir la web de Noumi. Se apoya en el documen
 
 ---
 
+## Estructura actual del prototipo (noviembre 2026)
+
+Esta es la estructura vigente. Las secciones siguientes recogen el planteamiento inicial y sirven de referencia.
+
+**Inicio** (`prototipo/index.html`)
+1. Hero: titular, botones y la imagen del móvil con la tarjeta «Tu visita, en directo».
+2. Plataformas con las que trabajamos.
+3. Manifiesto: «Una web bonita que nadie mide es un folleto caro».
+4. Servicios: «Tres piezas, un sistema», en tres pasos (web, tracking, publicidad) que avanzan solos y se pueden pulsar.
+5. Soluciones: Noumi Commerce y Noumi Leads, con notificaciones de ejemplo dentro de cada tarjeta.
+6. Medición: del anuncio al cliente (CPL, CAC y LTV) y la comparación «Mismo presupuesto, dos formas de medir».
+7. Formulario de contacto (Discovery Call).
+
+**Sobre Noumi** (`prototipo/sobre-noumi.html`)
+1. «Noumi suena a know me» y el manifiesto.
+2. The Noumi Growth System (Audit, Build, Launch, Optimize, Scale).
+3. Preguntas frecuentes.
+4. Llamada a la acción hacia el formulario del inicio.
+
+**Fuera de la web por ahora:** los planes (Launch, Growth, Scale) y la sección «Lo que no hacemos».
+
+Estilos y comportamiento compartidos: `prototipo/css/noumi.css` y `prototipo/js/noumi.js`.
+
 ## 1. Qué tiene que conseguir la web
 
 La web tiene **un único trabajo**: conseguir que la persona correcta **reserve una Discovery Call** (20–30 min). Todo lo demás (servicios, método, planes, casos) existe para llevar hasta ese botón.

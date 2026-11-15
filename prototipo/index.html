@@ -17,440 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@400..800&family=Funnel+Sans:wght@300..700&family=Fragment+Mono&family=Newsreader:opsz,wght@6..72,400..600&display=swap">
-<style>
-/* Layout: página #FAFAFA (clara) o #111111 (oscura); hero y contacto sobre el fondo de la página.
-   Contenido centrado en columna de 1180px; servicios en cuadrícula bento.
-   Color: violeta y lima como acentos de marca, nunca como fondo de sección.
-   Tipografía: Funnel Display en titulares, Funnel Sans en texto; Fragment Mono solo para datos;
-   Newsreader solo en el titular principal. */
-:root{
-  color-scheme:light;
-  /* Blanco #FAFAFA y negro #111111: los dos extremos de los neutros */
-  --bg:#FAFAFA; --fg:#111111; --fg-2:#2A2A2A; --muted:#5E5E5E; --ghost:#8A8A8A; --line:#E3E3E3;
-  --surface:#F0F0F0; --surface-2:#E6E6E6; --raised:#FAFAFA;
-  --inv:#111111; --inv-2:#242424; --on-inv:#FAFAFA; --on-inv-muted:#A3A3A3; --inv-line:rgba(250,250,250,.09);
-  --violet:#6B5CF0; --violet-soft:#ECE9FF; --lime:#D7F65A; --on-lime:#111111; --ok:#23A566;
-  --elev:0 24px 48px -24px rgba(17,17,17,.26),0 1px 2px rgba(17,17,17,.06); --shadow:rgba(17,17,17,.2);
-  --live-bg:#FCFCFC; --live-row:#F0F0F0; --live-hit-bg:#000000; --live-hit-fg:#FFFFFF; --danger:#B42318;
-  --f-display:"Funnel Display","Helvetica Neue",Arial,sans-serif;
-  --f-sans:"Funnel Sans","Helvetica Neue",Arial,sans-serif;
-  --f-mono:"Fragment Mono",ui-monospace,Menlo,Consolas,monospace;
-  --f-serif:"Newsreader",Georgia,"Times New Roman",serif;
-  --r-card:16px; --r-panel:28px; --wrap:1180px;
-  --gut:max(16px,env(safe-area-inset-left,0px)); --gut-r:max(16px,env(safe-area-inset-right,0px));
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    color-scheme:dark;
-    --bg:#111111; --fg:#FAFAFA; --fg-2:#DEDEDE; --muted:#A3A3A3; --ghost:#878787; --line:#262626;
-    --surface:#191919; --surface-2:#222222; --raised:#161616;
-    --inv:#1D1D1D; --inv-2:#292929; --on-inv:#FAFAFA; --on-inv-muted:#A3A3A3; --inv-line:rgba(250,250,250,.08);
-    --violet:#958AFF; --violet-soft:#1D1A3B; --ok:#3CCB86;
-    --elev:0 0 0 1px #2A2A2A; --shadow:rgba(0,0,0,.6); --live-bg:#1A1A1A; --live-row:#323232; --live-hit-bg:#FFFFFF; --live-hit-fg:#000000; --danger:#FF8A80;
-  }
-}
-:root[data-theme="dark"]{
-  color-scheme:dark;
-  --bg:#111111; --fg:#FAFAFA; --fg-2:#DEDEDE; --muted:#A3A3A3; --ghost:#878787; --line:#262626;
-  --surface:#191919; --surface-2:#222222; --raised:#161616;
-  --inv:#1D1D1D; --inv-2:#292929; --on-inv:#FAFAFA; --on-inv-muted:#A3A3A3; --inv-line:rgba(250,250,250,.08);
-  --violet:#958AFF; --violet-soft:#1D1A3B; --ok:#3CCB86;
-  --elev:0 0 0 1px #2A2A2A; --shadow:rgba(0,0,0,.6); --live-bg:#1A1A1A; --live-row:#323232; --live-hit-bg:#FFFFFF; --live-hit-fg:#000000; --danger:#FF8A80;
-}
-
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scrollbar-color:var(--ghost) var(--bg)}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;caret-color:var(--violet);accent-color:var(--violet)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
-::selection{background:var(--lime);color:var(--on-lime)}
-a{color:inherit;text-underline-offset:.22em}
-:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:8px}
-h1,h2,h3,.big,.num,.logo b,.foot-brand b,h1,h2,h3{text-wrap:balance;margin:0}
-p{margin:0}
-svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.wrap{max-width:var(--wrap);margin-inline:auto;padding-left:var(--gut);padding-right:var(--gut-r)}
-.sec{padding-block:128px}
-.sec + .sec{padding-top:0}
-section{scroll-margin-top:96px}
-
-.h2{font-weight:500;font-size:clamp(34px,4.6vw,58px);line-height:1.05;letter-spacing:-.035em}
-.g{color:var(--ghost)}
-.head-c{display:grid;justify-items:center;text-align:center;gap:18px;margin-bottom:56px}
-.head-c .sub{color:var(--muted);font-size:18px;max-width:54ch}
-
-/* Botones */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;font:500 15.5px/1 var(--f-sans);padding:8px 8px 8px 22px;min-height:52px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.8,.2,1),background-color .18s ease,border-color .18s ease}
-.btn:hover{transform:translateY(-1px)}
-.btn:active{transform:translateY(0) scale(.98)}
-.btn .ic{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
-.btn:hover .ic{transform:translate(1px,-1px)}
-.btn-primary{background:var(--fg);color:var(--bg)}
-.btn-primary .ic{background:var(--lime);color:var(--on-lime)}
-.btn-lime{background:var(--lime);color:var(--on-lime)}
-.btn-lime .ic{background:var(--on-lime);color:var(--lime)}
-.btn-soft{background:transparent;color:var(--fg);border-color:var(--fg);padding:8px 24px}
-.btn-soft:hover{background:var(--surface)}
-.btn-light{background:var(--on-inv);color:var(--inv);padding:8px 24px}
-.tlink{display:inline-block;font-weight:550;color:var(--violet);text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 calc(100% - 10px)/0 1.5px no-repeat;padding:12px 0;transition:background-size .25s cubic-bezier(.2,.8,.2,1)}
-.tlink:hover{background-size:100% 1.5px}
-
-.skip{position:fixed;left:16px;top:-80px;z-index:100;background:var(--fg);color:var(--bg);padding:13px 20px;border-radius:999px;font-weight:550;text-decoration:none;transition:top .2s ease}
-.skip:focus{top:calc(env(safe-area-inset-top,0px) + 12px)}
-main:focus{outline:none}
-
-/* Cabecera */
-.site-head{position:sticky;z-index:50;top:env(safe-area-inset-top,0px);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3)}
-.head-in{max-width:var(--wrap);margin-inline:auto;padding-left:var(--gut);padding-right:var(--gut-r);min-height:76px;display:flex;align-items:center;gap:14px;position:relative}
-.logo{display:flex;align-items:baseline;gap:8px;text-decoration:none;padding-block:6px}
-.logo b{font-weight:650;font-size:22px;letter-spacing:-.04em}
-.logo b i{font-style:normal;color:var(--violet)}
-.logo small{font-size:13px;color:var(--muted);letter-spacing:-.01em}
-.nav{display:flex;gap:4px;margin-inline:auto}
-.nav a{font-size:15px;text-decoration:none;color:var(--fg-2);padding:10px 14px;border-radius:999px;transition:background-color .15s ease}
-.nav a:hover{background:var(--surface)}
-.nav .nav-cta{display:none}
-.nav a[aria-current="true"]{background:var(--surface);color:var(--fg)}
-.head-link{font-size:15px;color:var(--fg-2);text-decoration:none;padding:10px 4px}
-.head-link:hover{color:var(--fg);text-decoration:underline}
-.icon-btn{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:0;background:var(--surface);color:var(--fg);cursor:pointer;transition:background-color .15s ease}
-.icon-btn:hover{background:var(--surface-2)}
-.icon-btn svg{width:20px;height:20px}
-.head-cta{min-height:46px;padding:6px 6px 6px 20px;font-size:15px}
-.head-cta .ic{width:34px;height:34px}
-.menu-btn{display:none;min-height:44px;background:var(--fg);color:var(--bg);border:0;border-radius:999px;padding:13px 18px;font:500 14px/1 var(--f-sans);cursor:pointer}
-
-/* Hero */
-.sky{position:relative;color:var(--fg);background:var(--bg)}
-.hero-band{overflow-x:clip}
-.hero{padding:64px var(--gut-r) 0 var(--gut);text-align:center}
-.hero-in{display:grid;justify-items:center;gap:26px;max-width:900px;margin-inline:auto}
-h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);line-height:1.03;letter-spacing:-.025em;font-optical-sizing:auto}
-.hero-sub{font-size:19px;line-height:1.5;max-width:50ch;color:var(--muted)}
-.hero-ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:4px}
-.hero-cap{text-align:center;font-size:13px;color:var(--muted);margin-top:18px;padding-inline:16px}
-
-/* Escenario: imagen del móvil con Meta Ads y tarjetas (una versión por tema).
-   Encima, la tarjeta "Tu visita, en directo" en código, para que muestre la visita real.
-   Sus medidas son porcentajes de la imagen (2000 x 1190) y unidades cqw del contenedor. */
-.stage{position:relative;max-width:1000px;margin:48px auto 0;container-type:inline-size}
-.hero-img{display:block;width:100%;height:auto}
-.hero-img-dark{display:none}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]) .hero-img-light{display:none}
-  :root:not([data-theme="light"]) .hero-img-dark{display:block}
-}
-:root[data-theme="dark"] .hero-img-light{display:none}
-:root[data-theme="dark"] .hero-img-dark{display:block}
-.live-ov{position:absolute;left:0;top:37.14%;width:29.4%;height:43.7%;border-radius:2.8cqw;background:var(--live-bg);color:var(--fg);padding:2.4cqw 2.45cqw 0 2.25cqw;text-align:left;font-size:1cqw;line-height:1.2}
-.live-ov .wl{display:flex;align-items:center;gap:.5em;font-size:1.8em;font-weight:500;letter-spacing:-.01em}
-.live-ov .wl .dot{width:.45em;height:.45em;background:#22C55E}
-.ev{display:grid;gap:.6em;margin-top:1.4em;font-family:var(--f-mono);font-size:1.5em}
-.ev div{display:flex;justify-content:space-between;align-items:center;gap:.5em;height:1.93em;padding:0 .55em;border-radius:.27em;background:var(--live-row);color:var(--fg)}
-.ev div svg{width:.85em;height:.85em;color:var(--muted)}
-.ev .hit{background:var(--live-hit-bg);color:var(--live-hit-fg)}
-.ev .hit .dot{width:.4em;height:.4em;background:currentColor}
-.live-ov .meta{position:absolute;left:1.73em;bottom:1.6em;font-size:1.3em;color:var(--muted);font-variant-numeric:tabular-nums}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--lime);flex:none}
-
-/* Plataformas */
-.tools{padding-block:40px 0;text-align:center}
-.tools p{font-size:14px;color:var(--muted);margin-bottom:18px}
-.tools ul{list-style:none;margin:0;padding:0 var(--gut-r) 0 var(--gut);display:flex;flex-wrap:wrap;justify-content:center;gap:10px 40px}
-.tools li{font-size:20px;font-weight:600;letter-spacing:-.03em;color:var(--ghost)}
-
-/* Manifiesto */
-.statement{max-width:1000px;margin-inline:auto;text-align:center;display:grid;justify-items:center;gap:28px}
-.st-sub{font-size:clamp(20px,2.2vw,26px);line-height:1.38;letter-spacing:-.02em;color:var(--muted);max-width:46ch}
-.st-sub b{color:var(--fg);font-weight:500;white-space:nowrap}
-.chip-ic{display:inline-grid;place-items:center;width:1.05em;height:1.05em;border-radius:50%;vertical-align:-.18em;margin-right:.12em}
-.chip-ic svg{width:56%;height:56%;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.chip-v{background:var(--violet);color:#FAFAFA}
-.chip-l{background:var(--lime);color:var(--on-lime)}
-.chip-d{background:var(--fg);color:var(--bg)}
-.nolist-wrap{max-width:1040px;margin:112px auto 0}
-.nolist-wrap h3{font-weight:500;font-size:clamp(24px,2.4vw,30px);letter-spacing:-.03em;margin-bottom:24px}
-.nolist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.nolist li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 48px;align-items:center;padding:28px 0;border-bottom:1px solid var(--line)}
-.nolist s{font-size:clamp(26px,3.2vw,40px);font-weight:500;letter-spacing:-.035em;line-height:1.1;color:var(--ghost);text-decoration:line-through;text-decoration-color:var(--violet);text-decoration-thickness:.07em}
-.nolist p{font-size:17px;color:var(--muted);max-width:44ch}
-.nolist p b{font-weight:600;color:var(--fg)}
-
-/* Bento servicios */
-.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
-.b{border-radius:var(--r-card);padding:28px;display:flex;flex-direction:column;gap:14px;min-width:0;background:var(--surface)}
-.b-web{grid-column:span 7}
-.b-data{grid-column:span 5;background:var(--inv);color:var(--on-inv)}
-.b-one{grid-column:span 3;background:var(--lime);color:var(--on-lime)}
-.b-ads{grid-column:span 5}
-.b-call{grid-column:span 4}
-.b h3{font-weight:550;font-size:24px;letter-spacing:-.03em;line-height:1.12}
-.b p{color:var(--muted);font-size:15.5px}
-.b-data p{color:var(--on-inv-muted)}
-.b-one p{color:var(--on-lime)}
-.chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
-.chips li{font-size:12.5px;padding:6px 11px;border-radius:999px;background:var(--raised);color:var(--fg-2)}
-.b-data .chips li{background:var(--inv-line);color:#D9DAE3}
-.browser{border-radius:12px;overflow:hidden;background:var(--surface-2);padding:18px 18px 0;margin-bottom:6px}
-.browser .bw{background:var(--raised);border-radius:10px 10px 0 0;padding:12px 14px 20px;box-shadow:var(--elev)}
-.browser .dots{display:flex;gap:5px;margin-bottom:16px}
-.browser .dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
-.browser .hl{height:13px;width:72%;border-radius:4px;background:var(--fg);margin-bottom:8px}
-.browser .hl2{height:13px;width:48%;border-radius:4px;background:var(--ghost);margin-bottom:16px}
-.browser .ln{height:6px;border-radius:3px;background:var(--line);margin-bottom:6px;width:86%}
-.browser .ln.s{width:62%}
-.browser .cta{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;font-weight:550;background:var(--lime);color:var(--on-lime);padding:7px 12px;border-radius:999px}
-.browser .cta code{font-family:var(--f-mono);font-size:12px;font-weight:400;background:rgba(255,255,255,.75);padding:2px 6px;border-radius:999px}
-.evl{display:grid;gap:6px;font-family:var(--f-mono);font-size:12.5px;margin-top:4px}
-.evl div{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-radius:10px;background:var(--inv-line);color:#CDCFD8}
-.evl div span:last-child{color:var(--on-inv-muted)}
-.evl .hit{background:rgba(215,246,90,.14);color:var(--lime)}
-.evl .hit span:last-child{color:var(--lime)}
-.num{font-weight:500;font-size:72px;line-height:.9;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin-top:auto}
-.num small{font-size:28px;letter-spacing:-.03em;margin-left:4px}
-.tests{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
-.tests div{border-radius:10px;height:76px;position:relative;padding:8px;font-size:12px;color:#111111}
-.tests div:nth-child(1){background:linear-gradient(140deg,#FFC8A8,#FF9E9E)}
-.tests div:nth-child(2){background:linear-gradient(140deg,#C9F0FF,#9DB8FF)}
-.tests div:nth-child(3){background:linear-gradient(140deg,#E8FFA8,#B9F06A);box-shadow:inset 0 0 0 2px #111111}
-.tests span{background:rgba(255,255,255,.82);padding:2px 7px;border-radius:999px}
-.tests em{position:absolute;right:8px;bottom:8px;font-style:normal;background:#111111;color:#FAFAFA;padding:2px 8px;border-radius:999px}
-
-/* Soluciones */
-.goals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.goal{position:relative;border-radius:var(--r-panel);padding:40px;display:flex;flex-direction:column;gap:16px;min-height:470px;overflow:hidden;text-decoration:none;min-width:0;background:var(--surface);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
-.goal:hover{transform:translateY(-2px)}
-.goal-l{background:var(--inv);color:var(--on-inv)}
-.goal h3{font-weight:500;font-size:clamp(34px,3.6vw,46px);letter-spacing:-.04em;line-height:1;margin-top:auto}
-.goal .for{font-size:15px;color:var(--fg-2);font-weight:500;margin-top:-6px}
-.goal-l .for{color:#E4E5EC}
-.goal p.d{color:var(--muted);max-width:40ch}
-.goal-l p.d{color:var(--on-inv-muted)}
-.goal-l .chips li{background:var(--inv-line);color:#D9DAE3}
-.goal .more{display:inline-flex;align-items:center;gap:10px;font-weight:550;margin-top:8px}
-.goal .more i{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--fg);color:var(--bg);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
-.goal-l .more i{background:var(--lime);color:var(--on-lime)}
-.goal:hover .more i{transform:translate(2px,-2px)}
-.floaty{position:absolute;right:32px;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.3;background:var(--raised);color:var(--fg);box-shadow:0 18px 36px -20px var(--shadow)}
-.goal-l .floaty{background:var(--inv-2);color:var(--on-inv);box-shadow:none}
-.floaty b{font-weight:600}
-.f1{top:36px}
-.f2{top:102px;right:72px}
-.floaty .sw{width:30px;height:30px;border-radius:9px;flex:none}
-.sw-a{background:linear-gradient(140deg,#FFC8A8,#C9A6FF)}
-.sw-b{background:var(--lime)}
-.sw-c{background:var(--violet)}
-
-/* Método: línea de tiempo */
-.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 28px;position:relative}
-.steps::before{content:"";position:absolute;left:0;right:0;top:15px;height:1px;background:var(--line)}
-.steps li{position:relative;display:grid;gap:12px;align-content:start;min-width:0}
-.steps .n{position:relative;justify-self:start;display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:var(--bg);border:1px solid var(--line);font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.steps h3{font-weight:550;font-size:26px;letter-spacing:-.03em;margin-top:14px}
-.steps p{color:var(--muted);font-size:15.5px}
-.steps li:last-child .n{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
-.note-c{text-align:center;margin:56px auto 0;color:var(--muted);max-width:60ch}
-.note-c b{color:var(--fg);font-weight:600}
-
-/* Medición */
-.measure{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:stretch}
-.m-text{background:var(--surface);border-radius:var(--r-panel);padding:44px;display:flex;flex-direction:column;gap:24px;min-width:0}
-.m-text .h2{font-size:clamp(28px,3vw,40px)}
-.m-lead{color:var(--muted);font-size:16.5px;max-width:52ch}
-.chain{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.chain li{display:grid;align-content:start;gap:4px;padding:16px;border-radius:14px;background:var(--raised);min-width:0}
-.chain b{font-family:var(--f-display);font-size:26px;font-weight:600;letter-spacing:-.03em;line-height:1.1}
-.chain span{font-size:13.5px;line-height:1.4;color:var(--muted)}
-.chain li:first-child{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
-.chain li:first-child b{color:var(--ghost)}
-.chain li:last-child{background:var(--lime);color:var(--on-lime)}
-.chain li:last-child span{color:rgba(17,17,17,.75)}
-.kpi-lists{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
-.kpi-lists h3{font-size:15px;font-weight:600;color:var(--violet);margin-bottom:10px;letter-spacing:-.01em}
-.kpi-lists ul{list-style:none;margin:0;padding:0;font-size:15px}
-.kpi-lists li{padding:8px 0;border-bottom:1px solid var(--line)}
-.m-text .crm{color:var(--muted);font-size:15px;margin-top:auto}
-.dash{margin:0;border-radius:var(--r-panel);padding:32px;background:var(--surface-2);display:flex;flex-direction:column;justify-content:center;min-width:0}
-.dash-card{background:var(--raised);color:var(--fg);border-radius:var(--r-card);padding:22px;box-shadow:var(--elev)}
-.dash-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;font-weight:550;font-size:15px}
-.tag-x{font-size:12px;font-weight:450;padding:5px 10px;border-radius:999px;background:var(--surface);color:var(--muted)}
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:22px}
-.kpis div{display:grid;gap:4px;padding:12px;border-radius:12px;background:var(--surface);min-width:0}
-.kpis .k{font-size:12px;color:var(--muted);line-height:1.25}
-.kpis .v{font-weight:550;font-size:22px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.kpis div:last-child{background:var(--lime);color:var(--on-lime)}
-.kpis div:last-child .k{color:rgba(13,14,19,.72)}
-.plot{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px}
-.yaxis{display:flex;flex-direction:column;justify-content:space-between;height:140px;font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:right;margin-top:-6px}
-.bars{height:140px;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;align-items:end;background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% 50%;border-bottom:1px solid var(--line)}
-.bar{position:relative;height:calc(var(--v) / 8 * 100%);background:var(--violet-soft);border-radius:6px 6px 0 0}
-.bar.last{background:var(--violet)}
-.bar span{position:absolute;bottom:100%;left:0;right:0;text-align:center;font-family:var(--f-mono);font-size:12px;color:var(--muted);padding-bottom:3px}
-.xaxis{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-left:28px;margin-top:8px;font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:center}
-.chart-t{margin-top:12px;font-size:12.5px;color:var(--muted)}
-
-/* Planes */
-.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
-.plan{background:var(--surface);border-radius:var(--r-panel);padding:32px;display:flex;flex-direction:column;gap:18px;min-width:0}
-.plan-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.plan h3{font-weight:550;font-size:30px;letter-spacing:-.035em}
-.plan-tag{font-size:12.5px;padding:6px 11px;border-radius:999px;background:var(--raised);color:var(--muted)}
-.plan-desc{color:var(--muted);font-size:15.5px;min-height:3.1em}
-.plan ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px}
-.plan li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;align-items:start}
-.plan li svg{width:18px;height:18px;margin-top:2px;padding:3px;border-radius:50%;background:var(--violet-soft);color:var(--violet);stroke-width:2.4}
-.plan li.no{color:var(--muted)}
-.plan li.no svg{background:var(--surface-2);color:var(--ghost)}
-.plan .btn{margin-top:auto;width:100%;justify-content:space-between}
-.plan-dark{background:var(--inv);color:var(--on-inv)}
-.plan-dark .plan-tag{background:var(--lime);color:var(--on-lime)}
-.plan-dark .plan-desc{color:var(--on-inv-muted)}
-.plan-dark li svg{background:rgba(215,246,90,.16);color:var(--lime)}
-.plans-note{text-align:center;margin-top:24px;color:var(--muted);font-size:15px}
-.cta-bar{margin:64px auto 0;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;max-width:820px;background:var(--inv);color:var(--on-inv);border-radius:20px;padding:14px 14px 14px 26px}
-.cta-bar p{font-size:16px}
-.cta-bar p span{color:var(--on-inv-muted)}
-
-/* Know me */
-.knowme{text-align:center;display:grid;justify-items:center;gap:22px}
-.knowme .big{font-weight:500;font-size:clamp(44px,7vw,96px);line-height:1;letter-spacing:-.04em}
-.knowme .orig{font-size:16px;color:var(--muted)}
-.knowme .h2{font-size:clamp(26px,3.4vw,42px);line-height:1.2;max-width:880px;margin-top:20px}
-
-/* FAQ */
-.faq-list{max-width:820px;margin-inline:auto;display:grid;gap:10px}
-.faq details{background:var(--surface);border-radius:var(--r-card);padding:0 26px}
-.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-weight:550;font-size:17.5px;letter-spacing:-.015em}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary .pm{position:relative;flex:none;width:32px;height:32px;border-radius:50%;background:var(--raised);transition:transform .25s cubic-bezier(.2,.8,.2,1),background-color .2s ease}
-.faq summary .pm::before,.faq summary .pm::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.8px;margin:-.9px 0 0 -6px;border-radius:2px;background:var(--fg)}
-.faq summary .pm::after{transform:rotate(90deg)}
-.faq details[open] summary .pm{transform:rotate(45deg);background:var(--lime)}
-.faq details[open] summary .pm::before,.faq details[open] summary .pm::after{background:var(--on-lime)}
-.faq details p{padding-bottom:24px;color:var(--muted);max-width:64ch}
-
-/* Contacto */
-.contact-band{max-width:var(--wrap);margin-inline:auto;padding:0 var(--gut-r) 24px var(--gut)}
-.contact{padding:32px 0 120px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:center}
-.contact .intro{display:grid;gap:22px}
-.contact .intro p{color:var(--muted);font-size:17.5px;max-width:44ch}
-.call-steps{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:10px}
-.call-steps li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:14px;align-items:start;padding:14px 16px;border-radius:14px;background:var(--surface);font-size:15px;color:var(--muted)}
-.call-steps .n{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--fg);color:var(--bg);font-family:var(--f-mono);font-size:12px}
-.call-steps strong{display:block;color:var(--fg);font-weight:550}
-.form{background:var(--surface);color:var(--fg);border-radius:var(--r-panel);padding:30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;}
-.field{display:grid;gap:7px;min-width:0;margin:0;padding:0;border:0}
-.field.full{grid-column:1 / -1}
-.field label,.field legend{font-size:14px;font-weight:550;padding:0}
-.field label span{font-weight:400;color:var(--muted)}
-.field legend{margin-bottom:7px}
-.field input,.field select,.field textarea{width:100%;font:inherit;font-size:16px;color:var(--fg);background:var(--raised);border:1px solid var(--line);border-radius:12px;padding:13px 15px;transition:background-color .15s ease}
-.field input::placeholder,.field textarea::placeholder{color:var(--muted)}
-.field textarea{resize:vertical;min-height:84px}
-.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--violet);outline-offset:0;background:var(--raised)}
-.radios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.radio{position:relative}
-.radio input{position:absolute;opacity:0;inset:0;cursor:pointer}
-.radio span{display:grid;gap:3px;height:100%;padding:14px 16px;border-radius:12px;background:var(--raised);font-size:15px;font-weight:550;cursor:pointer;border:1.5px solid var(--line);transition:border-color .15s ease}
-.radio span em{font-style:normal;font-size:12.5px;font-weight:400;color:var(--muted)}
-.radio input:checked + span{border-color:var(--fg);background:var(--raised)}
-.radio input:focus-visible + span{outline:2px solid var(--violet);outline-offset:2px}
-.form-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-top:4px}
-.form-foot small{color:var(--muted);font-size:13px;max-width:34ch}
-.err{margin:0;font-size:13.5px;line-height:1.4;color:var(--danger)}
-.field [aria-invalid="true"]{border-color:var(--danger);box-shadow:inset 0 0 0 1px var(--danger)}
-.field.invalid .radio span{border-color:var(--danger)}
-.form-ok{grid-column:1 / -1;padding:14px 16px;border-radius:12px;background:var(--lime);color:var(--on-lime);font-size:15px}
-
-/* Footer */
-.site-foot{padding-block:72px 36px}
-.foot-grid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:40px}
-.foot-brand b{font-weight:650;font-size:34px;letter-spacing:-.04em}
-.foot-brand b i{font-style:normal;color:var(--violet)}
-.foot-brand p{color:var(--muted);margin-top:6px;font-size:15px}
-.foot-col h2{font-size:14px;font-weight:600;margin:0 0 6px}
-.foot-col ul{list-style:none;margin:0;padding:0;display:grid;gap:0;font-size:15px;color:var(--muted)}
-.foot-col a,.foot-legal a{display:inline-block;padding:11px 0;text-decoration:none}
-.foot-col a:hover,.foot-legal a:hover{color:var(--fg);text-decoration:underline}
-.foot-legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
-.foot-legal nav{display:flex;flex-wrap:wrap;gap:18px}
-
-/* Know me en directo */
-.kme{position:fixed;z-index:55;right:calc(env(safe-area-inset-right,0px) + 16px);bottom:calc(env(safe-area-inset-bottom,0px) + 16px)}
-.kme-btn{display:flex;min-height:44px;align-items:center;gap:9px;background:var(--inv);color:var(--on-inv);border:1px solid var(--inv-line);border-radius:999px;padding:12px 16px 12px 14px;font:500 14px/1 var(--f-sans);cursor:pointer;box-shadow:0 16px 40px -14px var(--shadow);transition:transform .18s cubic-bezier(.2,.8,.2,1)}
-.kme-btn:hover{transform:translateY(-1px)}
-.kme-btn .t{font-size:13px;color:var(--on-inv-muted);font-variant-numeric:tabular-nums}
-.kme-panel{position:absolute;right:0;bottom:calc(100% + 10px);width:340px;background:var(--inv);color:var(--on-inv);border:1px solid var(--inv-line);border-radius:20px;padding:20px;box-shadow:0 30px 60px -20px var(--shadow)}
-.kme-panel h2{margin:0 0 4px;font-weight:550;font-size:17px;letter-spacing:-.02em}
-.kme-panel .sub{font-size:13.5px;color:var(--on-inv-muted);margin-bottom:14px}
-.kme-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:12px}
-.kme-stats div{background:var(--inv-2);border-radius:12px;padding:10px}
-.kme-stats span{display:block;font-size:12px;color:var(--on-inv-muted)}
-.kme-stats b{font-size:21px;font-weight:550;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.kme-log{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-family:var(--f-mono);font-size:12px;max-height:200px;overflow:auto;scrollbar-color:var(--inv-2) transparent}
-.kme-log li{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:8px;padding:7px 9px;border-radius:9px;background:var(--inv-line);color:#D3D5DE}
-.kme-log .tm,.kme-log .dt{color:var(--on-inv-muted)}
-.kme-log .dt{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
-.kme-log li:first-child{background:rgba(215,246,90,.14);color:var(--lime)}
-.kme-foot{margin-top:12px;font-size:12.5px;line-height:1.45;color:var(--on-inv-muted)}
-
-/* Responsive */
-@media (max-width:1080px){
-  .nav{display:none;position:absolute;top:calc(100% + 4px);left:var(--gut);right:var(--gut-r);flex-direction:column;gap:2px;padding:10px;border-radius:20px;background:var(--bg);box-shadow:0 20px 40px -20px var(--shadow),0 0 0 1px var(--line)}
-  .nav.open{display:flex}
-  .nav a{padding:14px 16px;font-size:16px}
-  .nav .nav-cta{display:flex;justify-content:center;background:var(--fg);color:var(--bg);margin-top:6px}
-  .nav .nav-cta:hover{background:var(--fg-2)}
-  .menu-btn{display:inline-flex}
-  .head-cta,.head-link{display:none}
-  .icon-btn{margin-left:auto}
-  .b-web,.b-data,.b-ads{grid-column:span 12}
-  .b-one,.b-call{grid-column:span 6}
-  .steps{grid-template-columns:minmax(0,1fr);gap:28px;padding-left:48px}
-  .steps::before{left:15px;right:auto;top:0;bottom:0;width:1px;height:auto}
-  .steps .n{position:absolute;left:-48px;top:0}
-  .steps h3{margin-top:0}
-  .measure,.contact{grid-template-columns:minmax(0,1fr)}
-  .contact{padding:24px 0 88px}
-  .plans{grid-template-columns:minmax(0,1fr);max-width:560px;margin-inline:auto}
-  .foot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .foot-brand{grid-column:1 / -1}
-}
-@media (max-width:900px){
-  .goals{grid-template-columns:minmax(0,1fr)}
-}
-@media (max-width:680px){
-  body{font-size:16px}
-  .sec{padding-block:88px}
-  .hero{padding-top:40px}
-  .stage{margin-top:36px}
-  .hero-ctas{width:100%}
-  .hero-ctas .btn{flex:1 1 100%}
-  .bento{grid-template-columns:minmax(0,1fr)}
-  .b-web,.b-data,.b-ads,.b-one,.b-call{grid-column:auto}
-  .nolist li{grid-template-columns:minmax(0,1fr);padding:22px 0}
-  .nolist-wrap{margin-top:80px}
-  .goal{min-height:0;padding:28px;padding-top:160px}
-  .floaty{right:20px}
-  .f2{right:44px}
-  .m-text,.plan{padding:26px}
-  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .kpi-lists,.chain{grid-template-columns:minmax(0,1fr)}
-  .dash{padding:16px}
-  .form{grid-template-columns:minmax(0,1fr);padding:22px}
-  .radios{grid-template-columns:minmax(0,1fr)}
-  .contact{padding:16px 0 64px}
-  .cta-bar{padding:20px}
-  .cta-bar .btn{width:100%}
-  .plan-desc{min-height:0}
-  .foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .kme-panel{width:calc(100vw - 32px)}
-  .logo small{display:none}
-}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *{transition:none!important}
-}
-</style>
+<link rel="stylesheet" href="css/noumi.css">
 </head>
 <body>
 <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -461,12 +28,10 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
     <nav class="nav" id="nav" aria-label="Principal">
       <a href="#servicios">Servicios</a>
       <a href="#soluciones">Soluciones</a>
-      <a href="#metodo">Método</a>
-      <a href="#planes">Planes</a>
-      <a href="#knowme">Sobre Noumi</a>
+      <a href="#medicion">Medición</a>
+      <a href="sobre-noumi.html">Sobre Noumi</a>
       <a class="nav-cta" href="#reservar">Reservar llamada</a>
     </nav>
-    <a class="head-link" href="#planes">Ver planes</a>
     <button class="icon-btn" id="theme-btn" type="button" aria-label="Cambiar tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menú</button>
     <a class="btn btn-primary head-cta" href="#reservar">Reservar llamada <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
@@ -476,20 +41,20 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 <main id="contenido" tabindex="-1">
 
 <!-- HERO -->
-<div class="hero-band" id="inicio">
+<div class="hero-band" id="inicio" data-section="hero">
   <section class="hero">
     <div class="hero-in">
       <h1>Convertimos tráfico en negocio.</h1>
       <p class="hero-sub">Diseño web, medición y publicidad conectados en un solo sistema. Para tiendas online que quieren vender con margen y negocios de servicios que necesitan clientes.</p>
       <div class="hero-ctas">
         <a class="btn btn-primary" href="#reservar">Reservar llamada <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
-        <a class="btn btn-soft" href="#metodo">Ver cómo trabajamos</a>
+        <a class="btn btn-soft" href="#servicios">Ver cómo trabajamos</a>
       </div>
     </div>
 
     <div class="stage">
-      <img class="hero-img hero-img-light" src="img/hero-light.webp" fetchpriority="high" decoding="async" width="2000" height="1190" alt="Móvil con el panel de campañas de captación de leads en Meta Ads, rodeado de tarjetas: leads cualificados, nuevo lead, remarketing activo y pedidos de la semana.">
-      <img class="hero-img hero-img-dark" src="img/hero-dark.webp" decoding="async" width="2000" height="1190" alt="Móvil con el panel de campañas de captación de leads en Meta Ads, rodeado de tarjetas: leads cualificados, nuevo lead, remarketing activo y pedidos de la semana.">
+      <img class="hero-img hero-img-light" src="img/hero-light.webp" fetchpriority="high" decoding="async" width="2000" height="1190" alt="Móvil con el panel de campañas de captación de leads en Meta Ads, rodeado de tarjetas: leads cualificados, nuevo lead, remarketing activo y leads de la semana.">
+      <img class="hero-img hero-img-dark" src="img/hero-dark.webp" decoding="async" width="2000" height="1190" alt="Móvil con el panel de campañas de captación de leads en Meta Ads, rodeado de tarjetas: leads cualificados, nuevo lead, remarketing activo y leads de la semana.">
       <div class="live-ov" aria-label="Tu visita a esta página, en directo">
         <span class="wl"><i class="dot"></i>Tu visita, en directo</span>
         <div class="ev" id="hero-ev">
@@ -511,37 +76,33 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 </div>
 
 <!-- MANIFIESTO -->
-<section class="sec" id="manifiesto">
+<section class="sec" id="manifiesto" data-section="manifiesto">
   <div class="wrap">
     <div class="statement">
       <h2 class="h2">Una web bonita que nadie mide <span class="g">es un folleto caro.</span></h2>
-      <p class="st-sub">Por eso unimos <b><span class="chip-ic chip-v"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/></svg></span>web</b>, <b><span class="chip-ic chip-l"><svg viewBox="0 0 24 24"><path d="M4 19V11M10 19V5M16 19v-6M22 19H2"/></svg></span>datos</b> y <b><span class="chip-ic chip-d"><svg viewBox="0 0 24 24"><path d="M4 14l12-8v12L4 14zM8 15v4"/></svg></span>anuncios</b> en un solo sistema que se puede seguir hasta la venta.</p>
-    </div>
-
-    <div class="nolist-wrap">
-      <h3>Lo que no hacemos</h3>
-      <ul class="nolist">
-        <li><s>Webs de plantilla</s><p>Cada web parte de tu negocio, tu cliente y tus márgenes. <b>Se diseña para vender</b>, y eso se nota en cada pantalla.</p></li>
-        <li><s>Campañas a ciegas</s><p>Antes de gastar un euro en anuncios, <b>dejamos la medición funcionando</b>.</p></li>
-        <li><s>Métricas de vanidad</s><p>Te hablamos de <b>cuánto te cuesta cada cliente y cuánto vale</b>, que es lo que paga las facturas.</p></li>
-        <li><s>Escalar por escalar</s><p>Subimos la inversión <b>solo cuando los números lo permiten</b>.</p></li>
-        <li><s>Cinco proveedores que no se hablan</s><p><b>Un solo equipo</b> responsable de la web, los datos y los anuncios.</p></li>
-      </ul>
+      <p class="st-sub">Por eso unimos <b><span class="chip-ic chip-v" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/></svg></span>web</b>, <b><span class="chip-ic chip-l" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V11M10 19V5M16 19v-6M22 19H2"/></svg></span>datos</b> y <b><span class="chip-ic chip-d" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 14l12-8v12L4 14zM8 15v4"/></svg></span>anuncios</b> en un solo sistema que se puede seguir hasta la venta.</p>
     </div>
   </div>
 </section>
 
-<!-- SERVICIOS -->
-<section class="sec" id="servicios">
+<!-- SERVICIOS: tres pasos en orden -->
+<section class="sec" id="servicios" data-section="servicios">
   <div class="wrap">
     <div class="head-c">
       <h2 class="h2">Tres piezas, <span class="g">un sistema.</span></h2>
-      <p class="sub">Puedes contratarlas por separado, pero rinden de verdad cuando trabajan juntas.</p>
+      <p class="sub">Funcionan en este orden, y cada paso prepara el siguiente. Puedes contratarlos por separado, pero rinden de verdad juntos.</p>
     </div>
 
-    <div class="bento">
-      <article class="b b-web">
-        <div class="browser" aria-hidden="true">
+    <div class="s3">
+      <button class="s3-tab" type="button" data-step="1" data-name="web" aria-controls="s3-p1" aria-expanded="true">
+        <span class="s3-n">1</span>
+        <span class="s3-k">Paso 1</span>
+        <span class="s3-t">Diseño y desarrollo web</span>
+        <span class="s3-d">La web que convierte visitas en clientes.</span>
+        <span class="s3-bar" aria-hidden="true"><i></i></span>
+      </button>
+      <div class="s3-panel" id="s3-p1">
+        <div class="s3-vis browser" aria-hidden="true">
           <div class="bw">
             <div class="dots"><i></i><i></i><i></i></div>
             <div class="hl"></div><div class="hl2"></div>
@@ -549,45 +110,67 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
             <span class="cta">Pedir presupuesto <code>cta_click</code></span>
           </div>
         </div>
-        <h3>Diseño y desarrollo web</h3>
-        <p>Landings y webs pensadas para convertir, con un diseño propio y rápidas en el móvil.</p>
-        <ul class="chips"><li>Landing pages</li><li>Webs corporativas</li><li>E-commerce</li><li>UX/UI</li><li>CRO</li></ul>
-      </article>
+        <h3>Una web pensada para convertir</h3>
+        <p>Creamos o mejoramos tu web para que cada visita tenga un siguiente paso claro: comprar, reservar o pedir información.</p>
+        <ul class="s3-checks">
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Landings de campaña, webs corporativas y e-commerce</li>
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Diseño propio, rápido y pensado para el móvil</li>
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Optimización de la conversión (CRO)</li>
+        </ul>
+      </div>
 
-      <article class="b b-data">
-        <h3>Tracking y analítica</h3>
-        <p>Medimos cada paso para saber qué campaña trae ventas y cuál sobra.</p>
-        <div class="evl" aria-hidden="true">
-          <div><span>add_to_cart</span><span>GA4 y Meta</span></div>
-          <div><span>begin_checkout</span><span>GA4 y Ads</span></div>
-          <div class="hit"><span>purchase</span><span>64,90 €</span></div>
+      <button class="s3-tab" type="button" data-step="2" data-name="tracking" aria-controls="s3-p2" aria-expanded="false">
+        <span class="s3-n">2</span>
+        <span class="s3-k">Paso 2</span>
+        <span class="s3-t">Tracking y analítica</span>
+        <span class="s3-d">Medimos cada paso, del clic a la venta.</span>
+        <span class="s3-bar" aria-hidden="true"><i></i></span>
+      </button>
+      <div class="s3-panel" id="s3-p2">
+        <div class="s3-vis dark" aria-hidden="true">
+          <div class="evl">
+            <div><span>page_view</span><span>GA4</span></div>
+            <div><span>add_to_cart</span><span>GA4 y Meta</span></div>
+            <div><span>begin_checkout</span><span>GA4 y Google Ads</span></div>
+            <div class="hit"><span>purchase</span><span>64,90 €</span></div>
+          </div>
         </div>
-        <ul class="chips"><li>GA4</li><li>Tag Manager</li><li>Meta Pixel</li><li>Conversions API</li><li>Dashboards</li></ul>
-      </article>
+        <h3>Medición antes que inversión</h3>
+        <p>Antes de gastar un euro en anuncios, dejamos la medición funcionando. Cada clic, formulario y venta queda registrado.</p>
+        <ul class="s3-checks">
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Google Analytics 4 y Google Tag Manager</li>
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Meta Pixel y Conversions API</li>
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Conexión con tu CRM y tus ventas</li>
+        </ul>
+      </div>
 
-      <article class="b b-one">
-        <div class="num">1</div>
-        <p><b>Un sistema conectado.</b> La web alimenta los datos, los datos mejoran los anuncios y los anuncios traen tráfico a la web.</p>
-      </article>
-
-      <article class="b b-ads">
-        <h3>Publicidad y performance</h3>
-        <p>Campañas que se prueban, se optimizan y solo escalan cuando son rentables. Incluye creatividades publicitarias.</p>
-        <div class="tests" aria-hidden="true"><div><span>Versión A</span></div><div><span>Versión B</span></div><div><span>Versión C</span><em>Ganadora</em></div></div>
-        <ul class="chips"><li>Meta Ads</li><li>Google Ads</li><li>Pinterest Ads</li><li>Remarketing</li></ul>
-      </article>
-
-      <article class="b b-call">
-        <div class="num">20<small>min</small></div>
-        <p>de llamada para entender tu negocio y decirte por dónde empezar.</p>
-        <a class="tlink" href="#reservar">Reservar llamada</a>
-      </article>
+      <button class="s3-tab" type="button" data-step="3" data-name="ads" aria-controls="s3-p3" aria-expanded="false">
+        <span class="s3-n">3</span>
+        <span class="s3-k">Paso 3</span>
+        <span class="s3-t">Publicidad y performance</span>
+        <span class="s3-d">Campañas que traen clientes de verdad.</span>
+        <span class="s3-bar" aria-hidden="true"><i></i></span>
+      </button>
+      <div class="s3-panel" id="s3-p3">
+        <div class="s3-vis soft" aria-hidden="true">
+          <div class="tests"><div><span>Versión A</span></div><div><span>Versión B</span></div><div><span>Versión C</span><em>Ganadora</em></div></div>
+        </div>
+        <h3>Campañas que se prueban y escalan</h3>
+        <p>Lanzamos campañas, probamos mensajes y creatividades, y subimos la inversión solo cuando los números acompañan.</p>
+        <ul class="s3-checks">
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Meta Ads, Google Ads y Pinterest Ads</li>
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Pruebas de creatividades, mensajes y audiencias</li>
+          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Remarketing y escalado gradual de la inversión</li>
+        </ul>
+      </div>
     </div>
+
+    <p class="s3-loop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/></svg><span><b>Y vuelta a empezar.</b> Lo que aprendemos en las campañas mejora la web, y una web mejor abarata cada clic.</span></p>
   </div>
 </section>
 
 <!-- SOLUCIONES -->
-<section class="sec" id="soluciones">
+<section class="sec" id="soluciones" data-section="soluciones">
   <div class="wrap">
     <div class="head-c">
       <h2 class="h2">¿Qué necesita <span class="g">tu negocio?</span></h2>
@@ -595,8 +178,10 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
     </div>
     <div class="goals">
       <a class="goal goal-c" href="#reservar" data-goal="commerce">
-        <div class="floaty f1" aria-hidden="true"><span class="sw sw-a"></span><span><b>Pedido nuevo</b><br>64,90 €</span></div>
-        <div class="floaty f2" aria-hidden="true"><span class="sw sw-b"></span><span>ROAS <b>4,2x</b></span></div>
+        <div class="g-feed" aria-hidden="true">
+          <div class="g-note"><span class="sw sw-a"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7zM9 7a3 3 0 0 1 6 0"/></svg></span><span><b>Pedido nuevo</b><small>Sérum de vitamina C, 64,90 €</small></span><span class="when">ahora</span></div>
+          <div class="g-note"><span class="sw sw-b"><svg viewBox="0 0 24 24"><path d="M4 18l6-6 4 4 6-8"/></svg></span><span><b>ROAS de la semana: 4,2x</b><small>Cada euro en anuncios devolvió 4,20 €</small></span><span class="when">hoy</span></div>
+        </div>
         <h3>Noumi Commerce</h3>
         <p class="for">Para tiendas online</p>
         <p class="d">Más ventas y más rentables. Trabajamos la tienda, la medición y las campañas pensando en el margen.</p>
@@ -604,8 +189,10 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
         <span class="more"><i><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></i>Hablar de Noumi Commerce</span>
       </a>
       <a class="goal goal-l" href="#reservar" data-goal="leads">
-        <div class="floaty f1" aria-hidden="true"><span class="sw sw-c"></span><span><b>Lead cualificado</b><br>Reformas en Madrid</span></div>
-        <div class="floaty f2" aria-hidden="true"><span class="sw sw-b"></span><span><b>Reserva</b> confirmada</span></div>
+        <div class="g-feed" aria-hidden="true">
+          <div class="g-note"><span class="sw sw-c"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20a8 8 0 0 1 16 0"/></svg></span><span><b>Nuevo lead cualificado</b><small>Laura M. quiere más información</small></span><span class="when">ahora</span></div>
+          <div class="g-note"><span class="sw sw-b"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L19 7"/></svg></span><span><b>Reunión confirmada</b><small>Mañana a las 10:00</small></span><span class="when">hace 5 min</span></div>
+        </div>
         <h3>Noumi Leads</h3>
         <p class="for">Para negocios de servicios</p>
         <p class="d">Más clientes cualificados y menos formularios que no llevan a nada. Conectamos campañas y CRM para medir ventas reales.</p>
@@ -616,149 +203,64 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   </div>
 </section>
 
-<!-- MÉTODO -->
-<section class="sec" id="metodo">
+<!-- MEDICIÓN: del anuncio al cliente -->
+<section class="sec" id="medicion" data-section="medicion">
   <div class="wrap">
     <div class="head-c">
-      <h2 class="h2">The Noumi Growth System</h2>
-      <p class="sub">Cinco fases, siempre en el mismo orden. Sabes en qué punto está tu proyecto y qué viene después.</p>
-    </div>
-    <ol class="steps">
-      <li><span class="n">1</span><h3>Audit</h3><p>Auditamos tu web, tu medición y tus campañas, y analizamos tu negocio, cliente ideal, márgenes y presupuesto.</p></li>
-      <li><span class="n">2</span><h3>Build</h3><p>Diseñamos o mejoramos web y landings, y configuramos tracking y cuentas publicitarias.</p></li>
-      <li><span class="n">3</span><h3>Launch</h3><p>Activamos campañas y validamos conversiones, mensajes, audiencias y creatividades.</p></li>
-      <li><span class="n">4</span><h3>Optimize</h3><p>Analizamos datos, hacemos pruebas y quitamos fricciones de conversión.</p></li>
-      <li><span class="n">5</span><h3>Scale</h3><p>Subimos la inversión poco a poco, cuando los números del negocio lo permiten.</p></li>
-    </ol>
-    <p class="note-c"><b>Solo escalamos cuando es rentable.</b> Si un canal no funciona con tu margen, te lo decimos antes de subir el presupuesto.</p>
-  </div>
-</section>
-
-<!-- MEDICIÓN -->
-<section class="sec" id="medicion">
-  <div class="wrap measure">
-    <div class="m-text">
       <h2 class="h2">El CPL te dice cuánto cuesta un lead. <span class="g">Nosotros medimos cuánto te cuesta un cliente.</span></h2>
-      <p class="m-lead">Muchas agencias entregan leads y ahí terminan. Nosotros participamos en todo el proceso, desde que una persona conoce tu empresa hasta que se convierte en cliente, para que sepas lo que te cuesta y lo que te aporta cada uno.</p>
-      <ol class="chain">
-        <li><b>CPL</b><span>Cuánto cuesta un lead. Aquí se quedan muchas agencias.</span></li>
-        <li><b>CAC</b><span>Cuánto te cuesta conseguir un cliente.</span></li>
-        <li><b>LTV</b><span>Cuánto vale ese cliente con el tiempo.</span></li>
-      </ol>
-      <div class="kpi-lists">
-        <div><h3>E-commerce</h3><ul><li>Ingresos y compras</li><li>CPA y ROAS</li><li>Tasa de conversión</li><li>Valor medio del pedido</li><li>Recurrencia y LTV</li></ul></div>
-        <div><h3>Captación de leads</h3><ul><li>Leads y CPL</li><li>Leads cualificados</li><li>Reservas y tasa de cierre</li><li>Coste de adquisición (CAC)</li><li>Valor del cliente (LTV)</li></ul></div>
-      </div>
-      <p class="crm">Conectamos las campañas con tu CRM y tus ventas para medir clientes reales, más allá del formulario.</p>
+      <p class="sub">Muchas agencias entregan leads y ahí terminan. Nosotros seguimos todo el proceso, desde que una persona conoce tu empresa hasta que se convierte en cliente, y medimos lo que te cuesta y lo que te aporta.</p>
     </div>
-    <figure class="dash" aria-label="Ejemplo de informe semanal">
-      <div class="dash-card">
-        <div class="dash-head"><span>Informe semanal de Noumi Leads</span><span class="tag-x">Ejemplo</span></div>
-        <div class="kpis">
-          <div><span class="k">Inversión</span><span class="v">2.400 €</span></div>
-          <div><span class="k">Leads</span><span class="v">96</span></div>
-          <div><span class="k">Clientes</span><span class="v">7</span></div>
-          <div><span class="k">Coste por cliente (CAC)</span><span class="v">343 €</span></div>
+
+    <div class="mx">
+      <div class="mx-card">
+        <div class="mx-head"><h3>Del anuncio al cliente, paso a paso</h3><span class="tag-x">Ejemplo</span></div>
+        <ol class="funnel">
+          <li><span class="v">2.400 €</span><span class="k">Inversión en anuncios</span></li>
+          <li><span class="v">96</span><span class="k">Leads</span></li>
+          <li><span class="v">41</span><span class="k">Leads cualificados</span></li>
+          <li><span class="v">7</span><span class="k">Clientes</span></li>
+          <li><span class="v">12.600 €</span><span class="k">Lo que facturan esos clientes en 12 meses</span></li>
+        </ol>
+        <div class="ruler">
+          <div class="rl rl-cpl"><b>CPL 25 €</b><span class="eq">2.400 € ÷ 96 leads</span><span class="note">Cuánto cuesta cada lead. Aquí se quedan muchas agencias.</span></div>
+          <div class="rl rl-ltv"><b>LTV 1.800 €</b><span class="eq">12.600 € ÷ 7 clientes</span><span class="note">Lo que te deja cada cliente en un año: 5,2 veces lo que costó conseguirlo.</span></div>
+          <div class="rl rl-cac"><b>CAC 343 €</b><span class="eq">2.400 € ÷ 7 clientes</span><span class="note">Lo que de verdad te cuesta conseguir un cliente. Es el número que optimizamos.</span></div>
         </div>
-        <div class="plot">
-          <div class="yaxis" aria-hidden="true"><span>8</span><span>4</span><span>0</span></div>
-          <div class="bars">
-            <div class="bar" style="--v:3"><span>3</span></div><div class="bar" style="--v:4"><span>4</span></div>
-            <div class="bar" style="--v:4"><span>4</span></div><div class="bar" style="--v:5"><span>5</span></div>
-            <div class="bar" style="--v:6"><span>6</span></div><div class="bar" style="--v:5"><span>5</span></div>
-            <div class="bar" style="--v:7"><span>7</span></div><div class="bar last" style="--v:7"><span>7</span></div>
+      </div>
+
+      <div class="mx-card">
+        <div class="mx-head"><h3>Mismo presupuesto, dos formas de medir</h3><span class="tag-x">Ejemplo con 2.400 €</span></div>
+        <div class="vs">
+          <div class="vs-col vs-a">
+            <p class="vs-k">Optimizar por CPL<span>Buscar el lead más barato</span></p>
+            <dl>
+              <dt>Leads</dt><dd>160</dd>
+              <dt>Coste por lead</dt><dd>15 €</dd>
+              <dt>Clientes</dt><dd>3</dd>
+              <dt class="big-row">Coste por cliente</dt><dd class="big-row">800 €</dd>
+            </dl>
+            <p class="vs-note">Más leads y más baratos, pero de peor calidad: pocos acaban comprando.</p>
+          </div>
+          <div class="vs-col vs-b">
+            <p class="vs-k">Optimizar por CAC<span>Cómo trabajamos en Noumi</span></p>
+            <dl>
+              <dt>Leads</dt><dd>96</dd>
+              <dt>Coste por lead</dt><dd>25 €</dd>
+              <dt>Clientes</dt><dd>7</dd>
+              <dt class="big-row">Coste por cliente</dt><dd class="big-row">343 €</dd>
+            </dl>
+            <p class="vs-note">Menos leads, pero mejores: cada cliente cuesta menos de la mitad.</p>
           </div>
         </div>
-        <div class="xaxis" aria-hidden="true"><span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span><span>S6</span><span>S7</span><span>S8</span></div>
-        <p class="chart-t">Leads cualificados por semana</p>
+        <p class="vs-take">Un CPL más bajo no significa clientes más baratos. <span>Por eso conectamos las campañas con tu CRM y tus ventas.</span></p>
       </div>
-    </figure>
-  </div>
-</section>
-
-<!-- PLANES -->
-<section class="sec" id="planes">
-  <div class="wrap">
-    <div class="head-c">
-      <h2 class="h2">Empieza con un proyecto <span class="g">o crece con nosotros cada mes.</span></h2>
-    </div>
-    <div class="plans">
-      <article class="plan">
-        <div class="plan-top"><h3>Launch</h3><span class="plan-tag">Proyecto puntual</span></div>
-        <p class="plan-desc">Para salir al mercado o validar una oferta con una base bien medida.</p>
-        <ul>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Auditoría inicial</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Landing de conversión</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Tracking básico</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Integración de formulario o eventos</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Puesta en producción</li>
-          <li class="no"><svg class="i" viewBox="0 0 16 16"><path d="M5 8h6"/></svg>Creatividades no incluidas</li>
-        </ul>
-        <a class="btn btn-primary" href="#reservar">Empezar con Launch <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
-      </article>
-      <article class="plan plan-dark">
-        <div class="plan-top"><h3>Growth</h3><span class="plan-tag">Servicio mensual</span></div>
-        <p class="plan-desc">Para crecer en un canal con método y datos.</p>
-        <ul>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Estrategia</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Gestión de 1 plataforma</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Optimización continua</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Medición y reporting</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Creatividades para tus campañas</li>
-        </ul>
-        <a class="btn btn-lime" href="#reservar">Hablar de Growth <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
-      </article>
-      <article class="plan">
-        <div class="plan-top"><h3>Scale</h3><span class="plan-tag">Servicio mensual</span></div>
-        <p class="plan-desc">Para crecer en varios canales a la vez y experimentar.</p>
-        <ul>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Estrategia integral</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Hasta 2 plataformas</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Tracking avanzado y dashboard</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>CRO y experimentación</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Reporting</li>
-          <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Creatividades para tus campañas</li>
-        </ul>
-        <a class="btn btn-primary" href="#reservar">Hablar de Scale <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></a>
-      </article>
-    </div>
-    <p class="plans-note">Cada propuesta se ajusta a tu negocio después de la primera llamada. La inversión publicitaria va aparte.</p>
-
-    <div class="cta-bar">
-      <p>¿No sabes cuál elegir? <span>En 20 minutos te lo decimos.</span></p>
-      <a class="btn btn-light" href="#reservar">Reservar llamada</a>
-    </div>
-  </div>
-</section>
-
-<!-- KNOW ME -->
-<section class="sec" id="knowme">
-  <div class="wrap knowme">
-    <p class="big"><span class="g">Noumi suena a</span> know me.</p>
-    <p class="orig">Del inglés, «conóceme».</p>
-    <h2 class="h2">Primero te conocemos. Luego hacemos que te conozcan. <span class="g">Y medimos cada paso para saber qué funciona.</span></h2>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="sec faq" id="faq">
-  <div class="wrap">
-    <div class="head-c">
-      <h2 class="h2">Lo que nos <span class="g">suelen preguntar.</span></h2>
-    </div>
-    <div class="faq-list">
-      <details><summary>¿La inversión en publicidad está incluida?<span class="pm" aria-hidden="true"></span></summary><p>No. Los planes cubren estrategia, gestión, medición y optimización. Lo que inviertes en Meta, Google o Pinterest va aparte. Te asesoramos sobre cuánto invertir y dónde, pero la cantidad final la decides tú.</p></details>
-      <details><summary>¿Trabajáis siempre con Meta, Google y Pinterest?<span class="pm" aria-hidden="true"></span></summary><p>No. Elegimos los canales según tu producto, la demanda, tu público y tu presupuesto. Muchas veces conviene empezar por uno solo.</p></details>
-      <details><summary>¿Hacéis las creatividades de los anuncios?<span class="pm" aria-hidden="true"></span></summary><p>Sí. Preparamos las creatividades de tus campañas. Cuántas y en qué formatos lo definimos contigo según lo que necesites. Las producciones con foto o vídeo se presupuestan aparte.</p></details>
-      <details><summary>Ya tengo web. ¿Tengo que hacer una nueva?<span class="pm" aria-hidden="true"></span></summary><p>No necesariamente. En la fase Build decidimos si basta con mejorar tu web y crear landings, o si compensa una nueva. Las webs nuevas se presupuestan aparte.</p></details>
-      <details><summary>¿Qué pasa en la llamada?<span class="pm" aria-hidden="true"></span></summary><p>Revisamos tu objetivo, ticket medio, márgenes, inversión, volumen de ventas o leads y tu proceso comercial. Sales con un diagnóstico y sabiendo si te conviene un proyecto puntual o un servicio mensual.</p></details>
     </div>
   </div>
 </section>
 
 <!-- CONTACTO -->
-<div class="contact-band" id="reservar">
-  <section class="sky deep contact">
+<div class="contact-band" id="reservar" data-section="contacto">
+  <section class="contact">
     <div class="intro">
       <h2 class="h2">Cuéntanos tu negocio en 20 minutos.</h2>
       <p>Rellena esto y elige hora. Así llegamos a la llamada con tus datos ya revisados.</p>
@@ -810,7 +312,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
       <div class="foot-brand"><b>nou<i>mi</i></b><p>Convertimos tráfico en negocio.</p></div>
       <div class="foot-col"><h2>Soluciones</h2><ul><li><a href="#soluciones">Noumi Commerce</a></li><li><a href="#soluciones">Noumi Leads</a></li></ul></div>
       <div class="foot-col"><h2>Servicios</h2><ul><li><a href="#servicios">Diseño web</a></li><li><a href="#servicios">Tracking y analítica</a></li><li><a href="#servicios">Publicidad</a></li></ul></div>
-      <div class="foot-col"><h2>Noumi</h2><ul><li><a href="#metodo">Método</a></li><li><a href="#planes">Planes</a></li><li><a href="#knowme">Sobre Noumi</a></li><li><a href="#reservar">Reservar llamada</a></li></ul></div>
+      <div class="foot-col"><h2>Noumi</h2><ul><li><a href="sobre-noumi.html">Sobre Noumi</a></li><li><a href="sobre-noumi.html#metodo">Cómo trabajamos</a></li><li><a href="sobre-noumi.html#faq">Preguntas frecuentes</a></li><li><a href="#reservar">Reservar llamada</a></li></ul></div>
     </div>
     <div class="foot-legal">
       <span>© 2026 Noumi Consultant</span>
@@ -827,7 +329,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
     <div class="kme-stats">
       <div><span>Tiempo</span><b id="kme-time">0:00</b></div>
       <div><span>Scroll</span><b id="kme-scroll">0%</b></div>
-      <div><span>Secciones</span><b id="kme-secs">0/10</b></div>
+      <div><span>Secciones</span><b id="kme-secs">0</b></div>
     </div>
     <ul class="kme-log" id="kme-log"></ul>
     <p class="kme-foot">Es una demo: nada sale de tu navegador. En la web de un cliente, estos eventos llegarían a GA4, Meta y Google Ads con su consentimiento.</p>
@@ -835,151 +337,6 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   <button class="kme-btn" id="kme-btn" type="button" aria-expanded="false" aria-controls="kme-panel"><i class="dot"></i>Know me <span class="t" id="kme-count">1 evento</span></button>
 </div>
 
-<script>
-(function(){
-  function $(id){return document.getElementById(id);}
-  var CHECK='<svg class="i" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7"/></svg>';
-  var DOT='<i class="dot"></i>';
-
-  /* Menú móvil */
-  var nav=$('nav'), btn=$('menu-btn');
-  function setOpen(open){nav.classList.toggle('open',open);btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'Cerrar':'Menú';}
-  btn.addEventListener('click',function(){setOpen(!nav.classList.contains('open'));});
-  nav.addEventListener('click',function(e){if(e.target.closest('a'))setOpen(false);});
-
-  /* Tema claro / oscuro */
-  var root=document.documentElement, tb=$('theme-btn');
-  function currentTheme(){return root.getAttribute('data-theme')||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}
-  function applyTheme(t){root.setAttribute('data-theme',t);tb.setAttribute('aria-label',t==='dark'?'Cambiar a tema claro':'Cambiar a tema oscuro');}
-  try{var saved=localStorage.getItem('noumi-theme');if(saved==='dark'||saved==='light')applyTheme(saved);}catch(e){}
-  tb.setAttribute('aria-label',currentTheme()==='dark'?'Cambiar a tema claro':'Cambiar a tema oscuro');
-
-  /* Know me: tracking local de la visita */
-  var t0=Date.now(), events=[], seen={}, maxScroll=0, engaged=false, started=false;
-  var SECTIONS={inicio:'hero',manifiesto:'manifiesto',servicios:'servicios',soluciones:'soluciones',metodo:'metodo',medicion:'medicion',planes:'planes',knowme:'sobre_noumi',faq:'faq',reservar:'contacto'};
-  var total=Object.keys(SECTIONS).length;
-  function fmt(ms){var s=Math.floor(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
-  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function track(name,detail){events.push({n:name,d:detail||'',t:Date.now()-t0});render();}
-  function render(){
-    $('kme-log').innerHTML=events.slice(-8).reverse().map(function(e){return '<li><span class="tm">'+fmt(e.t)+'</span><span>'+esc(e.n)+'</span><span class="dt">'+esc(e.d)+'</span></li>';}).join('');
-    var last=events.slice(-4);
-    $('hero-ev').innerHTML=last.map(function(e,i){var isLast=i===last.length-1;return '<div'+(isLast?' class="hit"':'')+'><span>'+esc(e.n)+'</span>'+(isLast?DOT:CHECK)+'</div>';}).join('');
-    $('kme-count').textContent=events.length+(events.length===1?' evento':' eventos');
-    $('kme-secs').textContent=Object.keys(seen).length+'/'+total;
-  }
-  setInterval(function(){
-    var el=Date.now()-t0, txt=fmt(el);
-    $('kme-time').textContent=txt;$('hero-time').textContent=txt;
-    if(!engaged&&el>=30000){engaged=true;track('user_engagement','30 s');}
-  },1000);
-
-  var marks=[25,50,75,90];
-  function onScroll(){
-    var h=document.documentElement, max=h.scrollHeight-h.clientHeight;
-    var pct=max>0?Math.round(h.scrollTop/max*100):0;
-    if(pct>maxScroll){maxScroll=pct;$('kme-scroll').textContent=pct+'%';$('hero-scroll').textContent=pct+'%';}
-    while(marks.length&&maxScroll>=marks[0]){track('scroll_'+marks[0],'');marks.shift();}
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});
-
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        var id=en.target.id;
-        if(en.isIntersecting&&!seen[id]){seen[id]=true;track(id==='planes'?'view_pricing':'section_view',SECTIONS[id]);}
-      });
-    },{threshold:.3});
-    Object.keys(SECTIONS).forEach(function(id){var el=$(id);if(el)io.observe(el);});
-  }
-
-  document.addEventListener('click',function(e){
-    var a=e.target.closest('a,button');
-    if(!a||a.closest('#kme')||a.id==='menu-btn'||a.id==='theme-btn')return;
-    var label=(a.textContent||'').trim().slice(0,22);
-    if(a.closest('.goal'))track('select_solution',label);
-    else if(a.getAttribute('href')==='#reservar'||a.classList.contains('btn'))track('cta_click',label);
-    else if(a.closest('nav'))track('nav_click',label);
-  });
-  document.querySelectorAll('.faq details').forEach(function(d){
-    d.addEventListener('toggle',function(){if(d.open)track('faq_open',d.querySelector('summary').textContent.slice(0,22));});
-  });
-
-  tb.addEventListener('click',function(){
-    var t=currentTheme()==='dark'?'light':'dark';
-    applyTheme(t);
-    try{localStorage.setItem('noumi-theme',t);}catch(e){}
-    track('theme_change',t);
-  });
-
-  var form=$('discovery'), ok=$('form-ok');
-  form.addEventListener('focusin',function(){if(!started){started=true;track('form_start','discovery');}});
-  form.addEventListener('change',function(e){if(e.target.name==='goal')track('select_goal',e.target.value);});
-  var RULES=[
-    {key:'name',el:$('f-name'),msg:'Escribe tu nombre.',ok:function(el){return el.value.trim().length>1;}},
-    {key:'email',el:$('f-email'),msg:'Escribe un email válido, por ejemplo nombre@empresa.com.',ok:function(el){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim());}},
-    {key:'goal',el:form.querySelector('fieldset'),msg:'Elige si quieres vender online o conseguir clientes.',ok:function(){return !!form.querySelector('input[name="goal"]:checked');}},
-    {key:'budget',el:$('f-budget'),msg:'Elige cuánto inviertes al mes en publicidad.',ok:function(el){return !!el.value;}},
-    {key:'ticket',el:$('f-ticket'),msg:'Elige el ticket medio o el valor de un cliente.',ok:function(el){return !!el.value;}}
-  ];
-  RULES.forEach(function(r){
-    var p=document.createElement('p'); p.className='err'; p.id='err-'+r.key; p.hidden=true;
-    (r.key==='goal'?r.el:r.el.parentNode).appendChild(p); r.err=p;
-    var targets=r.key==='goal'?r.el.querySelectorAll('input'):[r.el];
-    [].forEach.call(targets,function(t){t.setAttribute('aria-describedby',p.id);});
-  });
-  function check(r){
-    var valid=r.ok(r.el);
-    r.err.hidden=valid; r.err.textContent=valid?'':r.msg;
-    if(r.key==='goal') r.el.classList.toggle('invalid',!valid); else r.el.setAttribute('aria-invalid',valid?'false':'true');
-    return valid;
-  }
-  RULES.forEach(function(r){
-    var ev=r.key==='goal'||r.el.tagName==='SELECT'?'change':'blur';
-    r.el.addEventListener(ev,function(){ if(r.touched||!r.err.hidden) check(r); },true);
-    r.el.addEventListener('input',function(){ if(!r.err.hidden) check(r); });
-    r.el.addEventListener('focusout',function(){ r.touched=true; },true);
-  });
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var bad=RULES.filter(function(r){return !check(r);});
-    if(bad.length){
-      ok.hidden=true;
-      var f=bad[0].key==='goal'?bad[0].el.querySelector('input'):bad[0].el; f.focus();
-      track('form_error',bad.map(function(r){return r.key;}).join(','));
-      return;
-    }
-    ok.hidden=false;
-    var g=form.querySelector('input[name="goal"]:checked');
-    track('generate_lead',g?g.value:'');
-  });
-
-  /* Las tarjetas de soluciones preseleccionan el objetivo en el formulario */
-  document.querySelectorAll('a[data-goal]').forEach(function(a){
-    a.addEventListener('click',function(){
-      var r=$('f-goal-'+a.getAttribute('data-goal'));
-      if(r){r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}
-    });
-  });
-
-  /* Menú: marca la sección que está en pantalla */
-  if('IntersectionObserver' in window){
-    var navLinks=[].slice.call(nav.querySelectorAll('a[href^="#"]:not(.nav-cta)'));
-    var spy=new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(!en.isIntersecting) return;
-        navLinks.forEach(function(l){ if(l.getAttribute('href')==='#'+en.target.id) l.setAttribute('aria-current','true'); else l.removeAttribute('aria-current'); });
-      });
-    },{rootMargin:'-45% 0px -50% 0px'});
-    navLinks.forEach(function(l){var t=document.querySelector(l.getAttribute('href')); if(t) spy.observe(t);});
-  }
-
-  var kb=$('kme-btn'), kp=$('kme-panel');
-  kb.addEventListener('click',function(){var open=kp.hidden;kp.hidden=!open;kb.setAttribute('aria-expanded',open?'true':'false');});
-
-  track('page_view','/');
-  onScroll();
-})();
-</script>
+<script src="js/noumi.js"></script>
 </body>
 </html>
