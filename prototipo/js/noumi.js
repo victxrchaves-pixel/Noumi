@@ -121,10 +121,10 @@
     var RULES=[
       {key:'name',el:$('f-name'),msg:'Escribe tu nombre.',ok:function(el){return el.value.trim().length>1;}},
       {key:'email',el:$('f-email'),msg:'Escribe un email válido, por ejemplo nombre@empresa.com.',ok:function(el){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim());}},
-      {key:'goal',el:form.querySelector('fieldset'),msg:'Elige si quieres vender online o conseguir clientes.',ok:function(){return !!form.querySelector('input[name="goal"]:checked');}},
+      {key:'goal',el:form.querySelector('fieldset.goal-field'),msg:'Elige si quieres vender online o conseguir clientes.',ok:function(){return !!form.querySelector('input[name="goal"]:checked');}},
       {key:'budget',el:$('f-budget'),msg:'Elige cuánto inviertes al mes en publicidad.',ok:function(el){return !!el.value;}},
       {key:'ticket',el:$('f-ticket'),msg:'Elige el ticket medio o el valor de un cliente.',ok:function(el){return !!el.value;}}
-    ];
+    ].filter(function(r){return !!r.el;});
     RULES.forEach(function(r){
       var p=document.createElement('p'); p.className='err'; p.id='err-'+r.key; p.hidden=true;
       (r.key==='goal'?r.el:r.el.parentNode).appendChild(p); r.err=p;
@@ -153,7 +153,7 @@
         return;
       }
       ok.hidden=false;
-      var g=form.querySelector('input[name="goal"]:checked');
+      var g=form.querySelector('input[name="goal"]:checked')||form.querySelector('input[name="goal"][type="hidden"]');
       track('generate_lead',g?g.value:'');
     });
   }
