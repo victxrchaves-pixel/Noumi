@@ -101,6 +101,12 @@
       var i=tabs.findIndex(function(t){return t.classList.contains('is-active');});
       show((i+1)%tabs.length,false);
     });
+    var pb=$('s3-pause');
+    if(pb) pb.addEventListener('click',function(){
+      var p=!s3.classList.contains('paused');
+      s3.classList.toggle('paused',p); pb.setAttribute('aria-pressed',p?'true':'false');
+      pb.querySelector('span').textContent=p?'Reanudar pasos':'Pausar pasos';
+    });
     s3.addEventListener('mouseenter',function(){s3.classList.add('hold');});
     s3.addEventListener('mouseleave',function(){s3.classList.remove('hold');});
     s3.addEventListener('focusin',function(){s3.classList.add('hold');});
