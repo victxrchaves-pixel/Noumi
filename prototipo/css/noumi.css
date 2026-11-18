@@ -217,7 +217,6 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .goal{position:relative;border-radius:var(--r-panel);padding:36px;display:flex;flex-direction:column;gap:14px;text-decoration:none;min-width:0;background:var(--surface);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
 .goal:hover{transform:translateY(-2px)}
 .goal-l{background:var(--inv);color:var(--on-inv)}
-.g-feed{display:grid;gap:8px;margin-bottom:14px}
 .g-note{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--raised);box-shadow:var(--elev);font-size:14px;line-height:1.3;min-width:0}
 .goal-l .g-note{background:var(--inv-2);box-shadow:none}
 .g-note > span:nth-child(2){min-width:0}
