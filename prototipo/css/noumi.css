@@ -192,28 +192,25 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 
 .chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
 .chips li{font-size:12.5px;padding:6px 11px;border-radius:999px;background:var(--raised);color:var(--fg-2)}
+.tests{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tests figure{margin:0;display:grid;gap:8px;min-width:0}
+.tests .t-img{aspect-ratio:16/9;border-radius:10px;background-size:cover;background-position:center}
+.tests figure:nth-child(3) .t-img{box-shadow:0 0 0 2px var(--lime)}
+.tests figcaption{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12.5px;color:var(--muted)}
+.tests em{font-style:normal;font-size:11.5px;background:var(--fg);color:var(--bg);padding:2px 8px;border-radius:999px}
 .browser{background:var(--surface-2);padding:22px 22px 0}
-.browser .bw{background:var(--raised);border-radius:10px 10px 0 0;padding:12px 14px 22px;box-shadow:var(--elev)}
-.browser .dots{display:flex;gap:5px;margin-bottom:16px}
+.browser .bw{background:var(--raised);border-radius:10px 10px 0 0;padding:10px 10px 0;box-shadow:var(--elev)}
+.browser .dots{display:flex;gap:5px;margin:2px 4px 10px}
 .browser .dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
-.browser .hl{height:13px;width:72%;border-radius:4px;background:var(--fg);margin-bottom:8px}
-.browser .hl2{height:13px;width:48%;border-radius:4px;background:var(--ghost);margin-bottom:16px}
-.browser .ln{height:6px;border-radius:3px;background:var(--line);margin-bottom:6px;width:86%}
-.browser .ln.s{width:62%}
-.browser .cta{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;font-weight:550;background:var(--lime);color:var(--on-lime);padding:7px 12px;border-radius:999px}
+.browser .shot{position:relative;border-radius:6px 6px 0 0;overflow:hidden}
+.browser .shot img{display:block;width:100%;height:auto}
+.browser .cta{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:550;background:var(--lime);color:var(--on-lime);padding:7px 12px;border-radius:999px;box-shadow:0 8px 20px -8px rgba(0,0,0,.45)}
 .browser .cta code{font-family:var(--f-mono);font-size:12px;font-weight:400;background:rgba(255,255,255,.75);padding:2px 6px;border-radius:999px}
 .evl{display:grid;gap:6px;font-family:var(--f-mono);font-size:12.5px}
 .evl div{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;background:var(--inv-line);color:#CDCFD8}
 .evl div span:last-child{color:var(--on-inv-muted)}
 .evl .hit{background:rgba(215,246,90,.14);color:var(--lime)}
 .evl .hit span:last-child{color:var(--lime)}
-.tests{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.tests div{border-radius:10px;height:96px;position:relative;padding:8px;font-size:12px;color:#111111}
-.tests div:nth-child(1){background:linear-gradient(140deg,#FFC8A8,#FF9E9E)}
-.tests div:nth-child(2){background:linear-gradient(140deg,#C9F0FF,#9DB8FF)}
-.tests div:nth-child(3){background:linear-gradient(140deg,#E8FFA8,#B9F06A);box-shadow:inset 0 0 0 2px #111111}
-.tests span{background:rgba(255,255,255,.82);padding:2px 7px;border-radius:999px}
-.tests em{position:absolute;right:8px;bottom:8px;font-style:normal;background:#111111;color:#FAFAFA;padding:2px 8px;border-radius:999px}
 
 /* Soluciones: las notificaciones van arriba, dentro del flujo de la tarjeta, sin huecos */
 .goals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
@@ -507,6 +504,8 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .s3-tab{cursor:default;padding:18px 4px 0;background:transparent!important}
   .s3-tab .s3-n{background:var(--fg);border-color:var(--fg);color:var(--bg)}
   .s3-bar,.s3-pause{display:none}
+  .tests{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:72%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
+  .tests figure{scroll-snap-align:start}
   .s3-panel{display:flex;animation:none;padding:24px;margin-bottom:12px}
 }
 @media (max-width:680px){
