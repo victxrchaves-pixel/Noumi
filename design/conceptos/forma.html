@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forma Studio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&display=swap">
+<style>
+:root{--bg:#EEF0FF;--ink:#0D0F2B;--blue:#2E46FF;--pink:#FF8FB1;--muted:#5B5F86;--card:#fff}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Space Grotesk",sans-serif}
+nav{display:flex;align-items:center;justify-content:space-between;padding:22px 64px}
+.logo{font-weight:700;font-size:24px;letter-spacing:-.04em;display:flex;align-items:center;gap:8px}
+.logo i{width:22px;height:22px;border-radius:50%;border:5px solid var(--blue)}
+nav ul{display:flex;gap:30px;list-style:none;padding:0;font-size:15px;font-weight:500}
+.nb{background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-weight:600;font-size:15px}
+.hero{position:relative;margin:8px 64px 0;border-radius:36px;background:var(--blue);color:#fff;padding:56px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;overflow:hidden;min-height:520px}
+.blob{position:absolute;right:-80px;top:-60px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#6C7DFF,transparent 65%)}
+.ring{position:absolute;right:120px;bottom:-140px;width:360px;height:360px;border-radius:50%;border:40px solid var(--pink);opacity:.9}
+h1{position:relative;font-size:96px;line-height:.92;letter-spacing:-.055em;font-weight:700}
+h1 em{font-style:normal;color:var(--pink)}
+.lead{position:relative;font-size:19px;line-height:1.5;opacity:.85;max-width:32ch;margin-top:22px}
+.ctas{position:relative;display:flex;gap:12px;margin-top:30px}
+.b1{background:#fff;color:var(--ink);padding:17px 26px;border-radius:999px;font-weight:700}
+.b2{border:1.5px solid rgba(255,255,255,.5);padding:16px 24px;border-radius:999px;font-weight:600}
+.sched{position:relative;align-self:end;background:var(--card);color:var(--ink);border-radius:26px;padding:22px}
+.sched h3{display:flex;justify-content:space-between;font-size:18px;letter-spacing:-.02em}
+.sched h3 small{font-size:13px;color:var(--muted);font-weight:500}
+.cl{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #E4E6F5;font-size:15px}
+.cl:first-of-type{border:0;margin-top:8px}
+.cl b{font-size:16px}
+.cl span{color:var(--muted);font-size:13px;display:block}
+.cl em{font-style:normal;font-size:13px;font-weight:700;padding:8px 12px;border-radius:999px;background:var(--bg);color:var(--blue)}
+.cl em.full{background:#F3F3F6;color:#A3A6BF}
+.cl em.go{background:var(--blue);color:#fff}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 64px}
+.p{background:#fff;border-radius:24px;padding:22px 24px;display:flex;justify-content:space-between;align-items:end}
+.p h4{font-size:18px}.p p{color:var(--muted);font-size:14px}
+.p b{font-size:30px;letter-spacing:-.04em}.p b small{font-size:14px;color:var(--muted);font-weight:500}
+.p.hot{background:var(--ink);color:#fff}.p.hot p,.p.hot b small{color:#A9ACD0}
+@media (max-width:700px){
+  nav{padding:16px 20px} nav ul{display:none} .nb{font-size:14px;padding:10px 16px}
+  .hero{margin:4px 14px 0;padding:28px 22px;grid-template-columns:1fr;border-radius:28px;min-height:0}
+  h1{font-size:54px} .lead{font-size:16px;margin-top:14px}
+  .ctas{margin-top:20px} .b1,.b2{padding:12px 16px;font-size:14px;white-space:nowrap}
+  .ring{width:220px;height:220px;border-width:26px;right:-60px;bottom:auto;top:200px}
+  .plans{grid-template-columns:1fr;margin:16px 14px}
+}
+</style></head><body>
+<nav><span class="logo"><i></i>forma</span><ul><li>Clases</li><li>Horarios</li><li>Tarifas</li><li>Estudio</li></ul><span class="nb">Clase de prueba</span></nav>
+<section class="hero">
+  <div class="blob"></div><div class="ring"></div>
+  <div>
+    <h1>Pilates que se <em>nota</em> en 4 semanas.</h1>
+    <p class="lead">Grupos de 6 personas con máquina reformer en Chamberí. Primera clase de prueba a 10 €.</p>
+    <div class="ctas"><span class="b1">Reservar prueba</span><span class="b2">Ver horarios</span></div>
+  </div>
+  <div class="sched">
+    <h3>Hoy, martes <small>Quedan plazas</small></h3>
+    <div class="cl"><b>08:00</b><div>Reformer inicial<span>Con Marta · 50 min</span></div><em class="full">Completa</em></div>
+    <div class="cl"><b>13:30</b><div>Reformer medio<span>Con Iván · 50 min</span></div><em>2 plazas</em></div>
+    <div class="cl"><b>19:00</b><div>Pilates suelo<span>Con Marta · 45 min</span></div><em class="go">Reservar</em></div>
+    <div class="cl"><b>20:15</b><div>Reformer avanzado<span>Con Iván · 50 min</span></div><em>4 plazas</em></div>
+  </div>
+</section>
+<section class="plans">
+  <div class="p"><div><h4>4 clases</h4><p>al mes</p></div><b>69 €<small>/mes</small></b></div>
+  <div class="p hot"><div><h4>8 clases</h4><p>al mes · la más elegida</p></div><b>119 €<small>/mes</small></b></div>
+  <div class="p"><div><h4>Ilimitado</h4><p>al mes</p></div><b>159 €<small>/mes</small></b></div>
+</section>
+</body></html>
