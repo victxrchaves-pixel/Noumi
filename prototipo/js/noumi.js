@@ -215,7 +215,8 @@
       im.decoding='async';
       im.onload=function(){
         gl.bindTexture(gl.TEXTURE_2D,t.tex);
-        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,im);
+        try{ gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,im); }
+        catch(err){ /* abierta como archivo local: el navegador no deja usar la imagen en WebGL */ canvas.remove(); cc.classList.add('cc-flat'); dead=true; return; }
         gl.generateMipmap(gl.TEXTURE_2D);
         gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
         gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
@@ -227,14 +228,14 @@
       return t;
     });
     /* Textos de cada tarjeta */
-    var caps=[];
+    var caps=[], layer=null;
     if(has('captions')){
-      var layer=document.createElement('div'); layer.className='cc-caps'; layer.setAttribute('aria-hidden','true'); stage.appendChild(layer);
+      layer=document.createElement('div'); layer.className='cc-caps'; layer.setAttribute('aria-hidden','true'); stage.appendChild(layer);
       for(var i=0;i<N;i++){ var f=src[i%M], c=document.createElement('div'); c.className='cc-cap';
         c.innerHTML='<b>'+esc(f.dataset.title||'')+'</b><span>'+esc(f.dataset.sub||'')+'</span>'; layer.appendChild(c); caps.push(c); }
     }
     var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var W=0,H=0,dpr=1,w=0,h=0,R=0,P=0,cy=0,unit=0,pos=0,target=null,hover=false,visible=true,drag=null,moved=false,holdUntil=0,last=0,shown=-1,dirty=true,bg=[0,0,0],ph=[.5,.5,.5],centers=[];
+    var dead=false,W=0,H=0,dpr=1,w=0,h=0,R=0,P=0,cy=0,unit=0,pos=0,target=null,hover=false,visible=true,drag=null,moved=false,holdUntil=0,last=0,shown=-1,dirty=true,bg=[0,0,0],ph=[.5,.5,.5],centers=[];
     var countEl=cc.querySelector('.cc-count b'), totalEl=cc.querySelector('.cc-count span');
     if(totalEl) totalEl.textContent=String(M).padStart(2,'0');
     function mod(a,n){return ((a%n)+n)%n;}
@@ -297,6 +298,7 @@
           pos+=cfg.speed*dt; dirty=true;
         }
       }
+      if(dead){ if(layer) layer.remove(); return; }
       if(dirty&&visible) draw();
       requestAnimationFrame(frame);
     }
