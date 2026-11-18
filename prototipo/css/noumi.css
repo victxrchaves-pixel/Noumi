@@ -506,6 +506,9 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .s3-bar,.s3-pause{display:none}
   .tests{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:72%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
   .tests figure{scroll-snap-align:start}
+  .browser{padding:14px 14px 0}
+  .browser .cta{right:8px;bottom:8px;gap:5px;font-size:10.5px;padding:4px 5px 4px 9px}
+  .browser .cta code{font-size:10px;padding:1px 5px}
   .s3-panel{display:flex;animation:none;padding:24px;margin-bottom:12px}
 }
 @media (max-width:680px){
