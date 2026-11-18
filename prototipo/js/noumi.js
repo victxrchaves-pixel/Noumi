@@ -200,7 +200,7 @@
         var x=R*Math.sin(a), z=R*(1-Math.cos(a));
         it.style.transform='translate3d('+x.toFixed(1)+'px,0,'+z.toFixed(1)+'px) rotateY('+(-a*180/Math.PI).toFixed(2)+'deg)';
         it.style.zIndex=String(100-Math.round(Math.abs(d)*10));
-        it.style.setProperty('--dim',Math.min(.55,Math.abs(d)*.32).toFixed(3));
+        it.style.setProperty('--dim',Math.min(.3,Math.abs(d)*.18).toFixed(3));
       });
       var cur=mod(Math.round(pos),N);
       if(cur!==lastShown&&cap){

@@ -478,48 +478,25 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .pain,.how article,.fit > div,.callout{padding:22px}
 }
 
-/* Diseño web: banda oscura con la galería de webs */
-.webs{--band:#111111;--band-card:#1C1C1C;--band-line:rgba(250,250,250,.1);background:var(--band);color:#FAFAFA;padding-block:120px;border-radius:40px;margin:0 max(8px,var(--gut-r)) 0 max(8px,var(--gut))}
-:root[data-theme="dark"] .webs{--band:#1A1A1A;--band-card:#232323}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .webs{--band:#1A1A1A;--band-card:#232323}}
-.webs .h2 .g{color:#8C8C8C}
+/* Diseño web: título, texto y botón; debajo, el carrusel cóncavo a todo el ancho */
+.webs{overflow:hidden}
 .webs-head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:end}
 .webs-side{display:grid;gap:24px;justify-items:start}
-.webs-side p{color:#B5B5B5;font-size:18px;line-height:1.55}
-.webs-pains{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.webs-pains li{display:flex;align-items:center;gap:12px;padding:16px 18px;border-radius:16px;background:var(--band-card);font-size:15.5px;line-height:1.3}
-.webs-pains svg{flex:none;width:26px;height:26px;padding:6px;border-radius:50%;background:rgba(255,138,128,.14);fill:none;stroke:#FF8A80;stroke-width:2;stroke-linecap:round}
-.webs-label{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:64px 0 20px;color:#B5B5B5;font-size:15px}
-.webs .tag-x{background:var(--lime);color:var(--on-lime);font-weight:600}
-.cc{position:relative;outline:none;user-select:none;-webkit-user-select:none}
+.webs-side p{color:var(--muted);font-size:18px;line-height:1.55}
+.cc{position:relative;margin-top:72px;outline:none;user-select:none;-webkit-user-select:none}
 .cc:focus-visible .cc-stage{outline:2px solid var(--lime);outline-offset:6px;border-radius:12px}
-.cc-stage{position:relative;overflow:hidden;cursor:grab;touch-action:pan-y;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.cc-stage{position:relative;overflow:hidden;cursor:grab;touch-action:pan-y}
 .cc.dragging .cc-stage{cursor:grabbing}
 .cc-track{position:absolute;inset:0;transform-style:preserve-3d}
-.cc-item{position:absolute;left:50%;top:50%;margin:0;overflow:hidden;background:#2A2A2A;backface-visibility:hidden;will-change:transform;box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.cc-item{position:absolute;left:50%;top:50%;margin:0;overflow:hidden;background:var(--surface);backface-visibility:hidden;will-change:transform;box-shadow:0 30px 60px -30px var(--shadow),0 0 0 1px var(--line)}
 .cc-item::after{content:"";position:absolute;inset:0;background:#000;opacity:var(--dim,0);pointer-events:none}
 .cc-item img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;pointer-events:none}
-.cc-foot{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:28px}
-.cc-cap{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;min-width:0;min-height:32px;text-align:center}
-.cc-cap b{font-family:var(--f-display);font-size:20px;font-weight:550;letter-spacing:-.02em;margin-right:4px}
-.cc-cap span{font-size:13px;padding:5px 11px;border-radius:999px;background:rgba(250,250,250,.08);color:#C9C9C9}
-.cc-btn{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid rgba(250,250,250,.18);background:transparent;color:#FAFAFA;cursor:pointer;transition:background-color .15s ease,transform .15s ease}
-.cc-btn:hover{background:rgba(250,250,250,.08)}
-.cc-btn:active{transform:scale(.94)}
-.cc-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-@media (max-width:680px){.cc-cap span:last-child{display:none}.cc-foot{gap:10px}}
-@media (max-width:1080px){
-  .webs-pains{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
 @media (max-width:900px){
-  .webs{padding-block:88px;border-radius:28px}
   .webs-head{grid-template-columns:minmax(0,1fr);gap:24px}
 }
 @media (max-width:680px){
-  .webs{margin-inline:0;border-radius:24px;padding-block:72px}
-  .webs-pains{grid-template-columns:minmax(0,1fr)}
+  .cc{margin-top:44px}
   .webs-side .btn{width:100%}
-  .webs-label{margin-top:44px}
 }
 
 /* Responsive */
