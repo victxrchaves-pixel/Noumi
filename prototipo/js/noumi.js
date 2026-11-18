@@ -247,7 +247,7 @@
       R=W*.52/cfg.curvature;            /* más curvatura, cilindro más cerrado */
       P=W*cfg.distance*.25;             /* distancia de la cámara */
       cy=h*.62;
-      H=Math.round(cy+h*.5+(has('captions')?96:24)+h*.12);
+      H=Math.round(cy+h*.5+(has('captions')?96:24)+(cfg.reflection>0?h*.12:0));
       stage.style.height=H+'px';
       dpr=Math.min(2,window.devicePixelRatio||1);
       canvas.width=Math.round(W*dpr); canvas.height=Math.round(H*dpr);
