@@ -152,7 +152,7 @@
   /* ---------- Componente ---------- */
   function Booking(root, opts){
     this.root=root; this.opts=opts||{}; this.id='bk'+(++uid);
-    this.data={goal:this.opts.goal||'', web:'', budget:'', ticket:'', message:'', name:'', email:'', phone:'', website:''};
+    this.data={goal:this.opts.goal||'', company:'', budget:'', ticket:'', web:'', social:'', message:'', name:'', lastName:'', phone:'', email:'', website:''};
     this.step=1; this.slots=null; this.loadError=false; this.day=null; this.slot=null; this.month=null; this.busy=false;
     this.started=false;
     root.classList.add('bk');
@@ -180,6 +180,7 @@
         '<li><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.8" y="4" width="8.6" height="8" rx="2"/><path d="M10.4 7l3.8-2v6l-3.8-2"/></svg>Google Meet</li>'+
         '<li><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M1.8 8h12.4M8 1.8c1.8 2 1.8 10.4 0 12.4M8 1.8c-1.8 2-1.8 10.4 0 12.4"/></svg>Hora de España</li>'+
       '</ul>'+ summary +
+      (s<4?'<p class="bk-demo"'+(DEMO?'':' hidden')+'>Vista de prueba: los horarios son de ejemplo y no se crea ninguna cita.</p>':'')+
       (s<4?'<ol class="bk-steps">'+steps.map(function(t,i){
         var n=i+1, st=n<s?'done':(n===s?'now':'');
         var mark='<span class="bk-sn">'+(n<s?'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>':n)+'</span>';
@@ -198,39 +199,68 @@
     else if(s===2) body=this.viewContact();
     else if(s===3) body=this.viewPick();
     else body=this.viewDone();
-    var demo=s<4?'<p class="bk-demo"'+(DEMO?'':' hidden')+'>Vista de prueba: los horarios son de ejemplo y no se crea ninguna cita.</p>':'';
-    this.root.innerHTML='<div class="bk-card">'+this.asideHtml()+'<div class="bk-main'+dir+'">'+body+demo+'</div></div>';
+    this.root.innerHTML='<div class="bk-card">'+this.asideHtml()+'<div class="bk-main'+dir+'">'+body+'</div></div>';
+  };
+
+  /* Un campo de texto con su etiqueta, ayuda y mensaje de error enlazados */
+  Booking.prototype.field=function(o){
+    var id=this.id+'-'+o.name, v=esc(this.data[o.name]||''), desc=[];
+    if(o.hint) desc.push(id+'-hint'); if(o.err) desc.push(id+'-err');
+    var attrs=' id="'+id+'" name="'+o.name+'"'+(o.type?' type="'+o.type+'"':'')+(o.ac?' autocomplete="'+o.ac+'"':'')+(o.im?' inputmode="'+o.im+'"':'')+
+      (o.ph?' placeholder="'+esc(o.ph)+'"':'')+(o.max?' maxlength="'+o.max+'"':'')+(desc.length?' aria-describedby="'+desc.join(' ')+'"':'');
+    var control=o.area?'<textarea'+attrs+' rows="3">'+v+'</textarea>':'<input'+attrs+' value="'+v+'">';
+    return '<div class="bk-field"><label for="'+id+'">'+o.label+(o.opt?' <span>('+o.opt+')</span>':'')+'</label>'+control+
+      (o.hint?'<p class="bk-hint" id="'+id+'-hint" data-hint="'+o.name+'">'+o.hint+'</p>':'')+
+      (o.err?'<p class="bk-err" id="'+id+'-err" data-err="'+o.name+'" hidden>'+o.err+'</p>':'')+'</div>';
+  };
+
+  Booking.prototype.ticketOptions=function(){
+    var d=this.data;
+    return '<option value="">Elige una opción</option>'+this.ticketSet().options.map(function(o){return '<option'+(d.ticket===o?' selected':'')+'>'+o+'</option>';}).join('');
+  };
+
+  // Al cambiar de objetivo solo cambian la etiqueta y las opciones del ticket: nada se vuelve a pintar ni salta
+  Booking.prototype.updateTicket=function(){
+    this.data.ticket='';
+    var lab=this.root.querySelector('[data-ticket-label]'), sel=this.root.querySelector('select[name="ticket"]');
+    if(lab) lab.textContent=this.ticketSet().label;
+    if(sel) sel.innerHTML=this.ticketOptions();
   };
 
   Booking.prototype.viewSurvey=function(){
-    var d=this.data, id=this.id, ts=this.ticketSet();
+    var d=this.data, id=this.id;
     return '<form class="bk-form" data-step="1" novalidate>'+
       '<h3 class="bk-h">Sobre tu negocio</h3>'+
       '<fieldset class="bk-field"><legend>¿Qué necesitas?</legend><div class="bk-goals">'+
-        GOALS.map(function(g){ return '<label class="bk-goal"><input type="radio" name="goal" value="'+g.v+'"'+(d.goal===g.v?' checked':'')+' aria-describedby="'+id+'-err-goal"><span><b>'+g.t+'</b><em>'+g.s+'</em></span></label>'; }).join('')+
-      '</div><p class="bk-err" id="'+id+'-err-goal" data-err="goal" hidden>Elige qué necesitas.</p></fieldset>'+
+        GOALS.map(function(g){ return '<label class="bk-goal"><input type="radio" name="goal" value="'+g.v+'"'+(d.goal===g.v?' checked':'')+' aria-describedby="'+id+'-goal-err"><span><b>'+g.t+'</b><em>'+g.s+'</em></span></label>'; }).join('')+
+      '</div><p class="bk-err" id="'+id+'-goal-err" data-err="goal" hidden>Elige qué necesitas.</p></fieldset>'+
+      this.field({name:'company', label:'Nombre de tu empresa o marca', ac:'organization', max:120, err:'Escribe el nombre de tu empresa, marca o proyecto.'})+
       '<div class="bk-row">'+
-        '<div class="bk-field"><label for="'+id+'-budget">Inversión mensual en publicidad</label><select id="'+id+'-budget" name="budget" aria-describedby="'+id+'-err-budget"><option value="">Elige una opción</option>'+
-          BUDGETS.map(function(o){return '<option'+(d.budget===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><p class="bk-err" id="'+id+'-err-budget" data-err="budget" hidden>Elige cuánto inviertes al mes.</p></div>'+
-        '<div class="bk-field"><label for="'+id+'-ticket">'+ts.label+'</label><select id="'+id+'-ticket" name="ticket" aria-describedby="'+id+'-err-ticket"><option value="">Elige una opción</option>'+
-          ts.options.map(function(o){return '<option'+(d.ticket===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><p class="bk-err" id="'+id+'-err-ticket" data-err="ticket" hidden>Elige una opción.</p></div>'+
+        '<div class="bk-field"><label for="'+id+'-budget">Inversión mensual en publicidad</label><select id="'+id+'-budget" name="budget" aria-describedby="'+id+'-budget-err"><option value="">Elige una opción</option>'+
+          BUDGETS.map(function(o){return '<option'+(d.budget===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><p class="bk-err" id="'+id+'-budget-err" data-err="budget" hidden>Elige cuánto inviertes al mes.</p></div>'+
+        '<div class="bk-field"><label for="'+id+'-ticket" data-ticket-label>'+this.ticketSet().label+'</label><select id="'+id+'-ticket" name="ticket" aria-describedby="'+id+'-ticket-err">'+this.ticketOptions()+'</select><p class="bk-err" id="'+id+'-ticket-err" data-err="ticket" hidden>Elige una opción.</p></div>'+
       '</div>'+
-      '<div class="bk-field"><label for="'+id+'-web">Web actual <span>(si tienes)</span></label><input id="'+id+'-web" name="web" autocomplete="url" placeholder="tuweb.com" value="'+esc(d.web)+'"></div>'+
-      '<div class="bk-field"><label for="'+id+'-msg">¿Qué te preocupa ahora mismo? <span>(opcional)</span></label><textarea id="'+id+'-msg" name="message" rows="2" maxlength="2000">'+esc(d.message)+'</textarea></div>'+
+      '<div class="bk-row">'+
+        this.field({name:'web', label:'Web actual', opt:'si tienes', ac:'url', ph:'tuweb.com', max:200})+
+        this.field({name:'social', label:'Red social', opt:'si tienes', ph:'@tumarca', max:200})+
+      '</div>'+
+      this.field({name:'message', label:'¿Qué te preocupa ahora mismo?', opt:'opcional', area:true, max:2000})+
       '<div class="bk-foot"><small>Te lleva menos de un minuto.</small><button class="btn btn-primary" type="submit">Continuar '+ARROW+'</button></div>'+
     '</form>';
   };
 
   Booking.prototype.viewContact=function(){
-    var d=this.data, id=this.id;
     return '<form class="bk-form" data-step="2" novalidate>'+
       '<button class="bk-back" type="button" data-go="1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>Atrás</button>'+
       '<h3 class="bk-h">Tus datos de contacto</h3>'+
       '<div class="bk-row">'+
-        '<div class="bk-field"><label for="'+id+'-name">Nombre</label><input id="'+id+'-name" name="name" autocomplete="name" value="'+esc(d.name)+'" aria-describedby="'+id+'-err-name"><p class="bk-err" id="'+id+'-err-name" data-err="name" hidden>Escribe tu nombre.</p></div>'+
-        '<div class="bk-field"><label for="'+id+'-email">Email</label><input id="'+id+'-email" name="email" type="email" autocomplete="email" value="'+esc(d.email)+'" aria-describedby="'+id+'-err-email"><p class="bk-err" id="'+id+'-err-email" data-err="email" hidden>Escribe un email válido, por ejemplo nombre@empresa.com.</p></div>'+
+        this.field({name:'name', label:'Nombre', ac:'given-name', max:60, err:'Escribe tu nombre.'})+
+        this.field({name:'lastName', label:'Apellidos', ac:'family-name', max:80, err:'Escribe tus apellidos.'})+
       '</div>'+
-      '<div class="bk-field"><label for="'+id+'-phone">Teléfono</label><input id="'+id+'-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="612 345 678" value="'+esc(d.phone)+'" aria-describedby="'+id+'-hint-phone '+id+'-err-phone"><p class="bk-hint" id="'+id+'-hint-phone" data-hint="phone">Si no es un número español, añade el prefijo de tu país (+33, +52…).</p><p class="bk-err" id="'+id+'-err-phone" data-err="phone" hidden>Revisa el teléfono: no parece un número válido. Si no es español, añade el prefijo de tu país.</p></div>'+
+      '<div class="bk-row">'+
+        this.field({name:'phone', label:'Teléfono', type:'tel', im:'tel', ac:'tel', ph:'612 345 678', max:30, hint:'Si no es español, añade el prefijo (+33, +52…).', err:'Revisa el teléfono. Si no es español, añade el prefijo de tu país.'})+
+        this.field({name:'email', label:'Email', type:'email', ac:'email', max:200, err:'Escribe un email válido, por ejemplo nombre@empresa.com.'})+
+      '</div>'+
       // Campo trampa para robots: invisible para personas y lectores de pantalla
       '<input class="bk-trap" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">'+
       '<div class="bk-foot"><small>Usamos tus datos solo para preparar la llamada.</small><button class="btn btn-primary" type="submit">Elegir día y hora '+ARROW+'</button></div>'+
@@ -328,12 +358,16 @@
   Booking.prototype.go=function(step, focus){
     this.step=step; this.err=null; this.render();
     measure('booking_step',{step:['','encuesta','contacto','dia_hora','reservada'][step]});
-    var t=this.root.querySelector('.bk-h'); if(t&&focus!==false){ t.setAttribute('tabindex','-1'); t.focus({preventScroll:false}); }
+    var t=this.root.querySelector('.bk-h'); if(!t||focus===false) return;
+    t.setAttribute('tabindex','-1'); t.focus({preventScroll:true});
+    // Cada paso empieza arriba: en el pop-up se sube su desplazamiento; en la página, solo si el título no se ve
+    var sc=this.root.closest('.bk-slot'); if(sc) sc.scrollTop=0;
+    else if(t.getBoundingClientRect().top<90) this.root.scrollIntoView({block:'start',behavior:'smooth'});
   };
 
   Booking.prototype.onInput=function(el){
     if(!el.name||!(el.name in this.data)) return;
-    if(el.type==='radio'){ if(el.checked){ this.data[el.name]=el.value; if(el.name==='goal'){ this.data.ticket=''; this.render(); var r=this.root.querySelector('input[name="goal"][value="'+el.value+'"]'); if(r) r.focus(); } } }
+    if(el.type==='radio'){ if(el.checked){ this.data[el.name]=el.value; if(el.name==='goal') this.updateTicket(); } }
     else this.data[el.name]=el.value;
     var e=this.root.querySelector('[data-err="'+el.name+'"]'); if(e&&!e.hidden) this.check(el.name);
   };
@@ -341,7 +375,8 @@
   Booking.prototype.check=function(key){
     var d=this.data, ok=true;
     if(key==='goal') ok=!!d.goal;
-    else if(key==='budget'||key==='ticket'||key==='name') ok=String(d[key]).trim().length>(key==='name'?1:0);
+    else if(key==='budget'||key==='ticket') ok=!!String(d[key]).trim();
+    else if(key==='name'||key==='lastName'||key==='company') ok=String(d[key]).trim().length>1;
     else if(key==='email') ok=EMAIL_RE.test(d.email.trim());
     else if(key==='phone') ok=phoneOk(d.phone);
     var e=this.root.querySelector('[data-err="'+key+'"]'); if(e) e.hidden=ok;
@@ -351,7 +386,7 @@
   };
 
   Booking.prototype.onSubmit=function(form){
-    var self=this, keys=form.getAttribute('data-step')==='1'?['goal','budget','ticket']:['name','email','phone'];
+    var self=this, keys=form.getAttribute('data-step')==='1'?['goal','company','budget','ticket']:['name','lastName','phone','email'];
     [].forEach.call(form.elements,function(el){ if(el.name&&el.name in self.data&&el.type!=='radio') self.data[el.name]=el.value; });
     var bad=keys.filter(function(k){ return !self.check(k); });
     if(bad.length){ var f=form.querySelector('[name="'+bad[0]+'"]'); if(f) f.focus(); measure('booking_error',{step:bad.join(',')}); return; }
@@ -373,7 +408,7 @@
     if(d.website){ return; }   // robot
     this.busy=true; this.refreshPick(false);
     var payload={start:this.slot, duration:RULES.duration, goal:d.goal, web:d.web, budget:d.budget, ticket:d.ticket, message:d.message,
-      name:d.name.trim(), email:d.email.trim(), phone:d.phone.trim(), website:d.website, source:this.opts.source||location.pathname};
+      company:d.company.trim(), social:d.social.trim(), name:d.name.trim(), lastName:d.lastName.trim(), email:d.email.trim(), phone:d.phone.trim(), website:d.website, source:this.opts.source||location.pathname};
     BookingAPI.book(payload).then(function(r){
       if(!r||!r.ok) throw r;
       self.busy=false; measureLead(r.eventId, d.goal); self.go(4);

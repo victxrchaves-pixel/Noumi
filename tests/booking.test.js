@@ -98,7 +98,10 @@ async function validBody() {
   return {
     start: slots[2],
     duration: 30,
-    name: "Ana Pérez",
+    name: "Ana",
+    lastName: "Pérez Gil",
+    company: "Clínica Ana",
+    social: "@clinicaana",
     email: "ana@ejemplo.com",
     phone: "612 345 678",
     goal: "leads",
@@ -120,11 +123,12 @@ test("POST /api/booking crea el evento con Meet y las respuestas de la encuesta"
   assert.equal(res.body.eventId, "evt123");
   const ev = inserted[0];
   assert.equal(ev.summary, "Llamada con Noumi Consultant");
-  assert.ok(ev.description.includes("Nombre: Ana Pérez"));
+  assert.ok(ev.description.includes("Nombre: Ana Pérez Gil"));
+  assert.equal(ev.attendees[0].displayName, "Ana Pérez Gil");
   assert.equal(ev.attendees[0].email, "ana@ejemplo.com");
   assert.equal(ev.conferenceData.createRequest.conferenceSolutionKey.type, "hangoutsMeet");
   assert.equal(Date.parse(ev.end.dateTime) - Date.parse(ev.start.dateTime), 30 * 60_000);
-  for (const part of ["+34 612 34 56 78", "Lead Generation", "De 1.000 a 3.000 €", "De 200 a 1.000 €", "anaclinica.es", "Me llegan leads que no contestan.", "(home)"]) {
+  for (const part of ["+34 612 34 56 78", "Lead Generation", "De 1.000 a 3.000 €", "De 200 a 1.000 €", "anaclinica.es", "Empresa o marca: Clínica Ana", "Red social: @clinicaana", "Me llegan leads que no contestan.", "(home)"]) {
     assert.ok(ev.description.includes(part), "falta en la descripción: " + part);
   }
 });
@@ -141,7 +145,7 @@ test("rechaza teléfonos de relleno o inválidos", async () => {
 
 test("rechaza campos que faltan, objetivos desconocidos y otra duración", async () => {
   const base = await validBody();
-  for (const patch of [{ name: "" }, { email: "ana@" }, { goal: "otro" }, { budget: "" }, { ticket: "" }, { duration: 60 }, { start: "" }]) {
+  for (const patch of [{ name: "" }, { lastName: "" }, { company: "" }, { email: "ana@" }, { goal: "otro" }, { budget: "" }, { ticket: "" }, { duration: 60 }, { start: "" }]) {
     const res = mockRes();
     await bookHandler({ method: "POST", body: { ...base, ...patch } }, res);
     assert.equal(res.statusCode, 400, JSON.stringify(patch));

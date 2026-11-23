@@ -139,14 +139,16 @@ function describe(input) {
   const lines = [
     "Llamada de descubrimiento de 30 minutos por Google Meet.",
     "",
-    `Nombre: ${input.name}`,
+    `Nombre: ${input.name} ${input.lastName}`,
     `Email: ${input.email}`,
     `Teléfono: ${input.phone}`,
     "",
+    `Empresa o marca: ${input.company}`,
     `Qué necesita: ${GOALS[input.goal]}`,
     `Inversión mensual en publicidad: ${input.budget}`,
     `Ticket medio o valor de un cliente: ${input.ticket}`,
     `Web: ${input.web || "No tiene o no la ha indicado"}`,
+    `Red social: ${input.social || "No la ha indicado"}`,
   ];
   if (input.message) lines.push("", "Qué le preocupa:", input.message);
   lines.push("", `Reservado desde la web de Noumi Consultant (${input.source || "web"}).`);
@@ -167,7 +169,7 @@ export async function createBooking(input) {
       description: describe(input),
       start: { dateTime: start.toISOString(), timeZone: RULES.timeZone },
       end: { dateTime: end.toISOString(), timeZone: RULES.timeZone },
-      attendees: [{ email: input.email, displayName: input.name }],
+      attendees: [{ email: input.email, displayName: `${input.name} ${input.lastName}` }],
       conferenceData: { createRequest: { requestId: crypto.randomUUID(), conferenceSolutionKey: { type: "hangoutsMeet" } } },
       reminders: { useDefault: true },
     }

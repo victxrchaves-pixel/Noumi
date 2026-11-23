@@ -17,7 +17,10 @@ export default async function handler(req, res) {
 
   const input = {
     start: text(body.start, 40),
-    name: text(body.name, 100),
+    name: text(body.name, 60),
+    lastName: text(body.lastName, 80),
+    company: text(body.company, 120),
+    social: text(body.social, 200),
     email: text(body.email, 200),
     goal: text(body.goal, 20),
     budget: text(body.budget, 60),
@@ -31,6 +34,8 @@ export default async function handler(req, res) {
     Number(body.duration) !== DURATION ||
     !input.start ||
     input.name.length < 2 ||
+    input.lastName.length < 2 ||
+    input.company.length < 2 ||
     !EMAIL_RE.test(input.email) ||
     !GOALS[input.goal] ||
     !input.budget ||
