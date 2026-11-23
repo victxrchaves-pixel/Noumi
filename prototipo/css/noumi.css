@@ -542,6 +542,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .bk-tip{font-size:13px;color:var(--muted)}
 .bk-alert{padding:10px 14px;border-radius:12px;background:var(--raised);border:1px solid var(--danger);color:var(--danger);font-size:14px}
 .bk-empty{display:grid;gap:14px;justify-items:start;padding:20px;border-radius:14px;background:var(--raised);color:var(--muted);font-size:15px}
+.bk-empty a{color:var(--fg);font-weight:600}
 .bk-skel{min-height:290px;border-radius:14px;background:var(--raised);animation:bkpulse 1.2s ease-in-out infinite}
 .bk-skel-row{display:block;height:42px;border-radius:10px;background:var(--raised);animation:bkpulse 1.2s ease-in-out infinite}
 @keyframes bkpulse{50%{opacity:.5}}

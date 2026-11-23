@@ -14,6 +14,8 @@
   var DEMO = true;
 
   /* Mismas reglas que lib/booking.ts del calendario de reservas */
+  var CONTACT_EMAIL = 'noumiconsultant@gmail.com';   // cuenta de Google que recibe las citas
+
   var RULES = {
     timeZone: 'Europe/Madrid',
     duration: 30,          // minutos
@@ -208,10 +210,10 @@
     var self=this;
     if(!this.slots && !this.loadError){ this.load(); }
     var head='<button class="bk-back" type="button" data-go="2"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>Atrás</button><h3 class="bk-h">Elige día y hora</h3>';
-    if(this.loadError) return head+'<div class="bk-empty">No se pueden cargar los horarios ahora mismo.<button class="btn btn-soft" type="button" data-retry>Reintentar</button></div>';
+    if(this.loadError) return head+'<div class="bk-empty"><span>No se pueden cargar los horarios ahora mismo. Vuelve a intentarlo o escríbenos a <a href="mailto:'+CONTACT_EMAIL+'">'+CONTACT_EMAIL+'</a>.</span><button class="btn btn-soft" type="button" data-retry>Reintentar</button></div>';
     if(!this.slots) return head+'<div class="bk-pick" aria-busy="true"><div class="bk-cal bk-skel"></div><div class="bk-times">'+'<span class="bk-skel-row"></span>'.repeat(5)+'</div></div>';
     var byDay=this.byDay(), days=Object.keys(byDay);
-    if(!days.length) return head+'<div class="bk-empty">No quedan huecos libres en los próximos días. Escríbenos y buscamos una hora.</div>';
+    if(!days.length) return head+'<div class="bk-empty"><span>No quedan huecos libres en los próximos días. Escríbenos a <a href="mailto:'+CONTACT_EMAIL+'">'+CONTACT_EMAIL+'</a> y buscamos una hora.</span></div>';
     if(!this.day||!byDay[this.day]) this.day=days[0];
     var first=days[0].split('-').map(Number), last=days[days.length-1].split('-').map(Number);
     var minM={y:first[0],m:first[1]-1}, maxM={y:last[0],m:last[1]-1};
@@ -323,7 +325,7 @@
     }).catch(function(r){
       self.busy=false;
       if(r&&r.status===409){ self.err='Esa hora se acaba de ocupar. Elige otra, por favor.'; self.slot=null; self.slots=null; }
-      else self.err='No se ha podido completar la reserva. Inténtalo de nuevo en unos segundos.';
+      else self.err='No se ha podido completar la reserva. Inténtalo de nuevo en unos segundos o escríbenos a '+CONTACT_EMAIL+'.';
       self.render();
     });
   };

@@ -2,6 +2,12 @@
 
 El calendario de reservas de la web: un flujo de tres pasos que termina en una cita de 30 minutos en Google Calendar con enlace de Google Meet.
 
+## Cuenta
+
+Las citas llegan al Google Calendar de **noumiconsultant@gmail.com**. Esa misma cuenta de Google es la que se usa para crear el proyecto en Google Cloud y autorizar la conexión. Como es una @gmail.com (no Google Workspace), en la pantalla de permisos hay que elegir **Externo** y después **publicar la app** para dejarla "En producción"; si se queda en "Prueba", la conexión caduca a los 7 días y las reservas dejan de funcionar sin avisar.
+
+Las invitaciones de Google Meet salen de esa cuenta, y es también el correo de contacto que muestra el calendario si no carga o no quedan horas.
+
 ## Dónde aparece
 
 | Sitio | Cómo |
@@ -45,7 +51,7 @@ El código de servidor original está en `referencia/calendario-reservas/` (lo q
 
    En `lib/booking.ts` hay que cambiar `minNoticeHours: 4` por la regla "a partir de mañana", dejar solo la duración de 30 minutos, poner el título y la descripción con el dominio de Noumi, y añadir al evento las respuestas de la encuesta (objetivo, inversión, ticket, web, qué le preocupa, página de origen).
 2. **Navegador.** En `booking.js`: `DEMO = false` y sustituir `BookingAPI.slots` y `BookingAPI.book` por las llamadas que ya están escritas en los comentarios. Nada más cambia.
-3. **Google Cloud.** Seguir los pasos 5 y 6 de `referencia/calendario-reservas/LEEME.md` con la cuenta que recibirá las citas (con una @gmail.com hay que publicar la app en "En producción" para que la conexión no caduque cada 7 días).
+3. **Google Cloud.** Seguir los pasos 5 y 6 de `referencia/calendario-reservas/LEEME.md` iniciando sesión con noumiconsultant@gmail.com (audiencia Externo y app publicada "En producción").
 4. **Variables de entorno en Vercel**: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` y `GOOGLE_REFRESH_TOKEN`. Nunca en el repositorio.
 5. **Probar** una reserva real con otro correo propio y borrar el evento después.
 
