@@ -231,8 +231,8 @@
 <div class="contact-band" id="reservar" data-section="contacto">
   <section class="contact">
     <div class="intro">
-      <h2 class="h2">Cuéntanos tu negocio en 20 minutos.</h2>
-      <p>Rellena esto y elige hora. Así llegamos a la llamada con tus datos ya revisados.</p>
+      <h2 class="h2">Cuéntanos tu negocio en 30 minutos.</h2>
+      <p>Responde unas preguntas, deja tus datos y elige hora. Así llegamos a la llamada con tus números ya revisados.</p>
       <ol class="call-steps">
         <li><span class="n">1</span><span><strong>Revisamos tus números</strong>Objetivo, ticket medio, márgenes e inversión actual.</span></li>
         <li><span class="n">2</span><span><strong>Te damos un diagnóstico</strong>Qué está frenando tus ventas o tus leads.</span></li>
@@ -240,37 +240,7 @@
       </ol>
     </div>
 
-    <form class="form" id="discovery" novalidate>
-      <div class="field"><label for="f-name">Nombre</label><input id="f-name" name="name" autocomplete="name" required></div>
-      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
-      <div class="field full"><label for="f-web">Web actual <span>(si tienes)</span></label><input id="f-web" name="web" autocomplete="url" placeholder="tuweb.com"></div>
-      <fieldset class="field full goal-field">
-        <legend>¿Cuál es tu objetivo?</legend>
-        <div class="radios">
-          <label class="radio"><input type="radio" id="f-goal-commerce" name="goal" value="commerce" required><span>Vender productos online<em>E-Commerce Growth</em></span></label>
-          <label class="radio"><input type="radio" id="f-goal-leads" name="goal" value="leads"><span>Conseguir clientes para un servicio<em>Lead Generation</em></span></label>
-          <label class="radio"><input type="radio" id="f-goal-web" name="goal" value="web"><span>Una web nueva o mejor<em>Diseño web</em></span></label>
-        </div>
-      </fieldset>
-      <div class="field">
-        <label for="f-budget">Inversión mensual en publicidad</label>
-        <select id="f-budget" name="budget" required>
-          <option value="">Elige una opción</option><option>Aún no invierto</option><option>Menos de 1.000 €</option><option>De 1.000 a 3.000 €</option><option>De 3.000 a 10.000 €</option><option>Más de 10.000 €</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="f-ticket">Ticket medio o valor de un cliente</label>
-        <select id="f-ticket" name="ticket" required>
-          <option value="">Elige una opción</option><option>Menos de 50 €</option><option>De 50 a 200 €</option><option>De 200 a 1.000 €</option><option>Más de 1.000 €</option>
-        </select>
-      </div>
-      <div class="field full"><label for="f-msg">¿Qué te preocupa ahora mismo? <span>(opcional)</span></label><textarea id="f-msg" name="message" rows="3"></textarea></div>
-      <div class="form-foot">
-        <small>Usamos tus datos solo para preparar la llamada.</small>
-        <button class="btn btn-primary" type="submit">Elegir hora <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></button>
-      </div>
-      <p class="form-ok" id="form-ok" role="status" hidden>Prototipo: en la web final, aquí se abre el calendario para elegir la hora de la llamada.</p>
-    </form>
+    <div class="contact-booking" data-booking data-source="home"></div>
   </section>
 </div>
 
@@ -308,5 +278,6 @@
 </div>
 
 <script src="js/noumi.js"></script>
+<script src="js/booking.js"></script>
 </body>
 </html>

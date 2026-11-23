@@ -51,7 +51,7 @@
         <a class="btn btn-soft" href="#como">Ver cómo funciona</a>
       </div>
       <ul class="lp-trust">
-        <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Llamada de 20 minutos</li>
+        <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Llamada de 30 minutos</li>
         <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Sin compromiso</li>
         <li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Sales con un diagnóstico de tu tienda</li>
       </ul>
@@ -159,7 +159,7 @@
       <p class="sub">Sin compromiso hasta que ves la propuesta.</p>
     </div>
     <ol class="steps steps-4">
-      <li><span class="n">1</span><h3>Llamada</h3><p>20 minutos para entender tu tienda, tus márgenes y tus objetivos.</p></li>
+      <li><span class="n">1</span><h3>Llamada</h3><p>30 minutos para entender tu tienda, tus márgenes y tus objetivos.</p></li>
       <li><span class="n">2</span><h3>Auditoría</h3><p>Revisamos tu tienda, tu medición y tus campañas actuales.</p></li>
       <li><span class="n">3</span><h3>Propuesta</h3><p>Te presentamos un plan con el alcance y el precio cerrados.</p></li>
       <li><span class="n">4</span><h3>Arranque</h3><p>Ponemos en marcha la medición, las mejoras de la tienda y las campañas.</p></li>
@@ -217,8 +217,8 @@
 <div class="contact-band" id="reservar" data-section="contacto">
   <section class="contact">
     <div class="intro">
-      <h2 class="h2">Cuéntanos tu tienda en 20 minutos.</h2>
-      <p>Rellena esto y elige hora. Así llegamos a la llamada con tus datos ya revisados.</p>
+      <h2 class="h2">Cuéntanos tu tienda en 30 minutos.</h2>
+      <p>Responde unas preguntas, deja tus datos y elige hora. Así llegamos a la llamada con tus números ya revisados.</p>
       <ol class="call-steps">
         <li><span class="n">1</span><span><strong>Revisamos tus números</strong>Ventas, ticket medio, márgenes e inversión actual.</span></li>
         <li><span class="n">2</span><span><strong>Te damos un diagnóstico</strong>Qué está frenando las ventas de tu tienda.</span></li>
@@ -226,30 +226,7 @@
       </ol>
     </div>
 
-    <form class="form" id="discovery" novalidate>
-      <input type="hidden" name="goal" value="commerce">
-      <div class="field"><label for="f-name">Nombre</label><input id="f-name" name="name" autocomplete="name" required></div>
-      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
-      <div class="field full"><label for="f-web">Web de tu tienda</label><input id="f-web" name="web" autocomplete="url" placeholder="tutienda.com"></div>
-      <div class="field">
-        <label for="f-budget">Inversión mensual en publicidad</label>
-        <select id="f-budget" name="budget" required>
-          <option value="">Elige una opción</option><option>Aún no invierto</option><option>Menos de 1.000 €</option><option>De 1.000 a 3.000 €</option><option>De 3.000 a 10.000 €</option><option>Más de 10.000 €</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="f-ticket">Ticket medio de tu tienda</label>
-        <select id="f-ticket" name="ticket" required>
-          <option value="">Elige una opción</option><option>Menos de 30 €</option><option>De 30 a 80 €</option><option>De 80 a 200 €</option><option>Más de 200 €</option>
-        </select>
-      </div>
-      <div class="field full"><label for="f-msg">¿Qué te gustaría mejorar? <span>(opcional)</span></label><textarea id="f-msg" name="message" rows="3"></textarea></div>
-      <div class="form-foot">
-        <small>Usamos tus datos solo para preparar la llamada.</small>
-        <button class="btn btn-primary" type="submit">Elegir hora <span class="ic"><svg class="i" viewBox="0 0 16 16"><path d="M5 11L11 5M6 5h5v5"/></svg></span></button>
-      </div>
-      <p class="form-ok" id="form-ok" role="status" hidden>Prototipo: en la web final, aquí se abre el calendario para elegir la hora de la llamada.</p>
-    </form>
+    <div class="contact-booking" data-booking data-source="commerce" data-goal="commerce"></div>
   </section>
 </div>
 
@@ -287,5 +264,6 @@
 </div>
 
 <script src="js/noumi.js"></script>
+<script src="js/booking.js"></script>
 </body>
 </html>

@@ -28,6 +28,7 @@
   function fmt(ms){var s=Math.floor(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function track(name,detail){events.push({n:name,d:detail||'',t:Date.now()-t0});render();}
+  window.noumiTrack=track;   /* la reserva de llamada también aparece en el panel Know me */
   function render(){
     var log=$('kme-log');
     if(log) log.innerHTML=events.slice(-8).reverse().map(function(e){return '<li><span class="tm">'+fmt(e.t)+'</span><span>'+esc(e.n)+'</span><span class="dt">'+esc(e.d)+'</span></li>';}).join('');
@@ -66,7 +67,7 @@
 
   document.addEventListener('click',function(e){
     var a=e.target.closest('a,button');
-    if(!a||a.closest('#kme')||a.closest('.s3')||a.id==='menu-btn'||a.id==='theme-btn')return;
+    if(!a||!document.contains(a)||a.closest('#kme')||a.closest('.s3')||a.closest('.bk')||a.closest('.bk-modal')||a.id==='menu-btn'||a.id==='theme-btn')return;
     var label=(a.textContent||'').trim().slice(0,22);
     if(a.closest('.goal'))track('select_solution',label);
     else if(/#reservar$/.test(a.getAttribute('href')||'')||a.classList.contains('btn'))track('cta_click',label);
@@ -118,59 +119,6 @@
     show(0,false);
     if(desk.addEventListener) desk.addEventListener('change',function(){show(tabs.findIndex(function(t){return t.classList.contains('is-active');}),false);});
   }
-
-  /* Formulario de contacto: validación con un mensaje junto a cada campo */
-  var form=$('discovery'), ok=$('form-ok');
-  if(form){
-    form.addEventListener('focusin',function(){if(!started){started=true;track('form_start','discovery');}});
-    form.addEventListener('change',function(e){if(e.target.name==='goal')track('select_goal',e.target.value);});
-    var RULES=[
-      {key:'name',el:$('f-name'),msg:'Escribe tu nombre.',ok:function(el){return el.value.trim().length>1;}},
-      {key:'email',el:$('f-email'),msg:'Escribe un email válido, por ejemplo nombre@empresa.com.',ok:function(el){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim());}},
-      {key:'goal',el:form.querySelector('fieldset.goal-field'),msg:'Elige qué necesitas.',ok:function(){return !!form.querySelector('input[name="goal"]:checked');}},
-      {key:'budget',el:$('f-budget'),msg:'Elige cuánto inviertes al mes en publicidad.',ok:function(el){return !!el.value;}},
-      {key:'ticket',el:$('f-ticket'),msg:'Elige el ticket medio o el valor de un cliente.',ok:function(el){return !!el.value;}}
-    ].filter(function(r){return !!r.el;});
-    RULES.forEach(function(r){
-      var p=document.createElement('p'); p.className='err'; p.id='err-'+r.key; p.hidden=true;
-      (r.key==='goal'?r.el:r.el.parentNode).appendChild(p); r.err=p;
-      var targets=r.key==='goal'?r.el.querySelectorAll('input'):[r.el];
-      [].forEach.call(targets,function(t){t.setAttribute('aria-describedby',p.id);});
-    });
-    var check=function(r){
-      var valid=r.ok(r.el);
-      r.err.hidden=valid; r.err.textContent=valid?'':r.msg;
-      if(r.key==='goal') r.el.classList.toggle('invalid',!valid); else r.el.setAttribute('aria-invalid',valid?'false':'true');
-      return valid;
-    };
-    RULES.forEach(function(r){
-      var ev=r.key==='goal'||r.el.tagName==='SELECT'?'change':'blur';
-      r.el.addEventListener(ev,function(){ if(r.touched||!r.err.hidden) check(r); },true);
-      r.el.addEventListener('input',function(){ if(!r.err.hidden) check(r); });
-      r.el.addEventListener('focusout',function(){ r.touched=true; },true);
-    });
-    form.addEventListener('submit',function(e){
-      e.preventDefault();
-      var bad=RULES.filter(function(r){return !check(r);});
-      if(bad.length){
-        ok.hidden=true;
-        var f=bad[0].key==='goal'?bad[0].el.querySelector('input'):bad[0].el; f.focus();
-        track('form_error',bad.map(function(r){return r.key;}).join(','));
-        return;
-      }
-      ok.hidden=false;
-      var g=form.querySelector('input[name="goal"]:checked')||form.querySelector('input[name="goal"][type="hidden"]');
-      track('generate_lead',g?g.value:'');
-    });
-  }
-
-  /* Las tarjetas de soluciones preseleccionan el objetivo en el formulario */
-  document.querySelectorAll('a[data-goal]').forEach(function(a){
-    a.addEventListener('click',function(){
-      var r=$('f-goal-'+a.getAttribute('data-goal'));
-      if(r){r.checked=true; r.dispatchEvent(new Event('change',{bubbles:true}));}
-    });
-  });
 
   /* Carrusel cóncavo (WebGL). Las tarjetas se doblan sobre la cara interior de un cilindro: la del centro queda
      al fondo y las de los lados se curvan hacia ti. Cada tarjeta lleva un reflejo suave debajo y su texto, que solo

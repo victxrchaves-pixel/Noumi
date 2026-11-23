@@ -1,1 +1,4 @@
 .taste-skill/
+.env
+.env.local
+.env*.local
