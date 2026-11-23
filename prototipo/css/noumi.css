@@ -561,6 +561,15 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .book-page{padding-block:72px 120px}
 .book-wrap{max-width:960px;margin:40px auto 0}
 .book-note{text-align:center;margin-top:20px;font-size:14px;color:var(--muted)}
+.legal{padding-block:72px 120px}
+.legal .wrap{max-width:760px}
+.legal h1{margin-bottom:8px}
+.legal-date{color:var(--muted);font-size:14px;margin-bottom:40px}
+.legal h2{font-family:var(--f-display);font-size:var(--h3);font-weight:550;letter-spacing:-.025em;margin:36px 0 10px}
+.legal p,.legal li{color:var(--fg-2);line-height:1.65}
+.legal p + p,.legal ul + p{margin-top:12px}
+.legal ul{margin:10px 0 0;padding-left:20px;display:grid;gap:6px}
+.legal a{color:var(--fg);text-decoration:underline;text-underline-offset:.2em}
 /* Pop-up */
 .bk-lock{overflow:hidden}
 .bk-modal{width:min(920px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:var(--r-panel);background:transparent;color:var(--fg);overflow:visible}
