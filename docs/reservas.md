@@ -34,26 +34,36 @@ En `RULES`, al principio de `booking.js` (y lo mismo en el servidor cuando se co
 - No se puede reservar para el mismo día; como mucho 14 días vista.
 - Hora de España (`Europe/Madrid`), con el cambio de hora incluido.
 
-## Estado actual: modo de prueba
+## Cómo funciona por dentro
 
-Mientras la web está en GitHub Pages no hay servidor, así que:
+- **Servidor** (funciones de Vercel, en `api/` en la raíz del repositorio):
+  - `GET /api/booking/slots`: pregunta a Google qué horas están ocupadas y devuelve los huecos libres según las reglas.
+  - `POST /api/booking`: valida los datos (el teléfono con `libphonenumber-js`), vuelve a comprobar que el hueco sigue libre y crea el evento en Google Calendar con Google Meet. Google envía la invitación al cliente.
+  - Las reglas están en `api/_lib/booking.js` y deben coincidir con las de `prototipo/js/booking.js`.
+  - El evento se llama "Llamada de descubrimiento · Nombre" y en la descripción lleva el contacto, qué necesita, la inversión, el ticket, la web, qué le preocupa y la página desde la que reservó.
+- **Navegador** (`prototipo/js/booking.js`): pide los huecos a `/api/booking/slots`. Si en esa dirección no hay servidor (GitHub Pages, el artifact o un archivo abierto en local), pasa solo al **modo de prueba**: calcula los huecos con las mismas reglas, simula la reserva y lo avisa con "Vista de prueba". Si el servidor existe pero falla (por ejemplo, faltan las claves), muestra el error y el correo de contacto; nunca finge una reserva.
+- **Pruebas**: `npm install` y `npm test` comprueban las reglas de horario, el horario de verano, los huecos ocupados, la validación y la creación del evento con Google simulado.
 
-- Los huecos se calculan en el navegador con las reglas de arriba y algunas horas salen ocupadas para que se vea real.
-- La reserva se simula: no se crea ninguna cita ni se envía ningún correo. El componente lo indica con un aviso discreto ("Vista de prueba").
+## Activarlo en Vercel
 
-## Conectar con Google Calendar (cuando la web esté en Vercel)
+1. En el proyecto de Vercel, entra en **Settings → Environment Variables** y añade, para **Production** y **Preview**, las tres claves que guardó el script en `referencia/calendario-reservas/.env.local`:
+   - `GOOGLE_CLIENT_ID`
+   - `GOOGLE_CLIENT_SECRET`
+   - `GOOGLE_REFRESH_TOKEN`
+2. Vuelve a desplegar (Deployments → los tres puntos del último → **Redeploy**). Las variables solo se aplican en un despliegue nuevo.
+3. Abre la web en Vercel, pulsa "Reservar llamada" y comprueba que **no** sale el aviso "Vista de prueba" y que los horarios coinciden con tu calendario.
+4. Haz una reserva con otro correo tuyo y comprueba que el evento aparece en el calendario de noumiconsultant@gmail.com con Meet y los datos, y que llega la invitación. Después borra el evento.
 
-El código de servidor original está en `referencia/calendario-reservas/` (lo que venía en el zip). Pasos:
+Para cerrar un día (festivo, vacaciones), crea en ese calendario un evento de día completo marcado como **Ocupado**.
 
-1. **Servidor.** Añadir dos funciones de Vercel en la raíz del proyecto, adaptadas de `referencia/calendario-reservas/api/` y `lib/booking.ts`:
-   - `GET /api/booking/slots?duration=30`: devuelve los huecos libres.
-   - `POST /api/booking`: valida los datos y crea la cita.
+## Si algo falla
 
-   En `lib/booking.ts` hay que cambiar `minNoticeHours: 4` por la regla "a partir de mañana", dejar solo la duración de 30 minutos, poner el título y la descripción con el dominio de Noumi, y añadir al evento las respuestas de la encuesta (objetivo, inversión, ticket, web, qué le preocupa, página de origen).
-2. **Navegador.** En `booking.js`: `DEMO = false` y sustituir `BookingAPI.slots` y `BookingAPI.book` por las llamadas que ya están escritas en los comentarios. Nada más cambia.
-3. **Google Cloud.** Seguir los pasos 5 y 6 de `referencia/calendario-reservas/LEEME.md` iniciando sesión con noumiconsultant@gmail.com (audiencia Externo y app publicada "En producción").
-4. **Variables de entorno en Vercel**: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` y `GOOGLE_REFRESH_TOKEN`. Nunca en el repositorio.
-5. **Probar** una reserva real con otro correo propio y borrar el evento después.
+| Síntoma | Causa |
+|---|---|
+| "No se pueden cargar los horarios" en Vercel | Faltan las variables o no se ha vuelto a desplegar después de añadirlas |
+| Funcionaba y deja de cargar a los 7 días | La app de Google Cloud se quedó en "Prueba": publícala y vuelve a ejecutar el script |
+| Error al confirmar la reserva | No se marcaron todas las casillas de permisos al autorizar: vuelve a ejecutar el script |
+| En Vercel sale "Vista de prueba" | No se han desplegado las funciones de `api/`: comprueba que el proyecto usa la raíz del repositorio |
 
 ## Medición
 

@@ -4,14 +4,14 @@
 
    Pasos: 1) encuesta del negocio, 2) datos de contacto, 3) día y hora, y la confirmación.
 
-   MODO DEMO: mientras la web no esté en Vercel, los huecos se calculan aquí con las mismas reglas que
-   tendrá el servidor y la reserva se simula. Para conectarlo con Google Calendar basta con cambiar
-   BookingAPI.slots y BookingAPI.book por llamadas a /api/booking/slots y /api/booking
-   (ver docs/reservas.md). El resto del componente no cambia. */
+   Datos reales: en Vercel, los huecos y la reserva van contra /api/booking/slots y /api/booking, que hablan
+   con el Google Calendar de Noumi (api/ en la raíz del repositorio, ver docs/reservas.md).
+   Modo de prueba: donde no hay servidor (GitHub Pages, el artifact o un archivo abierto en local) los huecos
+   se calculan aquí con las mismas reglas y la reserva se simula, con un aviso visible. */
 (function(){
   'use strict';
 
-  var DEMO = true;
+  var DEMO = null;   // null hasta saber si hay servidor; true = modo de prueba
 
   /* Mismas reglas que lib/booking.ts del calendario de reservas */
   var CONTACT_EMAIL = 'noumiconsultant@gmail.com';   // cuenta de Google que recibe las citas
@@ -87,14 +87,36 @@
     }
     return out;
   }
+  function isJson(r){ return /application\/json/.test(r.headers.get('content-type')||''); }
+  function setDemo(on){
+    DEMO=on;
+    if(on) document.querySelectorAll('.bk-demo').forEach(function(p){ p.hidden=false; });
+  }
+  function useDemo(){ setDemo(true); return new Promise(function(res){ setTimeout(function(){ res(demoSlots()); },350); }); }
+  var slotsRequest=null;   // una sola consulta compartida por todos los calendarios de la página
   var BookingAPI = {
-    // Real: return fetch('/api/booking/slots?duration=30',{cache:'no-store'}).then(function(r){if(!r.ok)throw r;return r.json();}).then(function(d){return d.slots;});
-    slots: function(){ return new Promise(function(res){ setTimeout(function(){ res(demoSlots()); },350); }); },
-    // Real: return fetch('/api/booking',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(...)
+    slots: function(fresh){
+      if(location.protocol==='file:') return useDemo();
+      if(DEMO) return useDemo();
+      if(slotsRequest && !fresh) return slotsRequest;
+      slotsRequest=fetch('/api/booking/slots',{cache:'no-store',headers:{Accept:'application/json'}}).then(function(r){
+        if(!isJson(r)) return useDemo();                // no hay servidor de reservas aquí
+        return r.json().then(function(d){
+          if(!r.ok || !Array.isArray(d.slots)) throw {status:r.status, code:d.error};
+          setDemo(false); return d.slots;
+        });
+      });
+      slotsRequest.catch(function(){ slotsRequest=null; });
+      return slotsRequest;
+    },
     book: function(payload){
-      return new Promise(function(res){ setTimeout(function(){
-        res({ok:true, eventId:'demo_'+Date.now(), start:payload.start, meetLink:null});
-      },900); });
+      if(DEMO) return new Promise(function(res){ setTimeout(function(){ res({ok:true, eventId:'demo_'+Date.now(), start:payload.start, meetLink:null}); },900); });
+      return fetch('/api/booking',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(payload)}).then(function(r){
+        return (isJson(r)?r.json():Promise.resolve({})).then(function(d){
+          if(!r.ok || !d.ok) throw {status:r.status, code:d.error};
+          return d;
+        });
+      });
     }
   };
 
@@ -139,7 +161,7 @@
     root.addEventListener('submit',function(e){ e.preventDefault(); self.onSubmit(e.target); });
     root.addEventListener('input',function(e){ self.onInput(e.target); });
     root.addEventListener('change',function(e){ self.onInput(e.target); });
-    root.addEventListener('focusin',function(){ if(!self.started){ self.started=true; measure('booking_start',{source:self.opts.source||''}); } });
+    root.addEventListener('focusin',function(){ if(!self.started){ self.started=true; self.load(); measure('booking_start',{source:self.opts.source||''}); } });
   }
 
   Booking.prototype.ticketSet=function(){ return TICKETS[this.data.goal]||TICKETS.any; };
@@ -167,7 +189,7 @@
     else if(s===2) body=this.viewContact();
     else if(s===3) body=this.viewPick();
     else body=this.viewDone();
-    var demo=DEMO&&s<4?'<p class="bk-demo">Vista de prueba: los horarios son de ejemplo y no se crea ninguna cita.</p>':'';
+    var demo=s<4?'<p class="bk-demo"'+(DEMO?'':' hidden')+'>Vista de prueba: los horarios son de ejemplo y no se crea ninguna cita.</p>':'';
     this.root.innerHTML='<div class="bk-card">'+aside+'<div class="bk-main">'+body+demo+'</div></div>';
   };
 
@@ -266,7 +288,7 @@
   Booking.prototype.load=function(){
     var self=this;
     if(this.loading) return; this.loading=true;
-    BookingAPI.slots().then(function(s){ self.slots=s; }).catch(function(){ self.loadError=true; }).then(function(){ self.loading=false; if(self.step===3) self.render(); });
+    BookingAPI.slots(this.slots===null&&this.stale).then(function(s){ self.slots=s; self.stale=false; }).catch(function(){ self.loadError=true; }).then(function(){ self.loading=false; if(self.step===3) self.render(); });
   };
 
   Booking.prototype.go=function(step, focus){
@@ -306,7 +328,7 @@
   Booking.prototype.onClick=function(e){
     var t=e.target.closest('button'); if(!t||!this.root.contains(t)) return;
     if(t.hasAttribute('data-go')) this.go(Number(t.getAttribute('data-go')));
-    else if(t.hasAttribute('data-retry')){ this.loadError=false; this.render(); }
+    else if(t.hasAttribute('data-retry')){ this.loadError=false; this.stale=true; this.render(); }
     else if(t.hasAttribute('data-month')){ var M=this.month, n=M.y*12+M.m+Number(t.getAttribute('data-month')); this.month={y:Math.floor(n/12),m:n%12}; this.render(); }
     else if(t.hasAttribute('data-day')){ this.day=t.getAttribute('data-day'); this.slot=null; this.render(); var b=this.root.querySelector('.bk-time'); if(b) b.focus(); }
     else if(t.hasAttribute('data-slot')){ this.slot=t.getAttribute('data-slot'); this.err=null; this.render(); var c=this.root.querySelector('[data-confirm]'); if(c) c.focus(); }
@@ -324,7 +346,8 @@
       self.busy=false; measureLead(r.eventId, d.goal); self.go(4);
     }).catch(function(r){
       self.busy=false;
-      if(r&&r.status===409){ self.err='Esa hora se acaba de ocupar. Elige otra, por favor.'; self.slot=null; self.slots=null; }
+      if(r&&r.status===409){ self.err='Esa hora se acaba de ocupar. Elige otra, por favor.'; self.slot=null; self.slots=null; self.stale=true; }
+      else if(r&&r.code==='invalid_phone'){ self.go(2); self.check('phone'); var e=self.root.querySelector('[data-err="phone"]'); if(e) e.hidden=false; var f=self.root.querySelector('[name="phone"]'); if(f){ f.setAttribute('aria-invalid','true'); f.focus(); } return; }
       else self.err='No se ha podido completar la reserva. Inténtalo de nuevo en unos segundos o escríbenos a '+CONTACT_EMAIL+'.';
       self.render();
     });
@@ -350,6 +373,7 @@
     if(!modalBooking || modalBooking.step===4){
       var slot=dialog.querySelector('.bk-slot'); slot.innerHTML='';
       modalBooking=new Booking(slot,{goal:goal||pageGoal||'', source:source||'popup'});
+      modalBooking.load();
     } else if(goal && modalBooking.step===1){ modalBooking.data.goal=goal; modalBooking.render(); }
     lastFocus=document.activeElement;
     document.documentElement.classList.add('bk-lock');

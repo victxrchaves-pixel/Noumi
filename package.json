@@ -1,0 +1,15 @@
+{
+  "name": "noumi-web",
+  "private": true,
+  "type": "module",
+  "description": "Web de Noumi Consultant: HTML estático en prototipo/ y funciones de reserva en api/ (Vercel).",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "libphonenumber-js": "^1.13.17"
+  }
+}
