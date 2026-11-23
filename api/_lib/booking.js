@@ -9,7 +9,7 @@ export const DURATION = 30; // minutos
 export const RULES = {
   calendarId: "primary", // el calendario principal de noumiconsultant@gmail.com
   timeZone: "Europe/Madrid",
-  title: "Llamada de descubrimiento",
+  title: "Llamada con Noumi Consultant", // título del evento y del asunto de la invitación
   buffer: 15, // minutos libres entre llamadas
   minDaysAhead: 1, // no se puede reservar para el mismo día
   maxDaysAhead: 14, // hasta cuántos días vista
@@ -137,6 +137,8 @@ export async function getSlots(now = Date.now()) {
 
 function describe(input) {
   const lines = [
+    "Llamada de descubrimiento de 30 minutos por Google Meet.",
+    "",
     `Nombre: ${input.name}`,
     `Email: ${input.email}`,
     `Teléfono: ${input.phone}`,
@@ -161,7 +163,7 @@ export async function createBooking(input) {
   const event = await googleApi(
     `/calendars/${encodeURIComponent(RULES.calendarId)}/events?conferenceDataVersion=1&sendUpdates=all`,
     {
-      summary: `${RULES.title} · ${input.name}`,
+      summary: RULES.title,
       description: describe(input),
       start: { dateTime: start.toISOString(), timeZone: RULES.timeZone },
       end: { dateTime: end.toISOString(), timeZone: RULES.timeZone },

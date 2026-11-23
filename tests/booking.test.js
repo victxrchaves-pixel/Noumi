@@ -119,7 +119,8 @@ test("POST /api/booking crea el evento con Meet y las respuestas de la encuesta"
   assert.equal(res.body.ok, true);
   assert.equal(res.body.eventId, "evt123");
   const ev = inserted[0];
-  assert.equal(ev.summary, "Llamada de descubrimiento · Ana Pérez");
+  assert.equal(ev.summary, "Llamada con Noumi Consultant");
+  assert.ok(ev.description.includes("Nombre: Ana Pérez"));
   assert.equal(ev.attendees[0].email, "ana@ejemplo.com");
   assert.equal(ev.conferenceData.createRequest.conferenceSolutionKey.type, "hangoutsMeet");
   assert.equal(Date.parse(ev.end.dateTime) - Date.parse(ev.start.dateTime), 30 * 60_000);

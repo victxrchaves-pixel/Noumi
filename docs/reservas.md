@@ -40,7 +40,7 @@ En `RULES`, al principio de `booking.js` (y lo mismo en el servidor cuando se co
   - `GET /api/booking/slots`: pregunta a Google qué horas están ocupadas y devuelve los huecos libres según las reglas.
   - `POST /api/booking`: valida los datos (el teléfono con `libphonenumber-js`), vuelve a comprobar que el hueco sigue libre y crea el evento en Google Calendar con Google Meet. Google envía la invitación al cliente.
   - Las reglas están en `api/_lib/booking.js` y deben coincidir con las de `prototipo/js/booking.js`.
-  - El evento se llama "Llamada de descubrimiento · Nombre" y en la descripción lleva el contacto, qué necesita, la inversión, el ticket, la web, qué le preocupa y la página desde la que reservó.
+  - El evento se llama "Llamada con Noumi Consultant" (es también el asunto de la invitación que recibe el cliente) y en la descripción lleva el contacto, qué necesita, la inversión, el ticket, la web, qué le preocupa y la página desde la que reservó.
 - **Navegador** (`prototipo/js/booking.js`): pide los huecos a `/api/booking/slots`. Si en esa dirección no hay servidor (GitHub Pages, el artifact o un archivo abierto en local), pasa solo al **modo de prueba**: calcula los huecos con las mismas reglas, simula la reserva y lo avisa con "Vista de prueba". Si el servidor existe pero falla (por ejemplo, faltan las claves), muestra el error y el correo de contacto; nunca finge una reserva.
 - **Pruebas**: `npm install` y `npm test` comprueban las reglas de horario, el horario de verano, los huecos ocupados, la validación y la creación del evento con Google simulado.
 
@@ -55,6 +55,10 @@ En `RULES`, al principio de `booking.js` (y lo mismo en el servidor cuando se co
 4. Haz una reserva con otro correo tuyo y comprueba que el evento aparece en el calendario de noumiconsultant@gmail.com con Meet y los datos, y que llega la invitación. Después borra el evento.
 
 Para cerrar un día (festivo, vacaciones), crea en ese calendario un evento de día completo marcado como **Ocupado**.
+
+## Zona horaria del calendario
+
+El calendario de noumiconsultant@gmail.com debe estar en la zona horaria de Madrid (Google Calendar → Configuración → Zona horaria). Si está en UTC, las invitaciones muestran la hora en UTC aunque la cita esté bien puesta.
 
 ## Si algo falla
 
