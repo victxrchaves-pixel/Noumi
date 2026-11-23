@@ -1,5 +1,5 @@
 // Conecta la web con tu Google Calendar (se ejecuta una sola vez).
-// Lee GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET de .env.local, abre el navegador para autorizar
+// Lee GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET de .env.local (o los pide si no existe), abre el navegador para autorizar
 // y guarda GOOGLE_REFRESH_TOKEN en .env.local sin mostrarlo por pantalla.
 //
 //   node scripts/google-auth.mjs
@@ -9,6 +9,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
+import readline from "node:readline";
 
 const ENV_PATH = path.join(process.cwd(), ".env.local");
 const SCOPES = [
@@ -37,13 +38,33 @@ function writeEnvValue(key, value) {
   fs.writeFileSync(ENV_PATH, next);
 }
 
+// Si todavía no hay .env.local, pide el ID y el secreto aquí mismo y crea el archivo.
 const env = readEnv();
-const clientId = env.GOOGLE_CLIENT_ID;
-const clientSecret = env.GOOGLE_CLIENT_SECRET;
+let clientId = env.GOOGLE_CLIENT_ID;
+let clientSecret = env.GOOGLE_CLIENT_SECRET;
 if (!clientId || !clientSecret) {
-  console.error("Faltan GOOGLE_CLIENT_ID o GOOGLE_CLIENT_SECRET en .env.local.");
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  const lines = rl[Symbol.asyncIterator]();
+  const ask = async (question) => {
+    process.stdout.write(question);
+    const { value } = await lines.next();
+    return String(value ?? "").trim();
+  };
+  if (!clientId) {
+    clientId = await ask("Pega el ID de cliente de Google y pulsa Enter: ");
+  }
+  if (!clientSecret) {
+    clientSecret = await ask("Pega el secreto del cliente y pulsa Enter: ");
+  }
+  rl.close();
+}
+if (!/\.apps\.googleusercontent\.com$/.test(clientId) || !clientSecret) {
+  console.error("\nEl ID o el secreto no parecen correctos. Vuelve a ejecutar el comando y pégalos otra vez.");
+  if (env.GOOGLE_CLIENT_ID || env.GOOGLE_CLIENT_SECRET) console.error("Antes, borra los guardados con: rm .env.local");
   process.exit(1);
 }
+writeEnvValue("GOOGLE_CLIENT_ID", clientId);
+writeEnvValue("GOOGLE_CLIENT_SECRET", clientSecret);
 
 const state = crypto.randomBytes(16).toString("hex");
 
