@@ -48,6 +48,7 @@
   var timeFmt = new Intl.DateTimeFormat('es-ES',{timeZone:RULES.timeZone,hour:'2-digit',minute:'2-digit',hour12:false});
   var longDayFmt = new Intl.DateTimeFormat('es-ES',{timeZone:'UTC',weekday:'long',day:'numeric',month:'long'});
   var monthFmt = new Intl.DateTimeFormat('es-ES',{timeZone:'UTC',month:'long',year:'numeric'});
+  var shortDayFmt = new Intl.DateTimeFormat('es-ES',{timeZone:'UTC',weekday:'long',day:'numeric'});
   var offsetFmt;
   try{ offsetFmt = new Intl.DateTimeFormat('en-US',{timeZone:RULES.timeZone,timeZoneName:'longOffset'}); }catch(e){ offsetFmt=null; }
 
@@ -166,12 +167,12 @@
 
   Booking.prototype.ticketSet=function(){ return TICKETS[this.data.goal]||TICKETS.any; };
 
-  Booking.prototype.render=function(){
-    var d=this.data, s=this.step;
+  Booking.prototype.asideHtml=function(){
+    var s=this.step;
     var steps=['Tu negocio','Tus datos','Día y hora'];
     var summary='';
-    if(this.slot && s>=3) summary='<p class="bk-when"><span>'+esc(dayLabel(ymdFmt.format(new Date(this.slot))))+'</span><b>'+esc(timeRange(this.slot))+'</b></p>';
-    var aside='<aside class="bk-aside">'+
+    if(this.slot && s===4) summary='<p class="bk-when"><span>'+esc(dayLabel(ymdFmt.format(new Date(this.slot))))+'</span><b>'+esc(timeRange(this.slot))+'</b></p>';
+    return '<aside class="bk-aside">'+
       '<div class="bk-host">'+LOGO+'</div>'+
       '<p class="bk-k">Llamada de descubrimiento</p>'+
       '<ul class="bk-meta">'+
@@ -181,34 +182,42 @@
       '</ul>'+ summary +
       (s<4?'<ol class="bk-steps">'+steps.map(function(t,i){
         var n=i+1, st=n<s?'done':(n===s?'now':'');
-        return '<li class="'+st+'"'+(n===s?' aria-current="step"':'')+'><span>'+(n<s?'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>':n)+'</span>'+t+'</li>';
+        var mark='<span class="bk-sn">'+(n<s?'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>':n)+'</span>';
+        // Los pasos ya hechos se pueden pulsar para volver a ellos
+        var inner=n<s?'<button type="button" data-go="'+n+'" aria-label="Volver a '+t.toLowerCase()+'">'+mark+'<span class="bk-st">'+t+'</span></button>':mark+'<span class="bk-st">'+t+'</span>';
+        return '<li class="'+st+'"'+(n===s?' aria-current="step"':'')+'>'+inner+'</li>';
       }).join('')+'</ol>':'')+
     '</aside>';
-    var body='';
+  };
+
+  Booking.prototype.render=function(){
+    var s=this.step, body='';
+    var dir=this.shown==null||this.shown===s?'':(s>this.shown?' bk-fwd':' bk-back');
+    this.shown=s;
     if(s===1) body=this.viewSurvey();
     else if(s===2) body=this.viewContact();
     else if(s===3) body=this.viewPick();
     else body=this.viewDone();
     var demo=s<4?'<p class="bk-demo"'+(DEMO?'':' hidden')+'>Vista de prueba: los horarios son de ejemplo y no se crea ninguna cita.</p>':'';
-    this.root.innerHTML='<div class="bk-card">'+aside+'<div class="bk-main">'+body+demo+'</div></div>';
+    this.root.innerHTML='<div class="bk-card">'+this.asideHtml()+'<div class="bk-main'+dir+'">'+body+demo+'</div></div>';
   };
 
   Booking.prototype.viewSurvey=function(){
     var d=this.data, id=this.id, ts=this.ticketSet();
     return '<form class="bk-form" data-step="1" novalidate>'+
-      '<h3 class="bk-h">Cuéntanos tu negocio</h3>'+
+      '<h3 class="bk-h">Sobre tu negocio</h3>'+
       '<fieldset class="bk-field"><legend>¿Qué necesitas?</legend><div class="bk-goals">'+
-        GOALS.map(function(g){ return '<label class="bk-goal"><input type="radio" name="goal" value="'+g.v+'"'+(d.goal===g.v?' checked':'')+'><span>'+g.t+'<em>'+g.s+'</em></span></label>'; }).join('')+
-      '</div><p class="bk-err" data-err="goal" hidden>Elige qué necesitas.</p></fieldset>'+
+        GOALS.map(function(g){ return '<label class="bk-goal"><input type="radio" name="goal" value="'+g.v+'"'+(d.goal===g.v?' checked':'')+' aria-describedby="'+id+'-err-goal"><span><b>'+g.t+'</b><em>'+g.s+'</em></span></label>'; }).join('')+
+      '</div><p class="bk-err" id="'+id+'-err-goal" data-err="goal" hidden>Elige qué necesitas.</p></fieldset>'+
       '<div class="bk-row">'+
-        '<div class="bk-field"><label for="'+id+'-budget">Inversión mensual en publicidad</label><select id="'+id+'-budget" name="budget"><option value="">Elige una opción</option>'+
-          BUDGETS.map(function(o){return '<option'+(d.budget===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><p class="bk-err" data-err="budget" hidden>Elige cuánto inviertes al mes.</p></div>'+
-        '<div class="bk-field"><label for="'+id+'-ticket">'+ts.label+'</label><select id="'+id+'-ticket" name="ticket"><option value="">Elige una opción</option>'+
-          ts.options.map(function(o){return '<option'+(d.ticket===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><p class="bk-err" data-err="ticket" hidden>Elige una opción.</p></div>'+
+        '<div class="bk-field"><label for="'+id+'-budget">Inversión mensual en publicidad</label><select id="'+id+'-budget" name="budget" aria-describedby="'+id+'-err-budget"><option value="">Elige una opción</option>'+
+          BUDGETS.map(function(o){return '<option'+(d.budget===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><p class="bk-err" id="'+id+'-err-budget" data-err="budget" hidden>Elige cuánto inviertes al mes.</p></div>'+
+        '<div class="bk-field"><label for="'+id+'-ticket">'+ts.label+'</label><select id="'+id+'-ticket" name="ticket" aria-describedby="'+id+'-err-ticket"><option value="">Elige una opción</option>'+
+          ts.options.map(function(o){return '<option'+(d.ticket===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><p class="bk-err" id="'+id+'-err-ticket" data-err="ticket" hidden>Elige una opción.</p></div>'+
       '</div>'+
       '<div class="bk-field"><label for="'+id+'-web">Web actual <span>(si tienes)</span></label><input id="'+id+'-web" name="web" autocomplete="url" placeholder="tuweb.com" value="'+esc(d.web)+'"></div>'+
       '<div class="bk-field"><label for="'+id+'-msg">¿Qué te preocupa ahora mismo? <span>(opcional)</span></label><textarea id="'+id+'-msg" name="message" rows="2" maxlength="2000">'+esc(d.message)+'</textarea></div>'+
-      '<div class="bk-foot"><small>Paso 1 de 3</small><button class="btn btn-primary" type="submit">Continuar '+ARROW+'</button></div>'+
+      '<div class="bk-foot"><small>Te lleva menos de un minuto.</small><button class="btn btn-primary" type="submit">Continuar '+ARROW+'</button></div>'+
     '</form>';
   };
 
@@ -217,11 +226,11 @@
     return '<form class="bk-form" data-step="2" novalidate>'+
       '<button class="bk-back" type="button" data-go="1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>Atrás</button>'+
       '<h3 class="bk-h">Tus datos de contacto</h3>'+
-      '<div class="bk-field"><label for="'+id+'-name">Nombre</label><input id="'+id+'-name" name="name" autocomplete="name" value="'+esc(d.name)+'"><p class="bk-err" data-err="name" hidden>Escribe tu nombre.</p></div>'+
       '<div class="bk-row">'+
-        '<div class="bk-field"><label for="'+id+'-email">Email</label><input id="'+id+'-email" name="email" type="email" autocomplete="email" value="'+esc(d.email)+'"><p class="bk-err" data-err="email" hidden>Escribe un email válido.</p></div>'+
-        '<div class="bk-field"><label for="'+id+'-phone">Teléfono</label><input id="'+id+'-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="612 345 678" value="'+esc(d.phone)+'"><p class="bk-hint" data-hint="phone">Si no es un número español, añade el prefijo (+33, +52…).</p><p class="bk-err" data-err="phone" hidden>Revisa el teléfono: no parece un número válido.</p></div>'+
+        '<div class="bk-field"><label for="'+id+'-name">Nombre</label><input id="'+id+'-name" name="name" autocomplete="name" value="'+esc(d.name)+'" aria-describedby="'+id+'-err-name"><p class="bk-err" id="'+id+'-err-name" data-err="name" hidden>Escribe tu nombre.</p></div>'+
+        '<div class="bk-field"><label for="'+id+'-email">Email</label><input id="'+id+'-email" name="email" type="email" autocomplete="email" value="'+esc(d.email)+'" aria-describedby="'+id+'-err-email"><p class="bk-err" id="'+id+'-err-email" data-err="email" hidden>Escribe un email válido, por ejemplo nombre@empresa.com.</p></div>'+
       '</div>'+
+      '<div class="bk-field"><label for="'+id+'-phone">Teléfono</label><input id="'+id+'-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="612 345 678" value="'+esc(d.phone)+'" aria-describedby="'+id+'-hint-phone '+id+'-err-phone"><p class="bk-hint" id="'+id+'-hint-phone" data-hint="phone">Si no es un número español, añade el prefijo de tu país (+33, +52…).</p><p class="bk-err" id="'+id+'-err-phone" data-err="phone" hidden>Revisa el teléfono: no parece un número válido. Si no es español, añade el prefijo de tu país.</p></div>'+
       // Campo trampa para robots: invisible para personas y lectores de pantalla
       '<input class="bk-trap" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">'+
       '<div class="bk-foot"><small>Usamos tus datos solo para preparar la llamada.</small><button class="btn btn-primary" type="submit">Elegir día y hora '+ARROW+'</button></div>'+
@@ -249,13 +258,6 @@
       var key=prefix+String(dnum).padStart(2,'0'), av=!!byDay[key], sel=key===self.day;
       cells+='<button type="button" class="bk-day'+(sel?' is-sel':'')+'" '+(av?'data-day="'+key+'"':'disabled')+(sel?' aria-pressed="true"':'')+' aria-label="'+esc(dayLabel(key))+(av?'':', sin huecos')+'">'+dnum+'</button>';
     }
-    var times=byDay[this.day].map(function(iso){
-      var on=iso===self.slot;
-      return '<button type="button" class="bk-time'+(on?' is-sel':'')+'" data-slot="'+iso+'"'+(on?' aria-pressed="true"':'')+'>'+timeFmt.format(new Date(iso))+'</button>';
-    }).join('');
-    var confirm=this.slot
-      ? '<button class="btn btn-primary bk-confirm" type="button" data-confirm'+(this.busy?' disabled':'')+'>'+(this.busy?'Reservando…':'Confirmar llamada '+ARROW)+'</button>'
-      : '<p class="bk-tip">Elige una hora para confirmar.</p>';
     return head+
       '<div class="bk-pick">'+
         '<div class="bk-cal">'+
@@ -264,16 +266,48 @@
           '<button type="button" class="bk-nav" data-month="1" aria-label="Mes siguiente"'+(mIdx>=maxM.y*12+maxM.m?' disabled':'')+'><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5"/></svg></button></div>'+
           '<div class="bk-grid">'+cells+'</div>'+
         '</div>'+
-        '<div class="bk-side"><p class="bk-dayname">'+esc(dayLabel(this.day))+'</p><div class="bk-times">'+times+'</div></div>'+
+        '<div class="bk-side">'+this.sideHtml(byDay)+'</div>'+
       '</div>'+
       (this.err?'<p class="bk-alert" role="alert">'+esc(this.err)+'</p>':'')+
-      '<div class="bk-foot bk-foot-pick">'+(this.slot?'<small>'+esc(dayLabel(ymdFmt.format(new Date(this.slot))))+', '+esc(timeRange(this.slot))+'</small>':'<small></small>')+confirm+'</div>';
+      '<div class="bk-foot bk-foot-pick">'+this.footHtml()+'</div>';
+  };
+
+  Booking.prototype.sideHtml=function(byDay){
+    var self=this;
+    return '<p class="bk-dayname">'+esc(cap(shortDayFmt.format(keyNoon(this.day))))+'</p><div class="bk-times" role="group" aria-label="Horas libres el '+esc(dayLabel(this.day))+'">'+
+      (byDay||this.byDay())[this.day].map(function(iso,i){
+        var on=iso===self.slot;
+        return '<button type="button" class="bk-time'+(on?' is-sel':'')+'" style="--i:'+i+'" data-slot="'+iso+'" aria-pressed="'+on+'">'+timeFmt.format(new Date(iso))+'</button>';
+      }).join('')+'</div>';
+  };
+
+  Booking.prototype.footHtml=function(){
+    if(!this.slot) return '<small class="bk-tip">Elige una hora para continuar.</small>';
+    var when='<small><b>'+esc(dayLabel(ymdFmt.format(new Date(this.slot))))+'</b>'+esc(timeRange(this.slot))+'</small>';
+    var btn=this.busy
+      ? '<button class="btn btn-primary bk-confirm is-busy" type="button" disabled aria-busy="true">Reservando <span class="bk-spin" aria-hidden="true"></span></button>'
+      : '<button class="btn btn-primary bk-confirm" type="button" data-confirm>Confirmar llamada '+ARROW+'</button>';
+    return when+btn;
+  };
+
+  /* Elegir día u hora solo cambia lo necesario: la columna de horas, el pie y el resumen,
+     sin volver a pintar el paso entero (así no salta el foco y las transiciones se ven) */
+  Booking.prototype.refreshPick=function(dayChanged){
+    var side=this.root.querySelector('.bk-side'), foot=this.root.querySelector('.bk-foot-pick'), aside=this.root.querySelector('.bk-aside');
+    if(!side||!foot){ this.render(); return; }
+    var self=this;
+    this.root.querySelectorAll('.bk-day[data-day]').forEach(function(b){ var on=b.getAttribute('data-day')===self.day; b.classList.toggle('is-sel',on); if(on) b.setAttribute('aria-pressed','true'); else b.removeAttribute('aria-pressed'); });
+    if(dayChanged){ side.innerHTML=this.sideHtml(); side.classList.remove('bk-swap'); void side.offsetWidth; side.classList.add('bk-swap'); }
+    else this.root.querySelectorAll('.bk-time').forEach(function(b){ var on=b.getAttribute('data-slot')===self.slot; b.classList.toggle('is-sel',on); b.setAttribute('aria-pressed',String(on)); });
+    foot.innerHTML=this.footHtml();
+    if(aside) aside.outerHTML=this.asideHtml();
+    var al=this.root.querySelector('.bk-alert'); if(al&&!this.err) al.remove();
   };
 
   Booking.prototype.viewDone=function(){
     var d=this.data;
     return '<div class="bk-done" role="status">'+
-      '<span class="bk-ok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12.5l4 4 8-9"/></svg></span>'+
+      '<span class="bk-ok"><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M6 12.5l4 4 8-9"/></svg></span>'+
       '<h3 class="bk-h">Llamada reservada</h3>'+
       '<p class="bk-donewhen">'+esc(dayLabel(ymdFmt.format(new Date(this.slot))))+', '+esc(timeRange(this.slot))+'</p>'+
       '<p>Te hemos enviado la invitación a <b>'+esc(d.email)+'</b> con el enlace de Google Meet. Antes de la llamada revisamos tus números para llegar con un diagnóstico.</p>'+
@@ -311,8 +345,7 @@
     else if(key==='email') ok=EMAIL_RE.test(d.email.trim());
     else if(key==='phone') ok=phoneOk(d.phone);
     var e=this.root.querySelector('[data-err="'+key+'"]'); if(e) e.hidden=ok;
-    var f=this.root.querySelector('[name="'+key+'"]');
-    if(f&&f.type!=='radio') f.setAttribute('aria-invalid',ok?'false':'true');
+    this.root.querySelectorAll('[name="'+key+'"]').forEach(function(f){ f.setAttribute('aria-invalid',ok?'false':'true'); });
     var h=this.root.querySelector('[data-hint="'+key+'"]'); if(h) h.hidden=!ok;
     return ok;
   };
@@ -330,15 +363,15 @@
     if(t.hasAttribute('data-go')) this.go(Number(t.getAttribute('data-go')));
     else if(t.hasAttribute('data-retry')){ this.loadError=false; this.stale=true; this.render(); }
     else if(t.hasAttribute('data-month')){ var M=this.month, n=M.y*12+M.m+Number(t.getAttribute('data-month')); this.month={y:Math.floor(n/12),m:n%12}; this.render(); }
-    else if(t.hasAttribute('data-day')){ this.day=t.getAttribute('data-day'); this.slot=null; this.render(); var b=this.root.querySelector('.bk-time'); if(b) b.focus(); }
-    else if(t.hasAttribute('data-slot')){ this.slot=t.getAttribute('data-slot'); this.err=null; this.render(); var c=this.root.querySelector('[data-confirm]'); if(c) c.focus(); }
+    else if(t.hasAttribute('data-day')){ var nd=t.getAttribute('data-day'); if(nd!==this.day){ this.day=nd; this.slot=null; this.err=null; this.refreshPick(true); } }
+    else if(t.hasAttribute('data-slot')){ this.slot=t.getAttribute('data-slot'); this.err=null; this.refreshPick(false); }
     else if(t.hasAttribute('data-confirm')) this.book();
   };
 
   Booking.prototype.book=function(){
     var self=this, d=this.data; if(this.busy||!this.slot) return;
     if(d.website){ return; }   // robot
-    this.busy=true; this.render();
+    this.busy=true; this.refreshPick(false);
     var payload={start:this.slot, duration:RULES.duration, goal:d.goal, web:d.web, budget:d.budget, ticket:d.ticket, message:d.message,
       name:d.name.trim(), email:d.email.trim(), phone:d.phone.trim(), website:d.website, source:this.opts.source||location.pathname};
     BookingAPI.book(payload).then(function(r){
@@ -367,6 +400,7 @@
       document.body.appendChild(dialog);
       dialog.querySelector('.bk-close').addEventListener('click',closeModal);
       dialog.addEventListener('click',function(e){ if(e.target===dialog) closeModal(); });   // clic fuera
+      dialog.addEventListener('cancel',function(e){ e.preventDefault(); closeModal(); });   // Escape, con la misma salida
       dialog.addEventListener('close',function(){ document.documentElement.classList.remove('bk-lock'); if(lastFocus) lastFocus.focus(); });
     }
     var inline=document.querySelector('[data-booking][data-goal]'), pageGoal=inline?inline.getAttribute('data-goal'):'';
@@ -380,7 +414,14 @@
     if(dialog.showModal) dialog.showModal(); else dialog.setAttribute('open','');
     measure('booking_open',{source:source||'popup'});
   }
-  function closeModal(){ if(dialog.close) dialog.close(); else { dialog.removeAttribute('open'); document.documentElement.classList.remove('bk-lock'); } }
+  // Al cerrar, una salida corta (fundido o bajada en el móvil) antes de quitar el pop-up
+  function closeModal(){
+    if(!dialog||!dialog.open||dialog.classList.contains('is-closing')) return;
+    var done=false, finish=function(){ if(done) return; done=true; dialog.classList.remove('is-closing'); if(dialog.close) dialog.close(); else { dialog.removeAttribute('open'); document.documentElement.classList.remove('bk-lock'); } };
+    dialog.classList.add('is-closing');
+    dialog.addEventListener('animationend',function h(e){ if(e.target===dialog){ dialog.removeEventListener('animationend',h); finish(); } });
+    setTimeout(finish,320);
+  }
 
   document.addEventListener('click',function(e){
     var a=e.target.closest('a[href$="#reservar"], [data-open-booking]');
