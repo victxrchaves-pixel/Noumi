@@ -282,9 +282,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .contact-band .call-steps .n{background:#FAFAFA;color:#111111}
 :root[data-theme="dark"] .contact-band .form{background:#111111;box-shadow:0 0 0 1px #2A2A2A}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-band .form{background:#111111;box-shadow:0 0 0 1px #2A2A2A}}
-.contact{max-width:calc(var(--wrap) + 40px);margin-inline:auto;padding:96px 0;display:grid;grid-template-columns:minmax(0,.35fr) minmax(0,.65fr);gap:64px;align-items:start}
-/* La columna de texto acompaña al formulario mientras se rellena */
-.contact .intro{position:sticky;top:112px}
+.contact{max-width:calc(var(--wrap) - 64px);margin-inline:auto;padding:96px 0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:start}
 .contact .intro{display:grid;gap:22px}
 .contact .intro p{color:var(--muted);font-size:17.5px;max-width:44ch}
 .call-steps{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:10px}
@@ -488,7 +486,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 /* Columna de la izquierda */
 .bk-aside{padding:28px 24px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
 .bk-host .logo-mark{display:block;height:26px;width:auto;color:var(--fg)}
-.bk-k{margin-top:6px;font-family:var(--f-display);font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+.bk-k{margin-top:14px;font-family:var(--f-display);font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
 .bk-meta{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px;color:var(--muted)}
 .bk-meta li{display:flex;align-items:center;gap:9px}
 .bk-meta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -597,7 +595,6 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 @keyframes bkspin{to{transform:rotate(1turn)}}
 @keyframes bkpulse{50%{opacity:.5}}
 /* Dentro de la banda oscura de contacto */
-@container (min-width:600px){.contact-booking .bk-main{padding:36px 40px 40px}.contact-booking .bk-aside{padding:24px 40px 18px}}
 .contact-band .bk-card{background:#F0F0F0;color:#111111}
 :root[data-theme="dark"] .contact-band .bk-card{background:#111111;box-shadow:0 0 0 1px #2A2A2A}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-band .bk-card{background:#111111;box-shadow:0 0 0 1px #2A2A2A}}
@@ -632,9 +629,9 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .bk-close svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .bk-close:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
 /* Columnas estrechas: el resumen pasa arriba */
-@container (max-width:860px){
+@container (max-width:720px){
   .bk-card{grid-template-columns:minmax(0,1fr);min-height:0}
-  .bk-aside{border-right:0;border-bottom:1px solid var(--line);padding:20px 22px 16px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:16px;row-gap:10px}
+  .bk-aside{border-right:0;border-bottom:1px solid var(--line);padding:20px 22px 16px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:32px;row-gap:10px}
   .bk-host{grid-row:span 2}
   .bk-k{margin:0;font-size:17px}
   .bk-meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px}
@@ -645,7 +642,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .bk-modal .bk-aside{padding-right:64px}
 }
 /* Día y hora: calendario y horas lado a lado mientras quepan */
-@container (max-width:640px){
+@container (max-width:720px){
   .bk-pick{grid-template-columns:minmax(0,1fr);gap:20px}
   .bk-times{grid-template-columns:repeat(auto-fill,minmax(84px,1fr));max-height:none}
   .bk-dayname{height:auto;margin-bottom:10px}
@@ -664,7 +661,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .bk-aside,.bk-modal .bk-aside{display:flex;flex-direction:column;align-items:flex-start;gap:0;padding:22px 20px 16px}
   .bk-host{display:flex;align-items:center;min-height:40px}
   .bk-host .logo-mark{height:34px}
-  .bk-k{margin:14px 0 0;font-size:19px;text-wrap:pretty}
+  .bk-k{margin:22px 0 0;font-size:19px;text-wrap:pretty}
   .bk-meta{margin-top:8px;gap:4px 14px}
   .bk-when{margin-top:14px;align-self:stretch}
   .bk-demo{margin-top:12px}
@@ -707,7 +704,6 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .steps .n{position:absolute;left:-48px;top:0}
   .steps h3{margin-top:0}
   .contact{grid-template-columns:minmax(0,1fr);padding:72px 0}
-  .contact .intro{position:static}
   .foot-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .foot-brand{grid-column:1 / -1}
 }

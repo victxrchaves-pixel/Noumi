@@ -20,8 +20,8 @@ Todo sale de un único componente: `prototipo/js/booking.js`, con sus estilos en
 
 ## El flujo
 
-1. **Tu negocio**: qué necesita (E-Commerce Growth, Lead Generation o diseño web), inversión mensual en publicidad, ticket medio (las opciones cambian según el objetivo), web actual y qué le preocupa. Las tres primeras son obligatorias.
-2. **Tus datos**: nombre, email y teléfono (obligatorio). El teléfono se comprueba en el navegador: 9 cifras españolas que empiecen por 6, 7, 8 o 9, o un número internacional con prefijo; se rechazan los de relleno como 600000000. Lleva un campo oculto contra robots.
+1. **Tu negocio**: qué necesita (E-Commerce Growth, Lead Generation o diseño web), inversión mensual en publicidad, ticket medio (las opciones cambian según el objetivo) y qué le preocupa. Las tres primeras son obligatorias.
+2. **Tus datos**: nombre y apellidos, teléfono y email, nombre de la empresa o marca (obligatorios) y, si los tiene, web actual y red social. El teléfono se comprueba en el navegador: 9 cifras españolas que empiecen por 6, 7, 8 o 9, o un número internacional con prefijo; se rechazan los de relleno como 600000000. Lleva un campo oculto contra robots.
 3. **Día y hora**: calendario con los días libres y las horas de cada día. Se elige una hora y se confirma.
 4. **Confirmación**: "Llamada reservada" con la fecha y el email al que llega la invitación.
 
@@ -40,7 +40,7 @@ En `RULES`, al principio de `booking.js` (y lo mismo en el servidor cuando se co
   - `GET /api/booking/slots`: pregunta a Google qué horas están ocupadas y devuelve los huecos libres según las reglas.
   - `POST /api/booking`: valida los datos (el teléfono con `libphonenumber-js`), vuelve a comprobar que el hueco sigue libre y crea el evento en Google Calendar con Google Meet. Google envía la invitación al cliente.
   - Las reglas están en `api/_lib/booking.js` y deben coincidir con las de `prototipo/js/booking.js`.
-  - El evento se llama "Llamada con Noumi Consultant" (es también el asunto de la invitación que recibe el cliente) y en la descripción lleva el contacto, qué necesita, la inversión, el ticket, la web, qué le preocupa y la página desde la que reservó.
+  - El evento se llama "Llamada con Noumi Consultant" (es también el asunto de la invitación que recibe el cliente) y en la descripción lleva el contacto, la empresa o marca, qué necesita, la inversión, el ticket, la web, la red social, qué le preocupa y la página desde la que reservó.
 - **Navegador** (`prototipo/js/booking.js`): pide los huecos a `/api/booking/slots`. Si en esa dirección no hay servidor (GitHub Pages, el artifact o un archivo abierto en local), pasa solo al **modo de prueba**: calcula los huecos con las mismas reglas, simula la reserva y lo avisa con "Vista de prueba". Si el servidor existe pero falla (por ejemplo, faltan las claves), muestra el error y el correo de contacto; nunca finge una reserva.
 - **Pruebas**: `npm install` y `npm test` comprueban las reglas de horario, el horario de verano, los huecos ocupados, la validación y la creación del evento con Google simulado.
 

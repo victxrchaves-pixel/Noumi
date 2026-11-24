@@ -234,15 +234,10 @@
       '<fieldset class="bk-field"><legend>¿Qué necesitas?</legend><div class="bk-goals">'+
         GOALS.map(function(g){ return '<label class="bk-goal"><input type="radio" name="goal" value="'+g.v+'"'+(d.goal===g.v?' checked':'')+' aria-describedby="'+id+'-goal-err"><span><b>'+g.t+'</b><em>'+g.s+'</em></span></label>'; }).join('')+
       '</div><p class="bk-err" id="'+id+'-goal-err" data-err="goal" hidden>Elige qué necesitas.</p></fieldset>'+
-      this.field({name:'company', label:'Nombre de tu empresa o marca', ac:'organization', max:120, err:'Escribe el nombre de tu empresa, marca o proyecto.'})+
       '<div class="bk-row">'+
         '<div class="bk-field"><label for="'+id+'-budget">Inversión mensual en publicidad</label><select id="'+id+'-budget" name="budget" aria-describedby="'+id+'-budget-err"><option value="">Elige una opción</option>'+
           BUDGETS.map(function(o){return '<option'+(d.budget===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select><p class="bk-err" id="'+id+'-budget-err" data-err="budget" hidden>Elige cuánto inviertes al mes.</p></div>'+
         '<div class="bk-field"><label for="'+id+'-ticket" data-ticket-label>'+this.ticketSet().label+'</label><select id="'+id+'-ticket" name="ticket" aria-describedby="'+id+'-ticket-err">'+this.ticketOptions()+'</select><p class="bk-err" id="'+id+'-ticket-err" data-err="ticket" hidden>Elige una opción.</p></div>'+
-      '</div>'+
-      '<div class="bk-row">'+
-        this.field({name:'web', label:'Web actual', opt:'si tienes', ac:'url', ph:'tuweb.com', max:200})+
-        this.field({name:'social', label:'Red social', opt:'si tienes', ph:'@tumarca', max:200})+
       '</div>'+
       this.field({name:'message', label:'¿Qué te preocupa ahora mismo?', opt:'opcional', area:true, max:2000})+
       '<div class="bk-foot"><small>Te lleva menos de un minuto.</small><button class="btn btn-primary" type="submit">Continuar '+ARROW+'</button></div>'+
@@ -252,7 +247,7 @@
   Booking.prototype.viewContact=function(){
     return '<form class="bk-form" data-step="2" novalidate>'+
       '<button class="bk-back" type="button" data-go="1"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>Atrás</button>'+
-      '<h3 class="bk-h">Tus datos de contacto</h3>'+
+      '<h3 class="bk-h">Tus datos</h3>'+
       '<div class="bk-row">'+
         this.field({name:'name', label:'Nombre', ac:'given-name', max:60, err:'Escribe tu nombre.'})+
         this.field({name:'lastName', label:'Apellidos', ac:'family-name', max:80, err:'Escribe tus apellidos.'})+
@@ -260,6 +255,11 @@
       '<div class="bk-row">'+
         this.field({name:'phone', label:'Teléfono', type:'tel', im:'tel', ac:'tel', ph:'612 345 678', max:30, hint:'Si no es español, añade el prefijo (+33, +52…).', err:'Revisa el teléfono. Si no es español, añade el prefijo de tu país.'})+
         this.field({name:'email', label:'Email', type:'email', ac:'email', max:200, err:'Escribe un email válido, por ejemplo nombre@empresa.com.'})+
+      '</div>'+
+      this.field({name:'company', label:'Nombre de tu empresa o marca', ac:'organization', max:120, err:'Escribe el nombre de tu empresa, marca o proyecto.'})+
+      '<div class="bk-row">'+
+        this.field({name:'web', label:'Web actual', opt:'si tienes', ac:'url', ph:'tuweb.com', max:200})+
+        this.field({name:'social', label:'Red social', opt:'si tienes', ph:'@tumarca', max:200})+
       '</div>'+
       // Campo trampa para robots: invisible para personas y lectores de pantalla
       '<input class="bk-trap" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" value="">'+
@@ -386,7 +386,7 @@
   };
 
   Booking.prototype.onSubmit=function(form){
-    var self=this, keys=form.getAttribute('data-step')==='1'?['goal','company','budget','ticket']:['name','lastName','phone','email'];
+    var self=this, keys=form.getAttribute('data-step')==='1'?['goal','budget','ticket']:['name','lastName','phone','email','company'];
     [].forEach.call(form.elements,function(el){ if(el.name&&el.name in self.data&&el.type!=='radio') self.data[el.name]=el.value; });
     var bad=keys.filter(function(k){ return !self.check(k); });
     if(bad.length){ var f=form.querySelector('[name="'+bad[0]+'"]'); if(f) f.focus(); measure('booking_error',{step:bad.join(',')}); return; }
