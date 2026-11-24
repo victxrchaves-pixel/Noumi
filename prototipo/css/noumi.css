@@ -596,8 +596,8 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 @keyframes bkpulse{50%{opacity:.5}}
 /* Dentro de la banda oscura de contacto */
 .contact-band .bk-card{background:#F0F0F0;color:#111111}
-:root[data-theme="dark"] .contact-band .bk-card{background:#111111;box-shadow:0 0 0 1px #2A2A2A}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-band .bk-card{background:#111111;box-shadow:0 0 0 1px #2A2A2A}}
+:root[data-theme="dark"] .contact-band .bk-card{background:#111111;color:var(--fg);box-shadow:0 0 0 1px #2A2A2A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .contact-band .bk-card{background:#111111;color:var(--fg);box-shadow:0 0 0 1px #2A2A2A}}
 .book-page{padding-block:72px 120px}
 .book-wrap{max-width:960px;margin:40px auto 0}
 .book-note{text-align:center;margin-top:20px;font-size:14px;color:var(--muted)}
