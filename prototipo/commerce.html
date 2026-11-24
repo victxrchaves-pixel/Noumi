@@ -53,19 +53,8 @@
       <ul class="lp-trust"><li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Llamada de 30 minutos</li><li><svg class="i" viewBox="0 0 16 16"><path d="M4 8.5l2.6 2.6L12 5.5"/></svg>Sin compromiso</li></ul>
     </div>
 
-    <figure class="lx-rcpt-stage" aria-label="Ejemplo de pedido: venta de 64,90 euros, anuncio de 15,50, producto de 18 y envío de 4,90. Quedan 26,50 euros.">
-      <div class="lx-rcpt-wrap" aria-hidden="true"><div class="lx-rcpt">
-        <div class="lx-rcpt-top"><b>Pedido #1042</b><span>Ejemplo</span></div>
-        <p class="lx-rcpt-item">Lumé · Restorative Body Cream</p>
-        <dl class="lx-rcpt-lines">
-          <div><dt>Venta</dt><dd>64,90 €</dd></div>
-          <div><dt>Anuncio en Meta</dt><dd>−15,50 €</dd></div>
-          <div><dt>Producto</dt><dd>−18,00 €</dd></div>
-          <div><dt>Envío</dt><dd>−4,90 €</dd></div>
-        </dl>
-        <div class="lx-rcpt-roas"><span>ROAS del anuncio</span><span>4,2x</span></div>
-        <div class="lx-rcpt-total"><span>Te queda</span><b>26,50 €</b></div>
-      </div></div>
+    <figure class="lx-printer" data-receipt-printer aria-label="Ejemplo de pedido de Lumé: venta de 64,90 €, anuncio 15,50 €, producto 18,00 €, envío 4,90 €. Quedan 26,50 €.">
+      <script type="application/json">{"options": {"width": 300, "speed": 1, "hold": 2600, "autoplay": true, "loop": 1, "intro": true, "curl": 0.5, "tearable": true}, "receipts": [{"label": "Ejemplo de pedido de Lumé: venta de 64,90 €, anuncio 15,50 €, producto 18,00 €, envío 4,90 €. Quedan 26,50 €.", "lines": [{"t": "title", "text": "LUMÉ"}, {"t": "text", "text": "Pedido #1042 · 10:24", "center": true, "muted": true}, {"t": "divider"}, {"t": "text", "text": "Restorative Body Cream"}, {"t": "space"}, {"t": "row", "left": "Venta", "right": "64,90 €"}, {"t": "row", "left": "Anuncio en Meta", "right": "−15,50 €"}, {"t": "row", "left": "Producto", "right": "−18,00 €"}, {"t": "row", "left": "Envío", "right": "−4,90 €"}, {"t": "divider"}, {"t": "row", "left": "ROAS del anuncio", "right": "4,2x", "muted": true}, {"t": "divider", "solid": true}, {"t": "total", "left": "Te queda", "right": "26,50 €"}, {"t": "space"}, {"t": "barcode", "code": "1042"}, {"t": "text", "text": "Pedido de ejemplo", "center": true, "muted": true}]}, {"label": "Ejemplo de pedido de Célère: venta de 189,00 €, anuncio 32,00 €, producto 74,00 €, envío 6,90 €. Quedan 76,10 €.", "lines": [{"t": "title", "text": "CÉLÈRE"}, {"t": "text", "text": "Pedido #1043 · 10:31", "center": true, "muted": true}, {"t": "divider"}, {"t": "text", "text": "Bolso Mini de piel"}, {"t": "space"}, {"t": "row", "left": "Venta", "right": "189,00 €"}, {"t": "row", "left": "Anuncio en Meta", "right": "−32,00 €"}, {"t": "row", "left": "Producto", "right": "−74,00 €"}, {"t": "row", "left": "Envío", "right": "−6,90 €"}, {"t": "divider"}, {"t": "row", "left": "ROAS del anuncio", "right": "5,9x", "muted": true}, {"t": "divider", "solid": true}, {"t": "total", "left": "Te queda", "right": "76,10 €"}, {"t": "space"}, {"t": "barcode", "code": "1043"}, {"t": "text", "text": "Pedido de ejemplo", "center": true, "muted": true}]}, {"label": "Ejemplo de pedido de Forma: venta de 420,00 €, anuncio 58,00 €, producto 210,00 €, envío 39,00 €. Quedan 113,00 €.", "lines": [{"t": "title", "text": "FORMA"}, {"t": "text", "text": "Pedido #1044 · 10:47", "center": true, "muted": true}, {"t": "divider"}, {"t": "text", "text": "Mesa de centro Oslo"}, {"t": "space"}, {"t": "row", "left": "Venta", "right": "420,00 €"}, {"t": "row", "left": "Anuncio en Meta", "right": "−58,00 €"}, {"t": "row", "left": "Producto", "right": "−210,00 €"}, {"t": "row", "left": "Envío", "right": "−39,00 €"}, {"t": "divider"}, {"t": "row", "left": "ROAS del anuncio", "right": "7,2x", "muted": true}, {"t": "divider", "solid": true}, {"t": "total", "left": "Te queda", "right": "113,00 €"}, {"t": "space"}, {"t": "barcode", "code": "1044"}, {"t": "text", "text": "Pedido de ejemplo", "center": true, "muted": true}]}]}</script>
     </figure>
   </div>
 </section>
@@ -260,5 +249,6 @@
 
 <script src="js/noumi.js"></script>
 <script src="js/booking.js"></script>
+<script src="js/receipt-printer.js"></script>
 </body>
 </html>
