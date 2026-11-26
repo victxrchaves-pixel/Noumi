@@ -759,7 +759,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .lx-shot img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.23,1,.32,1)}
 @media (hover:hover) and (pointer:fine){.lx-shot:hover img{transform:scale(1.025)}}
 /* Portátil con la tienda: vídeo recortado sin fondo (máscara fija con la silueta del portátil) */
-.lx-mac{position:relative}
+.lx-mac{position:relative;width:70%;justify-self:center}
 .lx-mac video{display:block;width:100%;height:auto;aspect-ratio:1400/850;background:transparent;
   -webkit-mask:url(../img/commerce/forma-scroll-mask.png) center/100% 100% no-repeat;mask:url(../img/commerce/forma-scroll-mask.png) center/100% 100% no-repeat}
 .lx-mac-btn{position:absolute;right:13%;bottom:21%;display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:50%;background:rgba(17,17,17,.72);color:#FAFAFA;cursor:pointer;opacity:0;transition:opacity .2s ease,background-color .15s ease}
@@ -879,6 +879,7 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
   .lx-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:680px){
+  .lx-mac{width:100%}
   .lx-band{margin:0;border-radius:24px}
   .lx-band-in{padding:64px 0}
   .lx-say li{padding:22px 0}
