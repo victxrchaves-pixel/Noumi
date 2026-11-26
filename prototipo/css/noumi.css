@@ -758,6 +758,21 @@ h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(44px,6.4vw,86px);l
 .lx-shot{margin:0;border-radius:20px;overflow:hidden;aspect-ratio:1600/1086;background:var(--surface)}
 .lx-shot img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.23,1,.32,1)}
 @media (hover:hover) and (pointer:fine){.lx-shot:hover img{transform:scale(1.025)}}
+/* Portátil con la tienda: vídeo recortado sin fondo (máscara fija con la silueta del portátil) */
+.lx-mac{position:relative}
+.lx-mac video{display:block;width:100%;height:auto;aspect-ratio:1400/850;background:transparent;
+  -webkit-mask:url(../img/commerce/forma-scroll-mask.png) center/100% 100% no-repeat;mask:url(../img/commerce/forma-scroll-mask.png) center/100% 100% no-repeat}
+.lx-mac-btn{position:absolute;right:13%;bottom:21%;display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:50%;background:rgba(17,17,17,.72);color:#FAFAFA;cursor:pointer;opacity:0;transition:opacity .2s ease,background-color .15s ease}
+.lx-mac:hover .lx-mac-btn,.lx-mac-btn:focus-visible,.lx-mac.is-paused .lx-mac-btn{opacity:1}
+@media (hover:none){.lx-mac-btn{opacity:.85;width:30px;height:30px}}
+.lx-mac-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lx-mac-btn .i-play{display:none;fill:currentColor;stroke:none}
+.lx-mac.is-paused .i-play{display:block}
+.lx-mac.is-paused .i-pause{display:none}
+/* Tres anuncios en vertical, el claro en el centro */
+.lx-ads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.lx-ads img{display:block;width:100%;height:auto;aspect-ratio:600/1067;border-radius:14px;object-fit:cover;background:var(--surface);transition:transform .4s cubic-bezier(.23,1,.32,1)}
+@media (hover:hover) and (pointer:fine){.lx-ads img:hover{transform:translateY(-4px)}}
 /* Recorrido de una compra, medido */
 .lx-evs{border-radius:20px;background:var(--inv);color:var(--on-inv);padding:28px;font-size:15px}
 .lx-evs-head{display:flex;justify-content:space-between;gap:12px;color:var(--on-inv-muted);font-size:13.5px;margin-bottom:18px}
