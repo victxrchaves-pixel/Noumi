@@ -161,14 +161,16 @@
       vy=(e.clientY-ly)/dt; vx=(e.clientX-lx)/dt; ly=e.clientY; lx=e.clientX; lt=now;
       dy=e.clientY-sy; dx=e.clientX-sx;
       // Al tirar hacia arriba sale más papel de la impresora; hacia abajo no cede
-      var pull=dy<0?Math.min(90,-dy*0.6):0;
+      // Con un tirón corto basta: el ticket se corta justo bajo la última línea, sin papel de sobra
+      if(dy<-40){ id=null; self.dragging=false; paper.classList.remove('is-drag'); self.tear(dx*0.2,vx); return; }
+      var pull=dy<0?Math.min(14,-dy*0.35):0;
       paper.style.height=(paper._full+pull)+'px';
       paper.style.setProperty('--rp-dx',(dx*0.2)+'px');
     });
     function end(e){
       if(e.pointerId!==id) return;
       id=null; self.dragging=false; paper.classList.remove('is-drag');
-      if(dy<-70 || vy<-0.9){ self.tear(dx*0.25,vx); }
+      if(dy<-24 || vy<-0.5){ self.tear(dx*0.2,vx); }
       else { paper.style.height=paper._full+'px'; paper.style.setProperty('--rp-dx','0px'); self.schedule(); }
     }
     paper.addEventListener('pointerup',end);
